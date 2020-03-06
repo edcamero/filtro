@@ -81,7 +81,9 @@ public class Equipo  implements java.io.Serializable {
         this.disponible = disponible;
     }
 
-   
+   public String getDatos(){
+       return ""+this.nombre+" modelo: "+this.modelo+", material: "+this.material;
+   }
 
   
 

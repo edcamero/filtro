@@ -6,6 +6,7 @@
 package control;
 
 import View.Principal;
+import logica.Config;
 
 /**
  *
@@ -17,6 +18,7 @@ public class control {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Config.loadConfig();
         Principal panel=Principal.getInstance();
         panel.mostrar();
     }

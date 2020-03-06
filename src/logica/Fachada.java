@@ -8,6 +8,7 @@ package logica;
 import Models.Bujia;
 import Models.Cliente;
 import Models.Equipo;
+import Models.Mantenimiento;
 import Models.Repuesto;
 import Models.Tecnico;
 import Models.Usuario;
@@ -155,5 +156,9 @@ public class Fachada {
     
     public boolean deleteEquipoCliente(int id){
         return mediador.deleteEquipoCliente(id);
+    }
+    
+    public boolean saveMantenimiento(Mantenimiento mantenimiento){
+        return mediador.saveMantenimiento(mantenimiento);
     }
 }

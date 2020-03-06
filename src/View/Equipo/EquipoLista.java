@@ -90,6 +90,11 @@ public class EquipoLista extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Agregar Equipo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Buscar");
 
@@ -174,6 +179,10 @@ public class EquipoLista extends javax.swing.JInternalFrame {
         }
         // TODO add your handling code here:// TODO add your handling code here:
     }//GEN-LAST:event_tablaMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+      Principal.getInstance().equipoNuevo();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void opcionesEquipo(int id, int opc) {
         switch (opc) {

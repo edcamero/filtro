@@ -6,7 +6,9 @@
 package View.Mantenimiento;
 
 import Models.Bujia;
+import Models.MantenimientoEquipo;
 import Models.Repuesto;
+import control.MantenimientoController;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -21,6 +23,7 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
     private static RepuestoMant repuestosGui;
     private ArrayList<Repuesto> repuestos;
     private ArrayList<Bujia> bujias;
+    private MantenimientoEquipo mantEquipo;
 
     /**
      * Creates new form RepuestoMant
@@ -44,6 +47,7 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         tabla = new javax.swing.JTable();
         botonRepuestos = new javax.swing.JToggleButton();
         botonBujias = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -82,6 +86,13 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,6 +106,10 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(botonBujias)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +119,9 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
                     .addComponent(botonRepuestos)
                     .addComponent(botonBujias))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
 
@@ -115,22 +132,32 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         if (evt.getButton() == 3) {
             JTable source = (JTable) evt.getSource();
             int row = source.rowAtPoint(evt.getPoint());
-            int seleccion = JOptionPane.showOptionDialog(
-                    this,
-                    "Seleccione opcion",
-                    "Selector de opciones",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null, // null para icono por defecto.
-                    new Object[]{"Editar", "Eliminar", "Cancelar"}, // null para YES, NO y CANCEL
-                    "opcion 1");
-            //int column = source.columnAtPoint( evt.getPoint() );
-            String id_s = "" + source.getModel().getValueAt(row, 0);
+            if (botonRepuestos.isSelected()) {
+                String dato = JOptionPane.showInputDialog("ingresa la cantidad del repuesto "
+                        + "para el mantenimiento");
+                if(dato==null){
+                    dato="";
+                }
+                if (!dato.equals("")) {
+                    int cantidad = Integer.parseInt(dato);
 
-            int id = Integer.parseInt(id_s);
-            // System.out.println(source.getModel().getValueAt(row, 0));
-            //opcionesEquipo(id, seleccion);
-            //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:
+                    Repuesto repuesto = repuestos.get(row);
+                    if (cantidad > 0) {
+                        MantenimientoController.getInstancia().agregarRepuesto(cantidad, repuesto);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad valida");
+                    }
+                }else{
+                     JOptionPane.showMessageDialog(rootPane, "No ingreso datos en cantidad del articulo");
+                }
+
+            } else {
+                Bujia bujia=bujias.get(row);
+                MantenimientoController.getInstancia().agregarBujia(bujia);
+                JOptionPane.showMessageDialog(rootPane, "Se agrego la bujia "+bujia.getNombre());
+
+            }
+
         }
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -138,7 +165,7 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         if (botonRepuestos.isSelected()) {
             botonBujias.setSelected(false);
             this.listarRepuestos();
-            
+
         }
     }//GEN-LAST:event_botonRepuestosActionPerformed
 
@@ -148,6 +175,17 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
             this.listarBujias();
         }
     }//GEN-LAST:event_botonBujiasActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        MantenimientoController.getInstancia().actualizarFormulario();
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void setMantEquipo(MantenimientoEquipo mantEquipo) {
+        this.mantEquipo = mantEquipo;
+    }
 
     public ArrayList<Repuesto> getRepuestos() {
         return repuestos;
@@ -167,7 +205,6 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         this.bujias = bujias;
     }
 
-    
     public void listarRepuestos() {
         DefaultTableModel model = (DefaultTableModel) this.tabla.getModel();
         Object[] fila;
@@ -182,7 +219,6 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         }
 
     }
-    
 
     public void listarBujias() {
         DefaultTableModel model = (DefaultTableModel) this.tabla.getModel();
@@ -191,17 +227,18 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         for (Bujia bujia : bujias) {
             fila = new Object[3];
             fila[0] = bujia.getId();
-            fila[1] = bujia.getNombre()+" ("+bujia.getVidaUtil()+" dias de duracion.)";
+            fila[1] = bujia.getNombre() + " (" + bujia.getVidaUtil() + " dias de duracion.)";
             fila[2] = bujia.getValorVenta();
-             model.addRow(fila);
+            model.addRow(fila);
         }
-        
+
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton botonBujias;
     private javax.swing.JToggleButton botonRepuestos;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables

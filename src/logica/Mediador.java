@@ -10,6 +10,8 @@ import DAO.BujiaDao;
 import DAO.ClienteDao;
 import DAO.EquipoClienteDao;
 import DAO.EquipoDao;
+import DAO.MantenimientoDao;
+import DAO.MantenimientoEquipoDao;
 import DAO.RepuestoDao;
 import DAO.TecnicoDao;
 import DAO.UsuarioDao;
@@ -18,6 +20,8 @@ import Models.Bujia;
 import Models.Cliente;
 import Models.Equipo;
 import Models.EquipoCliente;
+import Models.Mantenimiento;
+import Models.MantenimientoEquipo;
 import Models.Repuesto;
 import Models.Tecnico;
 import Models.Usuario;
@@ -34,17 +38,20 @@ public class Mediador implements InterfaceMediador {
 
     Conexion conexion = Conexion.getConexion();
     ClienteDao clienteDao = new ClienteDao(conexion);
-    EquipoClienteDao equipoClienteDao=new EquipoClienteDao(conexion);
+    EquipoClienteDao equipoClienteDao = new EquipoClienteDao(conexion);
     BujiaDao bujiaDao = new BujiaDao(conexion);
     EquipoDao equipoDao = new EquipoDao(conexion);
     RepuestoDao repuestoDao = new RepuestoDao(conexion);
     TecnicoDao tecnicoDao = new TecnicoDao(conexion);
     UsuarioDao usuarioDao = new UsuarioDao(conexion);
+    MantenimientoDao mantenimientoDao = new MantenimientoDao(conexion);
+    MantenimientoEquipoDao mantEquiDao=new MantenimientoEquipoDao(conexion);
 
     @Override
     public boolean saveEquipo(Equipo equipo) {
         try {
             conexion.ConexionPostgres();
+
             return equipoDao.save(equipo);
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,6 +152,7 @@ public class Mediador implements InterfaceMediador {
         }
         return new ArrayList<Cliente>();
     }
+
     public ArrayList<Cliente> buscarCliente(String palabra) {
 
         try {
@@ -164,12 +172,12 @@ public class Mediador implements InterfaceMediador {
         try {
             conexion.ConexionPostgres();
             cliente = clienteDao.get(id);
-            ArrayList<EquipoCliente> equiposCliente=equipoClienteDao.getAll(id);
-            equiposCliente.stream().forEach(equi->{
+            ArrayList<EquipoCliente> equiposCliente = equipoClienteDao.getAll(id);
+            equiposCliente.stream().forEach(equi -> {
                 equi.setEquipo(equipoDao.get(equi.getIdEquipo()));
             });
-            cliente.setPurificadores(equiposCliente);
-            
+            cliente.setEquiposCliente(equiposCliente);
+
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -185,13 +193,13 @@ public class Mediador implements InterfaceMediador {
 
             conexion.ConexionPostgres();
             clienteDao.update(cliente);
-            for(EquipoCliente equipo:cliente.getEquiposCliente()){
-                if(equipo.getId()==0){
-                    System.out.println(equipo.getId()+" "+equipo.getEquipo().getNombre());
-                   equipoClienteDao.save(equipo);
+            for (EquipoCliente equipo : cliente.getEquiposCliente()) {
+                if (equipo.getId() == 0) {
+                    System.out.println(equipo.getId() + " " + equipo.getEquipo().getNombre());
+                    equipoClienteDao.save(equipo);
                 }
             }
-            
+
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -532,16 +540,41 @@ public class Mediador implements InterfaceMediador {
         return respuesta;
     }
 
-    
-   public boolean  deleteEquipoCliente(int id){
-        boolean respuesta=false;
+    public boolean deleteEquipoCliente(int id) {
+        boolean respuesta = false;
         try {
-           
+
             conexion.ConexionPostgres();
-            respuesta=equipoClienteDao.delete(id);
+            respuesta = equipoClienteDao.delete(id);
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return respuesta;
-   }
+    }
+
+    @Override
+    public boolean saveMantenimiento(Mantenimiento manteniemiento) {
+        boolean respuesta = false;
+        try {
+            conexion.ConexionPostgres();
+            conexion.getCon().setAutoCommit(false);
+            
+            respuesta = mantenimientoDao.save(manteniemiento);
+            
+            for(MantenimientoEquipo mantEquipo:manteniemiento.getMantenimientoEquipo()){
+               respuesta=respuesta&&mantEquiDao.save(mantEquipo); 
+            }
+            
+            conexion.getCon().commit(); 
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+             try {
+              conexion.getCon().rollback();
+             } catch (SQLException ex2) {
+                      System.out.println(ex2.toString());
+            }
+        }
+        return respuesta;
+
+    }
 }

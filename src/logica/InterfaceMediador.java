@@ -8,6 +8,7 @@ package logica;
 import Models.Bujia;
 import Models.Cliente;
 import Models.Equipo;
+import Models.Mantenimiento;
 import Models.Repuesto;
 import Models.Tecnico;
 import Models.Usuario;
@@ -85,5 +86,7 @@ public interface InterfaceMediador {
     public boolean updateUsuario(Usuario usuario);
 
     public boolean deleteUsuario(int id);
+    
+    public boolean saveMantenimiento(Mantenimiento manteniemiento);
 
 }

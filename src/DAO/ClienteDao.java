@@ -53,10 +53,21 @@ public class ClienteDao implements InterfaceDao<Cliente> {
                 cliente.setId(rs.getInt(1));
 
             }
-            return true;
+            res=true;
 
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                if(pst!=null)
+                pst.close();
+                if (rs!=null ) {
+                  rs.close(); 
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return res;
     }

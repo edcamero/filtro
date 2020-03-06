@@ -97,10 +97,10 @@ public class Cliente implements java.io.Serializable {
     }
 
     public ArrayList<EquipoCliente> getEquiposCliente() {
-        return equipos;
+        return this.equipos;
     }
 
-    public void setPurificadores(ArrayList<EquipoCliente> equipos) {
+    public void setEquiposCliente(ArrayList<EquipoCliente> equipos) {
         this.equipos = equipos;
     }
 
