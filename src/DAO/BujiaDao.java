@@ -61,7 +61,7 @@ public class BujiaDao implements InterfaceDao<Bujia> {
         ArrayList<Bujia> lista = new ArrayList<Bujia>();
         try {
 
-            String query = "select * FROM bujia;";
+            String query = "select * FROM bujia where id_buj<>0 ;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);

@@ -5,6 +5,7 @@
  */
 package logica;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +18,17 @@ import javax.swing.JOptionPane;
  */
 public class Config {
     public static int costoMantenimiento;
+    public static String ruta;
 
     static Properties config = new Properties();
     static InputStream configInput = null;
    
     public static int getCostoMante() {
         return costoMantenimiento;
+    }
+
+    public static String getRuta() {
+        return ruta;
     }
     
     
@@ -31,6 +37,9 @@ public class Config {
             configInput = new FileInputStream("config.properties");
             config.load(configInput);
             costoMantenimiento=Integer.parseInt(config.getProperty("costoMantenimiento"));
+            File miDir = new File (".");
+            ruta=miDir.getCanonicalPath();
+           
             } catch(IOException | NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Error cargando configuración\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

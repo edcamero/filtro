@@ -17,6 +17,7 @@ import View.Mantenimiento.RepuestoMant;
 import View.Principal;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import logica.Fachada;
 
 /**
@@ -57,8 +58,11 @@ public class MantenimientoController {
         this.mantenimientoGui = MantenimientoGui.getInstancia(mantenimiento);
         this.tecnicos = fachada.getAllTecnico();
         this.tecnicos.stream().forEach((Tecnico tecnico) -> {
+            this.mantenimientoGui.getComboTecnico().removeAllItems();
             this.mantenimientoGui.getComboTecnico().addItem(tecnico.getNombre());
         });
+        DefaultTableModel model = (DefaultTableModel) this.mantenimientoGui.getTablaRepuesto().getModel();
+        model.setRowCount(0);
 
         Principal.getInstance().mostrarInternal(mantenimientoGui);
 
@@ -91,8 +95,8 @@ public class MantenimientoController {
         //RepuestoMante repuestoMant=new RepuestoMante(mantEquipo, repuesto, cant);
         mantEquipo.agregarRepuestos(repuesto, cant);
     }
-    
-    public void eliminarRepuesto(int id){
+
+    public void eliminarRepuesto(int id) {
         mantEquipo.eliminarRepuesto(id);
     }
 
@@ -122,9 +126,16 @@ public class MantenimientoController {
         }
 
     }
-    
-    public void agregarMantenimiento(){
-        fachada.saveMantenimiento(mantenimiento);
+
+    public void seleccionarTecnico(int index) {
+        Tecnico tecnico = tecnicos.get(index);
+        mantenimiento.setTecnico(tecnico);
+    }
+
+    public void agregarMantenimiento() {
+        if (fachada.saveMantenimiento(mantenimiento)) {
+            JOptionPane.showMessageDialog(repuestoGui, "se agrego el mantenimieto con exito");
+        }
     }
 
 }

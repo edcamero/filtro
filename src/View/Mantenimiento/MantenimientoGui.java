@@ -38,7 +38,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         if (mantenimientoGui == null) {
             mantenimientoGui = new MantenimientoGui();
         }
-
+         
         mantenimientoGui.setMantenimiento(mantenimiento);
         mantenimientoGui.mostrarDatos();
         return mantenimientoGui;
@@ -383,9 +383,30 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaRepuestoMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       mantController.agregarMantenimiento();
+        if(validar()){
+            mantController.seleccionarTecnico(comboTecnico.getSelectedIndex());
+        mantenimiento.setFechaMan(fecha.getDate());
+        mantController.agregarMantenimiento();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    private boolean validar(){
+        if(mantenimiento.getMantenimientoEquipo().size()==0){
+             JOptionPane.showMessageDialog(rootPane, "ingrese algun Equipo al mantenimiento");
+            return false;
+        }else{
+            for(MantenimientoEquipo mant:mantenimiento.getMantenimientoEquipo()){
+                if(mant.getBujia()==null&&mant.getRepuestos().size()==0){
+                    JOptionPane.showMessageDialog(rootPane, "ingrese Repuestos o bujia al equipo");
+                    return false;
+                }
+            }
+        }
+        
+        
+        return true;
+    }
     private void opcionesEquipo(int id, int opc) {
         switch (opc) {
             case 0:
@@ -424,6 +445,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             Equipo equipo = equipoCliente.getEquipo();
             comboEquipo.addItem(equipo.getModelo() + "-" + equipo.getNombre());
         }
+       
 
     }
 
@@ -469,6 +491,14 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
     public void setComboTecnico(JComboBox<String> comboTecnico) {
         this.comboTecnico = comboTecnico;
+    }
+
+    public JTable getTablaRepuesto() {
+        return tablaRepuesto;
+    }
+
+    public void setTablaRepuesto(JTable tablaRepuesto) {
+        this.tablaRepuesto = tablaRepuesto;
     }
 
 

@@ -44,6 +44,7 @@ public class Principal extends javax.swing.JFrame {
                 java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
             principal = new Principal();
+            principal.setExtendedState(MAXIMIZED_BOTH);
         }
         return principal;
     }

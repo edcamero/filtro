@@ -18,41 +18,47 @@ import java.util.logging.Logger;
  *
  * @author blade
  */
-public class RespuestoManteDAO {
+public class RepuestoManteDao {
+
     private Conexion con;
     private PreparedStatement pst = null;
     private ResultSet rs = null;
 
-    public boolean agregar(RepuestoMante repuestoMante) {
+    public RepuestoManteDao(Conexion con) {
+        this.con = con;
+    }
+
+    public boolean save(RepuestoMante repuestoMante) {
         boolean respuesta = false;
         try {
-            
+
             String consulta = "INSERT INTO repuesto_equipo(\n"
-                    + "             id_maeq,id_rep, cantidad_rep)\n"
-                    + "        VALUES ( ?, ?, ?) returning id_reeq;";
+                    + "             id_maeq,id_rep, cantidad_rep,costo_reeq,valor_reeq)\n"
+                    + "        VALUES ( ?, ?, ?, ?, ?) returning id_reeq;";
+            
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setInt(1, repuestoMante.getIdManEqui());
             pst.setInt(2, repuestoMante.getIdRepuesto());
             pst.setInt(3, repuestoMante.getCantidadRep());
+            pst.setInt(4, repuestoMante.getCostosRepuestos());
+            pst.setInt(5, repuestoMante.getIngresosRespuestos());
+            
             rs = pst.executeQuery();
-             while (rs.next()) {
-               repuestoMante.setId(rs.getInt("id_reeq"));
+            while (rs.next()) {
+                repuestoMante.setId(rs.getInt("id_reeq"));
 
             }
-            respuesta=true;
-            
-            
-            
-            
+            respuesta = true;
+
         } catch (SQLException ex) {
-            Logger.getLogger(RespuestoManteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            if(pst!=null){
+            Logger.getLogger(RepuestoManteDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (pst != null) {
                 try {
                     pst.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(RespuestoManteDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(RepuestoManteDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

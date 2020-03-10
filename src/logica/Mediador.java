@@ -13,6 +13,7 @@ import DAO.EquipoDao;
 import DAO.MantenimientoDao;
 import DAO.MantenimientoEquipoDao;
 import DAO.RepuestoDao;
+import DAO.RepuestoManteDao;
 import DAO.TecnicoDao;
 import DAO.UsuarioDao;
 
@@ -23,6 +24,7 @@ import Models.EquipoCliente;
 import Models.Mantenimiento;
 import Models.MantenimientoEquipo;
 import Models.Repuesto;
+import Models.RepuestoMante;
 import Models.Tecnico;
 import Models.Usuario;
 import java.sql.SQLException;
@@ -42,6 +44,7 @@ public class Mediador implements InterfaceMediador {
     BujiaDao bujiaDao = new BujiaDao(conexion);
     EquipoDao equipoDao = new EquipoDao(conexion);
     RepuestoDao repuestoDao = new RepuestoDao(conexion);
+    RepuestoManteDao repuestoManteDao=new RepuestoManteDao(conexion);
     TecnicoDao tecnicoDao = new TecnicoDao(conexion);
     UsuarioDao usuarioDao = new UsuarioDao(conexion);
     MantenimientoDao mantenimientoDao = new MantenimientoDao(conexion);
@@ -112,13 +115,7 @@ public class Mediador implements InterfaceMediador {
         try {
             conexion.ConexionPostgres();
             respuesta = equipoDao.delete(id);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conexion.cerrar();
@@ -563,6 +560,9 @@ public class Mediador implements InterfaceMediador {
             
             for(MantenimientoEquipo mantEquipo:manteniemiento.getMantenimientoEquipo()){
                respuesta=respuesta&&mantEquiDao.save(mantEquipo); 
+               for(RepuestoMante respuestoMant:mantEquipo.getRepuestos()){
+                   respuesta=respuesta&&repuestoManteDao.save(respuestoMant);
+               }
             }
             
             conexion.getCon().commit(); 
@@ -576,5 +576,10 @@ public class Mediador implements InterfaceMediador {
         }
         return respuesta;
 
+    }
+    
+    
+    public void generarRecibo(Mantenimiento mantenimiento){
+        
     }
 }

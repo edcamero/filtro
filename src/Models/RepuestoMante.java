@@ -39,7 +39,7 @@ public class RepuestoMante  implements java.io.Serializable {
     }
 
     public int getIdManEqui() {
-        return idManEqui;
+        return this.mantenimientoEquipo.getId();
     }
    
     
