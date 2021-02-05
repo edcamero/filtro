@@ -5,7 +5,9 @@
  */
 package control;
 
+import Models.Usuario;
 import View.Principal;
+import View.Usuario.UsuarioLogin;
 import logica.Config;
 
 /**
@@ -14,13 +16,22 @@ import logica.Config;
  */
 public class control {
 
+    static Usuario user;
+    static Principal panel;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         Config.loadConfig();
-        Principal panel=Principal.getInstance();
-        panel.mostrar();
+        UsuarioLogin loginGui = new UsuarioLogin(user);
+        loginGui.setVisible(true);
+        if (user != null) {
+//        if (true) {
+            panel = Principal.getInstance();
+            panel.mostrar();
+        }
+
     }
-    
+
 }

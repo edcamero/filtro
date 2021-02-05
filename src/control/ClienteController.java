@@ -36,10 +36,10 @@ public class ClienteController {
 
     private ClienteController() {
         principal = Principal.getInstance();
-        fachada = Fachada.getIntacia();
+        fachada = Fachada.getInstancia();
     }
 
-    public static ClienteController getIntacia() {
+    public static ClienteController getInstancia() {
         if (Controlador == null) {
             Controlador = new ClienteController();
             clientes = new ArrayList<>();
@@ -49,12 +49,12 @@ public class ClienteController {
     }
 
     public void NuevoClienteGui() {
-        nuevoGui = ClienteNuevo.getIntancia();
+        nuevoGui = ClienteNuevo.getInstancia();
         principal.mostrarInternal(nuevoGui);
     }
 
     public boolean agregar() {
-        nuevoGui = ClienteNuevo.getIntancia();
+        nuevoGui = ClienteNuevo.getInstancia();
         String documento = nuevoGui.getTextDoc().getText();
         String nombre = nuevoGui.getTextNombre().getText();
         String tel_uno = nuevoGui.getTextTel1().getText();
@@ -69,9 +69,9 @@ public class ClienteController {
     }
 
     public void Listar() {
-        listaGui = ClienteLista.getIntancia();
+        listaGui = ClienteLista.getInstancia();
         this.clientes.clear();
-        this.clientes = Fachada.getIntacia().getAllClientes();
+        this.clientes = Fachada.getInstancia().getAllClientes();
 
         DefaultTableModel model = (DefaultTableModel) listaGui.getTabla().getModel();
         model.setRowCount(0);
@@ -85,9 +85,9 @@ public class ClienteController {
     }
     
     public void Buscar(String palabra) {
-        listaGui = ClienteLista.getIntancia();
+        listaGui = ClienteLista.getInstancia();
         this.clientes.clear();
-        this.clientes = Fachada.getIntacia().buscarClientes(palabra);
+        this.clientes = Fachada.getInstancia().buscarClientes(palabra);
 
         DefaultTableModel model = (DefaultTableModel) listaGui.getTabla().getModel();
         model.setRowCount(0);
@@ -132,7 +132,7 @@ public class ClienteController {
     public void seleccionEquiposGui() {
         equiposGui = ClienteEquipos.getInstancia();
         principal.mostrarInternal(equiposGui);
-        ArrayList<Equipo> equipos = Fachada.getIntacia().getAllEquipo();
+        ArrayList<Equipo> equipos = Fachada.getInstancia().getAllEquipo();
 
         DefaultTableModel model = (DefaultTableModel) equiposGui.getTabla().getModel();
         model.setRowCount(0);

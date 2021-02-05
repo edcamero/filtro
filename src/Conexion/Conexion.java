@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class Conexion {
 
     private static Conexion conexion;
-    private String usuario = "postgres", password = "1234", iP = "localhost", puerto = "5433", nombreBD = "filtros";
+    private String usuario = "postgres", password = "fuentes", iP = "localhost", puerto = "5432", nombreBD = "filtros_db";
     private Connection con;
 
     private Conexion() {

@@ -52,7 +52,7 @@ public class EquipoController {
         String nombre = panel.getTextNombre().getText();
         int precio = Integer.parseInt(panel.getTextPrecio().getText());
         Equipo nuevo = new Equipo(material, modelo, nombre, precio);
-        return Fachada.getIntacia().saveEquipo(nuevo);
+        return Fachada.getInstancia().saveEquipo(nuevo);
     }
 
     
@@ -64,7 +64,7 @@ public class EquipoController {
    
     private void listar() {
         this.equipos.clear();
-        equipos = Fachada.getIntacia().getAllEquipo();
+        equipos = Fachada.getInstancia().getAllEquipo();
         // EquipoDao.listar(equipos);
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
@@ -80,14 +80,14 @@ public class EquipoController {
     }
 
     public boolean eliminar(int id) {
-        return Fachada.getIntacia().deleteEquipo(id);
+        return Fachada.getInstancia().deleteEquipo(id);
         // return EquipoDao.borrar(id);
         //return false;
 
     }
 
     public void editarGui(int id) {
-        Equipo equipo = Fachada.getIntacia().getEquipo(id);
+        Equipo equipo = Fachada.getInstancia().getEquipo(id);
         System.out.println(equipo.toString());
         editarGui = EquipoEditar.getInstancia(equipo);
         principal.mostrarInternal(editarGui);
@@ -95,7 +95,7 @@ public class EquipoController {
     }
 
     public boolean editar(Equipo equipo) {
-        if (Fachada.getIntacia().updateEquipo(equipo)) {
+        if (Fachada.getInstancia().updateEquipo(equipo)) {
             this.listarGui();
             return true;
         }

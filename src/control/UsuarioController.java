@@ -7,9 +7,10 @@ package control;
 
 import Models.Usuario;
 import View.Principal;
-import View.Usuario.UsuarioNuevo;
+import View.Usuario.UsuarioGui2;
 import javax.swing.JOptionPane;
 import logica.Fachada;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -18,7 +19,7 @@ import logica.Fachada;
 public class UsuarioController {
     private static UsuarioController usuarioController;
     Principal principal;
-    UsuarioNuevo usuarioNuevo;
+    UsuarioGui2 usuarioGui;
     
     private UsuarioController(){
         principal = Principal.getInstance();
@@ -32,22 +33,11 @@ public class UsuarioController {
     }
     
     public void agregarGui(){
-        usuarioNuevo=UsuarioNuevo.getIntancia();
-        principal.mostrarInternal(usuarioNuevo);
+        usuarioGui=UsuarioGui2.getIntancia();
+        principal.mostrarInternal(usuarioGui);
     }
     
     
-    public void saveUsuario(){
-        String nombre=usuarioNuevo.getTextNombre().getText();
-        String password=usuarioNuevo.getTextPassword().getText();
-        Usuario usuario=new Usuario(nombre, password);
-        if ( Fachada.getIntacia().saveUsuario(usuario)) {
-            JOptionPane.showMessageDialog(usuarioNuevo, "se agrego un nuevo Usuario");
-            usuarioNuevo.limpiar();
-        }else{
-            JOptionPane.showMessageDialog(usuarioNuevo, "Error a agregar el usuario","Mensaje de Error",JOptionPane.ERROR_MESSAGE);
-        }
-    }
     
     
     

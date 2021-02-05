@@ -87,6 +87,8 @@ public interface InterfaceMediador {
 
     public boolean deleteUsuario(int id);
     
+    public Usuario loginUsuario(String username,String paswword);
+    
     public boolean saveMantenimiento(Mantenimiento manteniemiento);
 
 }

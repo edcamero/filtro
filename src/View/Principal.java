@@ -60,12 +60,12 @@ public class Principal extends javax.swing.JFrame {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         DesktopPanel = new javax.swing.JDesktopPane();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jDesktopPane2 = new javax.swing.JDesktopPane();
         menu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        usuarioMenu = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -89,34 +89,43 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        DesktopPanel.setLayer(jDesktopPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        DesktopPanel.setLayer(jDesktopPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout DesktopPanelLayout = new javax.swing.GroupLayout(DesktopPanel);
         DesktopPanel.setLayout(DesktopPanelLayout);
         DesktopPanelLayout.setHorizontalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 845, Short.MAX_VALUE)
+            .addGroup(DesktopPanelLayout.createSequentialGroup()
+                .addGroup(DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DesktopPanelLayout.createSequentialGroup()
+                        .addGap(261, 261, 261)
+                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(DesktopPanelLayout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(583, Short.MAX_VALUE))
         );
         DesktopPanelLayout.setVerticalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 494, Short.MAX_VALUE)
+            .addGroup(DesktopPanelLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(383, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Opciones");
         jMenu1.add(jSeparator1);
 
-        jMenu6.setText("Usuario");
-
-        jMenuItem5.setText("Nuevo");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        usuarioMenu.setText("Usuario");
+        usuarioMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                usuarioMenuActionPerformed(evt);
             }
         });
-        jMenu6.add(jMenuItem5);
-
-        jMenuItem1.setText("Listar");
-        jMenu6.add(jMenuItem1);
-
-        jMenu1.add(jMenu6);
+        jMenu1.add(usuarioMenu);
 
         jMenu7.setText("Equipos");
 
@@ -255,10 +264,6 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        UsuarioController.getInstancia().agregarGui();
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         this.equipoNuevo();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -289,12 +294,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_JitemNuevoClienteActionPerformed
     public void ClienteNuevo() {
         //
-        ClienteController clienteControl = ClienteController.getIntacia();
+        ClienteController clienteControl = ClienteController.getInstancia();
         clienteControl.NuevoClienteGui();
     }
 
     public void ClienteVer(int id) {
-        ClienteController clienteControl = ClienteController.getIntacia();
+        ClienteController clienteControl = ClienteController.getInstancia();
         clienteControl.VerGui(id);
     }
 
@@ -341,7 +346,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void listaClientes() {
         //
-        ClienteController clienteControl = ClienteController.getIntacia();
+        ClienteController clienteControl = ClienteController.getInstancia();
         clienteControl.Listar();
     }
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -360,6 +365,10 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
         TecnicoController.getInstancia().agregarGui();
     }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void usuarioMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioMenuActionPerformed
+       UsuarioController.getInstancia().agregarGui();
+    }//GEN-LAST:event_usuarioMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -408,16 +417,16 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DesktopPanel;
     private javax.swing.JMenuItem JitemNuevoCliente;
+    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
@@ -426,7 +435,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem9;
@@ -434,5 +442,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar menu;
+    private javax.swing.JMenuItem usuarioMenu;
     // End of variables declaration//GEN-END:variables
 }

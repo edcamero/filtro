@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,15 +35,15 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
     @Override
     public boolean save(Usuario usuario) {
         try {
-            String query = "insert into usuario (name_user,password)\n"
-                    + "values (?,?) returning id_user";
+            String query = "insert into usuario (user_name,user_password,tius_id)\n"
+                    + "values (?,?,2) returning user_id";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, usuario.getUsername());
             pst.setString(2, usuario.getPassword());
             rs = pst.executeQuery();
             while (rs.next()) {
-                usuario.setId(rs.getInt("id_user"));
+                usuario.setId(rs.getInt("user_id"));
             }
             return true;
 
@@ -62,7 +63,7 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Usuario usuario = new Usuario(rs.getInt("id_user"), rs.getString("name_user"), rs.getString("password"));
+                Usuario usuario = new Usuario(rs.getInt("user_id"), rs.getString("user_name"), rs.getString("user_password"));
                 lista.add(usuario);
             }
 
@@ -84,9 +85,9 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
         try {
             String query = "update usuario\n"
                     + "set\n"
-                    + "name_user=?,\n"
-                    + "password=?\n"
-                    + "where id_user=?";
+                    + "user_name=?,\n"
+                    + "user_password=?\n"
+                    + "where user_id=?";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, usuario.getUsername());
@@ -112,7 +113,7 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
     public boolean delete(int id) {
         try {
             String query = "delete from usuario\n"
-                    + "where id_user=?";
+                    + "where user_id=?";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setInt(1, id);
@@ -143,7 +144,7 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Usuario usuario = new Usuario(rs.getInt("id_user"), rs.getString("name_user"), rs.getString("password"));
+                Usuario usuario = new Usuario(rs.getInt("user_id"), rs.getString("user_name"), rs.getString("user_password"));
                 return usuario;
             }
 
@@ -159,6 +160,41 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
         }
         return null;
     
+    }
+    
+     public Usuario login(String username, String password) {
+        String query = "select * from usuario where user_name=? and user_password=?";
+        Usuario usuario=null;
+        try {
+            pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+             System.out.println("hola llegue");
+            rs = pst.executeQuery();
+            pst.setString(1, username);
+            pst.setString(2, password);
+                  
+            rs = pst.executeQuery();
+     
+            while (rs.next()) {
+                usuario = new Usuario(rs.getInt("user_id"), rs.getString("user_name"),rs.getInt("tius_id"));
+                
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
+                    + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
+            
+        } finally {
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+
+         return usuario;
     }
 
 }

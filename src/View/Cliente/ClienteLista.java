@@ -28,7 +28,7 @@ private static ClienteLista clienteLista;
     }
 
     
-    public static ClienteLista getIntancia(){
+    public static ClienteLista getInstancia(){
         if(clienteLista==null){
             clienteLista=new ClienteLista();
         }
@@ -198,7 +198,7 @@ private static ClienteLista clienteLista;
 
       String palabra=  textBuscar.getText();
       if(!palabra.equals("")){
-          ClienteController.getIntacia().Buscar(palabra);
+          ClienteController.getInstancia().Buscar(palabra);
       }else{
           JOptionPane.showMessageDialog(rootPane, "llene el campo de busqueda");
       }
@@ -208,7 +208,7 @@ private static ClienteLista clienteLista;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-     ClienteController.getIntacia().Listar();
+     ClienteController.getInstancia().Listar();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void opcionesCliente(int id,int opc){

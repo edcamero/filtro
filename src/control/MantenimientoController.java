@@ -36,7 +36,7 @@ public class MantenimientoController {
     MantenimientoEquipo mantEquipo;
 
     private MantenimientoController() {
-        fachada = Fachada.getIntacia();
+        fachada = Fachada.getInstancia();
     }
 
     public static MantenimientoController getInstancia() {

@@ -164,8 +164,8 @@ public class ClienteEquipos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ClienteController.getIntacia().guardarEquipos();
-        //ClienteController.getIntacia().verGui();
+        ClienteController.getInstancia().guardarEquipos();
+        //ClienteController.getInstancia().verGui();
         this.cerrar();
         
         
@@ -200,7 +200,7 @@ public class ClienteEquipos extends javax.swing.JInternalFrame {
     private void opcionesEquipo(int id, int seleccion) {
          switch (seleccion) {
             case 0:
-                   ClienteController.getIntacia().seleccionEquipos(id);
+                   ClienteController.getInstancia().seleccionEquipos(id);
                 break;
             
                 

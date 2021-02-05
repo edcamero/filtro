@@ -25,7 +25,7 @@ public class RepuestoController {
 
     private RepuestoController() {
         principal = Principal.getInstance();
-        fachada = Fachada.getIntacia();
+        fachada = Fachada.getInstancia();
     }
 
     public static RepuestoController getInstancia() {
@@ -46,7 +46,7 @@ public class RepuestoController {
         int costo = Integer.parseInt(repuestoGui.getTextCosto().getText());
         int valor = Integer.parseInt(repuestoGui.getTextValor().getText());
         Repuesto repuesto = new Repuesto(nombre, costo, valor);
-        if (Fachada.getIntacia().saveRepuesto(repuesto)) {
+        if (Fachada.getInstancia().saveRepuesto(repuesto)) {
             JOptionPane.showMessageDialog(repuestoGui, "se agrego el Repuesto");
 
             this.getListar();
@@ -61,7 +61,7 @@ public class RepuestoController {
         DefaultTableModel model = (DefaultTableModel) this.repuestoGui.getTabla().getModel();
         Object[] fila;
         model.setRowCount(0);
-        for (Repuesto repuesto : Fachada.getIntacia().getAllRepuesto()) {
+        for (Repuesto repuesto : Fachada.getInstancia().getAllRepuesto()) {
             fila = new Object[3];
             fila[0] = repuesto.getId();
             fila[1] = repuesto.getNombre();

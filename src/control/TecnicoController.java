@@ -25,7 +25,7 @@ public class TecnicoController {
 
     private TecnicoController() {
         principal = Principal.getInstance();
-        fachada=Fachada.getIntacia();
+        fachada=Fachada.getInstancia();
     }
 
     public static TecnicoController getInstancia() {
@@ -47,7 +47,7 @@ public class TecnicoController {
         String nombre = tecnicoNuevo.getTextNombre().getText();
         String telefono = tecnicoNuevo.getTextTelefono().getText();
         Tecnico tecnico = new Tecnico(documento, nombre, telefono);
-        if (fachada.getIntacia().saveTecnico(tecnico)) {
+        if (fachada.getInstancia().saveTecnico(tecnico)) {
             JOptionPane.showMessageDialog(tecnicoNuevo, "se agrego el nuevo Tecnico");
             this.getLista();
             this.limpiar();
@@ -61,7 +61,7 @@ public class TecnicoController {
         DefaultTableModel model = (DefaultTableModel) tecnicoNuevo.getTabla().getModel();
         Object[] fila;
         model.setRowCount(0);
-        for (Tecnico tecnico : Fachada.getIntacia().getAllTecnico()) {
+        for (Tecnico tecnico : Fachada.getInstancia().getAllTecnico()) {
             fila = new Object[4];
             fila[0] = tecnico.getId();
             fila[1] = tecnico.getNombre();
@@ -78,7 +78,7 @@ public class TecnicoController {
     }
     
     public Tecnico getTecnico(int id){
-        return Fachada.getIntacia().getTecnico(id);
+        return Fachada.getInstancia().getTecnico(id);
     }
 
      public boolean eliminar(int id) {

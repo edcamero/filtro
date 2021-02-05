@@ -286,7 +286,7 @@ public class ClienteVer extends javax.swing.JInternalFrame {
         editarCampos(editable);
         if (editable) {
             botonEditar.setText("Editar Cliente");
-            ClienteController.getIntacia().editar();
+            ClienteController.getInstancia().editar();
 
         } else {
             botonEditar.setText("Guardar Cambios");
@@ -299,7 +299,7 @@ public class ClienteVer extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ClienteController.getIntacia().seleccionEquiposGui();
+        ClienteController.getInstancia().seleccionEquiposGui();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
@@ -330,7 +330,7 @@ public class ClienteVer extends javax.swing.JInternalFrame {
         switch(opc){
             
             case 0:
-                if (  ClienteController.getIntacia().eliminarEquipo(id)) {
+                if (  ClienteController.getInstancia().eliminarEquipo(id)) {
                    JOptionPane.showMessageDialog(this, "Se elimino el  equipo");
                    mostrarEquipos();
                 }else{

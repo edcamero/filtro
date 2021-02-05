@@ -51,7 +51,7 @@ public class BujiaController {
         int valor = Integer.parseInt(bujiaNuevaGui.getTextValor().getText());
         int vidaUtil = Integer.parseInt(bujiaNuevaGui.getTextVida().getText());
         Bujia bujia = new Bujia(nombre, vidaUtil, costo, valor);
-        if (Fachada.getIntacia().saveBujia(bujia)) {
+        if (Fachada.getInstancia().saveBujia(bujia)) {
             JOptionPane.showMessageDialog(bujiaNuevaGui, "se agrego la bujia");
             bujiaNuevaGui.limpiar();
         } else {
@@ -71,7 +71,7 @@ public class BujiaController {
         DefaultTableModel model = (DefaultTableModel) bujiaListaGui.getTabla().getModel();
         Object[] fila;
         model.setRowCount(0);
-        for (Bujia bujia : Fachada.getIntacia().getAllBujias()) {
+        for (Bujia bujia : Fachada.getInstancia().getAllBujias()) {
             fila = new Object[5];
             fila[0] = bujia.getId();
             fila[1] = bujia.getNombre();
@@ -84,19 +84,19 @@ public class BujiaController {
     }
 
     public Bujia buscar(int id) {
-        return Fachada.getIntacia().getBujia(id);
+        return Fachada.getInstancia().getBujia(id);
 
     }
 
     public void editarBujiaGui(int id) {
-        Bujia bujia = Fachada.getIntacia().getBujia(id);
+        Bujia bujia = Fachada.getInstancia().getBujia(id);
         editarGui = BujiaEditar.getinstancia(bujia);
         principal.mostrarInternal(editarGui);
 
     }
 
     public boolean editarBujia(Bujia bujia) {
-        if (Fachada.getIntacia().updateBujia(bujia)) {
+        if (Fachada.getInstancia().updateBujia(bujia)) {
             listaGui();
             return true;
         } else {
@@ -105,7 +105,7 @@ public class BujiaController {
     }
 
     public boolean eliminarBujia(int id) {
-        if (Fachada.getIntacia().deleteBujia(id)) {
+        if (Fachada.getInstancia().deleteBujia(id)) {
             this.listar(BujiaLista.getInstancia());
             return true;
         }

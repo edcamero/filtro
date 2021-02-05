@@ -26,7 +26,7 @@ public class prueba {
     public static void main(String arg[]) {
         try {
             Config.loadConfig();
-            Fachada fachada = Fachada.getIntacia();
+            Fachada fachada = Fachada.getInstancia();
             Cliente cliente = fachada.getCliente(1);
             //cliente.setPurificadores();
             Tecnico tecnico = fachada.getTecnico(1);

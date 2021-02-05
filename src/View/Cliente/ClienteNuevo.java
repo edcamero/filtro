@@ -34,7 +34,7 @@ public class ClienteNuevo extends javax.swing.JInternalFrame {
         limpiar();
     }
 
-    public static ClienteNuevo getIntancia() {
+    public static ClienteNuevo getInstancia() {
         if (clienteNuevo == null) {
             clienteNuevo = new ClienteNuevo();
         }
@@ -190,7 +190,7 @@ public class ClienteNuevo extends javax.swing.JInternalFrame {
 
         if (this.validar()) {
 
-            if (ClienteController.getIntacia().agregar()) {
+            if (ClienteController.getInstancia().agregar()) {
                 int resp = JOptionPane.showConfirmDialog(this, "Se ha agregado con exito el cliente");
                 if (JOptionPane.OK_OPTION == resp) {
                     this.limpiar();

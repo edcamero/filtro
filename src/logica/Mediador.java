@@ -582,4 +582,16 @@ public class Mediador implements InterfaceMediador {
     public void generarRecibo(Mantenimiento mantenimiento){
         
     }
+
+    @Override
+    public Usuario loginUsuario(String username, String paswword) {
+        Usuario usuario=null;
+        try {
+            conexion.ConexionPostgres();
+            usuario =usuarioDao.login(username, paswword);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return usuario;
+    }
 }

@@ -27,7 +27,7 @@ public class Fachada {
         mediador = new Mediador();
     }
 
-    public static Fachada getIntacia() {
+    public static Fachada getInstancia() {
         if (fachada == null) {
             fachada = new Fachada();
         }
@@ -160,5 +160,9 @@ public class Fachada {
     
     public boolean saveMantenimiento(Mantenimiento mantenimiento){
         return mediador.saveMantenimiento(mantenimiento);
+    }
+    
+    public Usuario login(String username,String password){
+        return mediador.loginUsuario(username, password);
     }
 }
