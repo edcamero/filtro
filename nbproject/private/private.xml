@@ -11,16 +11,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/DAO/MantenimientoEquipoDao.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/DAO/RepuestoManteDao.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/logica/Mediador.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/View/Principal.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/Models/Mantenimiento.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/control/MantenimientoController.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/Models/RepuestoMante.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/View/Mantenimiento/MantenimientoGui.java</file>
-            <file>file:/C:/Users/blade/OneDrive/Documentos/NetBeansProjects/filtro/src/Conexion/Conexion.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
