@@ -13,6 +13,7 @@ import View.Tecnico.TecnicoNuevo;
 import control.BujiaController;
 import control.ClienteController;
 import control.EquipoController;
+import control.MantenimientoController;
 import control.RepuestoController;
 import control.TecnicoController;
 import control.UsuarioController;
@@ -374,6 +375,13 @@ public class Principal extends javax.swing.JFrame {
         ClienteController clienteControl = ClienteController.getInstancia();
         clienteControl.NuevoClienteGui();
     }
+    
+    public void MantenimientoNuevo() {
+        //
+       MantenimientoController mantenimientoControl = MantenimientoController.getInstancia();
+       mantenimientoControl.nuevoMantenimientoGui(1);
+    }
+    
 
     public void ClienteVer(int id) {
         ClienteController clienteControl = ClienteController.getInstancia();

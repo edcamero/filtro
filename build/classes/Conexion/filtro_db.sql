@@ -22,7 +22,7 @@ CREATE TABLE USUARIO
     user_id SERIAL,
     user_name VARCHAR(40) NOT NULL UNIQUE,
     user_password VARCHAR(40) NOT NULL,
-	 tius_id INT NOT NULL,
+	tius_id INT NOT NULL,
     user_status BOOLEAN NOT NULL DEFAULT TRUE,
 	createAt timestamp DEFAULT now(),
 	updateAt timestamp DEFAULT now(),
@@ -90,9 +90,11 @@ CREATE TABLE TYPE_SPARE
 CREATE TABLE  SPARE
 (
     spar_id SERIAL ,
-    spar_name VARCHAR(20) NOT NULL,
-    spar_cost INTEGER NOT NULL,
-    spar_price INTEGER NOT NULL,
+    spar_name VARCHAR(100) NOT NULL,
+    spar_cost INTEGER NOT NULL DEFAULT 0,
+    spar_price_without_iva INTEGER NOT NULL,
+	iva INTEGER NOT NULL,
+	spar_price_with_iva INTEGER NOT NULL,
     tysp_id INTEGER NOT NULL,
     spar_status BOOLEAN
     NOT NULL DEFAULT TRUE,
@@ -118,3 +120,5 @@ insert into TIPO_USUARIO  (tius_name,    tius_descripcion) values ('admin','admi
 insert into TIPO_USUARIO  (tius_name,    tius_descripcion) values ('secretaria','operaciones basicas');
 insert into USUARIO (user_name,user_password,tius_id) values ('admin','0cfc5b81354c34dca4122586d754e813',1);
 insert into USUARIO (user_name,user_password,tius_id) values ('secretaria','e10adc3949ba59abbe56e057f20f883e',2);
+insert into TYPE_SPARE ( tysp_name)values ('ABRAZADERA'),('BUJIA'),('ELECTRICO'),('OTROS');
+--copy spare (spar_name,spar_cost,spar_price_without_iva,iva,spar_price_with_iva,type_id) from 

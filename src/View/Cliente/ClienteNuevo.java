@@ -5,8 +5,9 @@
  */
 package View.Cliente;
 
+import Models.Cliente;
 import View.Validaciones;
-import control.ClienteController;
+import logica.Fachada;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,7 @@ import javax.swing.JTextField;
 public class ClienteNuevo extends javax.swing.JInternalFrame {
 
     private static ClienteNuevo clienteNuevo;
-
+    private static Fachada fachada;
     /**
      * Creates new form ClienteNuevo
      */
@@ -37,6 +38,7 @@ public class ClienteNuevo extends javax.swing.JInternalFrame {
     public static ClienteNuevo getInstancia() {
         if (clienteNuevo == null) {
             clienteNuevo = new ClienteNuevo();
+            fachada = Fachada.getInstancia();
         }
 
         return clienteNuevo;
@@ -199,6 +201,11 @@ public class ClienteNuevo extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
 
@@ -305,6 +312,20 @@ public class ClienteNuevo extends javax.swing.JInternalFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         cerrar();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+      
+        String documento = textDoc.getText();
+        String nombre = textNombre.getText();
+        String tel_uno = textTel1.getText();
+        String tel_dos = textTel2.getText();
+        String direccion = textDir.getText();
+        String email = textEmail.getText();
+        Cliente nuevo = new Cliente(documento, nombre, tel_uno, tel_dos, direccion, email);
+
+        //System.out.println(nuevo.toString());
+        fachada.saveCliente(nuevo);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void cerrar() {
         try {

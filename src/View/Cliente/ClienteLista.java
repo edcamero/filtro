@@ -234,7 +234,6 @@ public class ClienteLista extends javax.swing.JInternalFrame {
                 break;
             case 1:
                 MantenimientoController.getInstancia().nuevoMantenimientoGui(id);
-
                 break;
 
         }
