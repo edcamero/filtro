@@ -30,8 +30,6 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
         this.con = con;
     }
 
-     
-    
     @Override
     public boolean save(Usuario usuario) {
         try {
@@ -122,8 +120,7 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
+        } finally {
             try {
                 pst.close();
                 rs.close();
@@ -136,7 +133,7 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
 
     @Override
     public Usuario get(int id) {
-        
+
         String query = "select * from usuario;";
         try {
 
@@ -159,32 +156,31 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
             }
         }
         return null;
-    
+
     }
-    
-     public Usuario login(String username, String password) {
+
+    public Usuario login(String username, String password) {
         String query = "select * from usuario where user_name=? and user_password=?";
-        Usuario usuario=null;
+        Usuario usuario = null;
         try {
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-             System.out.println("hola llegue");
-            rs = pst.executeQuery();
+
             pst.setString(1, username);
             pst.setString(2, password);
-                  
+
             rs = pst.executeQuery();
-     
+
             while (rs.next()) {
-                usuario = new Usuario(rs.getInt("user_id"), rs.getString("user_name"),rs.getInt("tius_id"));
-                
+                usuario = new Usuario(rs.getInt("user_id"), rs.getString("user_name"), rs.getInt("tius_id"));
+
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error Base de Datos:\n"
                     + ex, "Error en la operación", JOptionPane.ERROR_MESSAGE);
-            
+
         } finally {
             try {
                 pst.close();
@@ -194,7 +190,7 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
             }
         }
 
-         return usuario;
+        return usuario;
     }
 
 }

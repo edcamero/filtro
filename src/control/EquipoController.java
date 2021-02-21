@@ -7,7 +7,7 @@ package control;
 
 import logica.Fachada;
 import Models.Equipo;
-import View.Equipo.EquipoEditar;
+//import View.Equipo.EquipoEditar;
 import View.Equipo.EquipoLista;
 import View.Equipo.EquipoNuevo;
 import View.Principal;
@@ -24,7 +24,7 @@ public class EquipoController {
     private static EquipoController equipoController;
     private static ArrayList<Equipo> equipos;
     private JInternalFrame gui;
-    private EquipoEditar editarGui;
+    //private EquipoEditar editarGui;
     private EquipoLista equipoListaGui;
     Principal principal;
 
@@ -44,7 +44,6 @@ public class EquipoController {
         this.gui = gui;
     }
 
-   
     public boolean agregar() {
         EquipoNuevo panel = (EquipoNuevo) this.gui;
         String material = (String) panel.getComboMaterial().getSelectedItem();
@@ -55,17 +54,15 @@ public class EquipoController {
         return Fachada.getInstancia().saveEquipo(nuevo);
     }
 
-    
-    public void listarGui(){
-        equipoListaGui=EquipoLista.getEstancia();
+    public void listarGui() {
+        equipoListaGui = EquipoLista.getEstancia();
         this.listar();
         principal.mostrarInternal(equipoListaGui);
     }
-   
+
     private void listar() {
         this.equipos.clear();
         equipos = Fachada.getInstancia().getAllEquipo();
-        // EquipoDao.listar(equipos);
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
         model.addColumn("MATERIAL");
@@ -81,16 +78,13 @@ public class EquipoController {
 
     public boolean eliminar(int id) {
         return Fachada.getInstancia().deleteEquipo(id);
-        // return EquipoDao.borrar(id);
-        //return false;
-
     }
 
     public void editarGui(int id) {
         Equipo equipo = Fachada.getInstancia().getEquipo(id);
         System.out.println(equipo.toString());
-        editarGui = EquipoEditar.getInstancia(equipo);
-        principal.mostrarInternal(editarGui);
+//        editarGui = EquipoEditar.getInstancia(equipo);
+//        principal.mostrarInternal(editarGui);
 
     }
 
@@ -113,6 +107,4 @@ public class EquipoController {
         return null;
     }
 
-  
-   
 }

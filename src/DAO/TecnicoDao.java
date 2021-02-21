@@ -55,15 +55,15 @@ public class TecnicoDao implements InterfaceDao<Tecnico> {
     @Override
     public ArrayList<Tecnico> getAll() {
         ArrayList<Tecnico> lista = new ArrayList<Tecnico>();
-        String query = "select * from tecnico order by id_tec;";
+        String query = "select * from tecnico order by tecn_id;";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Tecnico tecnico = new Tecnico(rs.getInt("id_tec"), rs.getString("documento_tec"), rs.getString("nombre_tec"),
-                        rs.getString("telefono_uno_tec"), rs.getBoolean("estado_tec"));
+                Tecnico tecnico = new Tecnico(rs.getInt("tecn_id"), rs.getString("tecn_document"), rs.getString("tecn_name"),
+                        rs.getString("tecn_telephone"), rs.getBoolean("tecn_status"));
                 lista.add(tecnico);
             }
 

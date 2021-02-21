@@ -8,6 +8,7 @@ package control;
 import Models.Usuario;
 import View.Principal;
 import View.Usuario.UsuarioGui2;
+import View.Usuario.UsuarioLista;
 import javax.swing.JOptionPane;
 import logica.Fachada;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -20,6 +21,7 @@ public class UsuarioController {
     private static UsuarioController usuarioController;
     Principal principal;
     UsuarioGui2 usuarioGui;
+    UsuarioLista usuarioListaGui;
     
     private UsuarioController(){
         principal = Principal.getInstance();
@@ -35,6 +37,12 @@ public class UsuarioController {
     public void agregarGui(){
         usuarioGui=UsuarioGui2.getIntancia();
         principal.mostrarInternal(usuarioGui);
+    }
+    
+    public void listarGui() {
+        usuarioListaGui = UsuarioLista.getEstancia();
+        //this.getListar();
+        principal.mostrarInternal(usuarioListaGui);
     }
     
     

@@ -6,6 +6,7 @@
 package View.Usuario;
 
 import Models.Usuario;
+import View.Principal;
 import javax.swing.JOptionPane;
 import logica.Fachada;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -26,6 +27,7 @@ public class UsuarioLogin extends javax.swing.JFrame {
     public UsuarioLogin(Usuario usuario) {
         initComponents();
         this.usuario = usuario;
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -139,9 +141,12 @@ public class UsuarioLogin extends javax.swing.JFrame {
         } else {
             username = txtNombre.getText();
             password = DigestUtils.md5Hex(txtPassword.getText());
-            usuario = Fachada.getInstancia().login(username, password);
+            Usuario usuario = Fachada.getInstancia().login(username, password);
             if (usuario != null) {
+                control.control.setUser(usuario);
                 JOptionPane.showMessageDialog(this, "Ha ingresado al Sistema");
+                dispose();
+                control.control.instanciar();
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Mensaje Error", "Error al iniciar sesión", JOptionPane.ERROR_MESSAGE);

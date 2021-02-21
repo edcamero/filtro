@@ -83,7 +83,7 @@ public class ClienteController {
         principal.mostrarInternal(listaGui);
 
     }
-    
+
     public void Buscar(String palabra) {
         listaGui = ClienteLista.getInstancia();
         this.clientes.clear();
@@ -102,7 +102,6 @@ public class ClienteController {
 
     public boolean editar() {
         boolean res = false;
-
         Cliente cliente = verGui.getCliente();
         cliente.setDocumento(verGui.getTextDoc().getText());
         cliente.setNombre(verGui.getTextNombre().getText());
@@ -155,7 +154,7 @@ public class ClienteController {
             fachada.updateCliente(cliente);
             listaGui.setVisible(false);
             VerGui(cliente.getId());
-            
+
         }
 
     }
@@ -172,21 +171,18 @@ public class ClienteController {
         if (this.cliente != null) {
 
             principal.mostrarInternal(verGui);
-            
+
         }
-        
-     
 
     }
-    
-     public boolean eliminarEquipo(int index){
-         EquipoCliente equipoCliente=cliente.getEquiposCliente().get(index);
-         if(fachada.deleteEquipoCliente(equipoCliente.getId()))
-         {
-             cliente.getEquiposCliente().remove(index);
-             return true;
-         }
-          return false;
-      }
+
+    public boolean eliminarEquipo(int index) {
+        EquipoCliente equipoCliente = cliente.getEquiposCliente().get(index);
+        if (fachada.deleteEquipoCliente(equipoCliente.getId())) {
+            cliente.getEquiposCliente().remove(index);
+            return true;
+        }
+        return false;
+    }
 
 }

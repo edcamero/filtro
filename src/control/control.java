@@ -8,6 +8,8 @@ package control;
 import Models.Usuario;
 import View.Principal;
 import View.Usuario.UsuarioLogin;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logica.Config;
 
 /**
@@ -19,19 +21,33 @@ public class control {
     static Usuario user;
     static Principal panel;
 
+    public static synchronized Usuario getUser() {
+        return user;
+    }
+
+    public static synchronized void setUser(Usuario user) {
+        control.user = user;
+    }
+
+    public static Principal getPanel() {
+        return panel;
+    }
+
+    public static void setPanel(Principal panel) {
+        control.panel = panel;
+    }
+
+    public static void instanciar() {
+        panel = Principal.getInstance(getUser());
+        panel.setVisible(true);
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         Config.loadConfig();
-        UsuarioLogin loginGui = new UsuarioLogin(user);
-        loginGui.setVisible(true);
-        if (user != null) {
-//        if (true) {
-            panel = Principal.getInstance();
-            panel.mostrar();
-        }
-
+        new UsuarioLogin(user).setVisible(true);
     }
 
 }

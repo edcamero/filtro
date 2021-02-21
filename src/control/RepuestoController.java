@@ -5,9 +5,13 @@
  */
 package control;
 
+import Models.Equipo;
 import Models.Repuesto;
 import View.Principal;
+import View.Repuesto.RepuestoListar;
 import View.Repuesto.RepuestoNuevo;
+import java.util.ArrayList;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Fachada;
@@ -19,9 +23,13 @@ import logica.Fachada;
 public class RepuestoController {
 
     private static RepuestoController repuestoController;
+    private EquipoController equipoControl;
     Principal principal;
+    private static ArrayList<Repuesto> repuestos;
     RepuestoNuevo repuestoGui;
     Fachada fachada;
+    private JInternalFrame gui;
+    RepuestoListar repuestoListaGui;
 
     private RepuestoController() {
         principal = Principal.getInstance();
@@ -35,10 +43,20 @@ public class RepuestoController {
         return repuestoController;
     }
 
+    public void setGui(JInternalFrame gui) {
+        this.gui = gui;
+    }
+
     public void agregarGui() {
         repuestoGui = RepuestoNuevo.getInstancia();
         principal.mostrarInternal(repuestoGui);
         this.getListar();
+    }
+
+    public void listarGui() {
+        repuestoListaGui = RepuestoListar.getEstancia();
+        //this.getListar();
+        principal.mostrarInternal(repuestoListaGui);
     }
 
     public void saveRepuesto() {
@@ -67,9 +85,7 @@ public class RepuestoController {
             fila[1] = repuesto.getNombre();
             fila[2] = repuesto.getValorVenta();
             model.addRow(fila);
-
         }
-
     }
 
     private void limpiar() {
@@ -84,7 +100,7 @@ public class RepuestoController {
     }
 
     public boolean actualizar(Repuesto repuesto) {
-        
+
         if (fachada.updateRepuesto(repuesto)) {
             this.getListar();
             this.limpiar();
@@ -92,7 +108,7 @@ public class RepuestoController {
         }
         return false;
     }
-    
+
     public boolean eliminar(int id) {
         if (fachada.deleteRepuesto(id)) {
             this.getListar();
@@ -101,5 +117,4 @@ public class RepuestoController {
         return false;
     }
 
-   
 }

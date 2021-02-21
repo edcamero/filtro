@@ -7,7 +7,9 @@ package control;
 
 import Models.Tecnico;
 import View.Principal;
+import View.Tecnico.TecnicoLista;
 import View.Tecnico.TecnicoNuevo;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Fachada;
@@ -22,10 +24,12 @@ public class TecnicoController {
     Principal principal;
     TecnicoNuevo tecnicoNuevo;
     Fachada fachada;
+    private JInternalFrame gui;
+    TecnicoLista tecnicoListaGui;
 
     private TecnicoController() {
         principal = Principal.getInstance();
-        fachada=Fachada.getInstancia();
+        fachada = Fachada.getInstancia();
     }
 
     public static TecnicoController getInstancia() {
@@ -57,6 +61,16 @@ public class TecnicoController {
 
     }
 
+    public void listarGui() {
+        tecnicoListaGui = TecnicoLista.getEstancia();
+        //this.getListar();
+        principal.mostrarInternal(tecnicoListaGui);
+    }
+
+    public void setGui(JInternalFrame gui) {
+        this.gui = gui;
+    }
+
     public void getLista() {
         DefaultTableModel model = (DefaultTableModel) tecnicoNuevo.getTabla().getModel();
         Object[] fila;
@@ -76,20 +90,20 @@ public class TecnicoController {
         tecnicoNuevo.getTextDocumento().setText("");
         tecnicoNuevo.getTextTelefono().setText("");
     }
-    
-    public Tecnico getTecnico(int id){
+
+    public Tecnico getTecnico(int id) {
         return Fachada.getInstancia().getTecnico(id);
     }
 
-     public boolean eliminar(int id) {
+    public boolean eliminar(int id) {
         if (fachada.deleteTecnico(id)) {
             this.getLista();
             return true;
         }
         return false;
     }
-     
-      public boolean actualizar(Tecnico tecnico) {
+
+    public boolean actualizar(Tecnico tecnico) {
         if (fachada.updateTecnico(tecnico)) {
             this.getLista();
             this.limpiar();

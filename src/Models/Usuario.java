@@ -28,6 +28,10 @@ public class Usuario implements java.io.Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
+    public Usuario() {
+        
+    }
+
     public int getId() {
         return id;
     }

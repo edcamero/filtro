@@ -6,7 +6,6 @@
 package control;
 
 import Models.Bujia;
-import View.Bujia.BujiaEditar;
 import View.Bujia.BujiaLista;
 import View.Bujia.BujiaNueva;
 import View.Principal;
@@ -24,7 +23,6 @@ public class BujiaController {
     private static BujiaController bujiaController;
     Principal principal;
     BujiaNueva bujiaNuevaGui;
-    BujiaEditar editarGui;
     Bujia bujia;
 
     private BujiaController() {
@@ -90,8 +88,8 @@ public class BujiaController {
 
     public void editarBujiaGui(int id) {
         Bujia bujia = Fachada.getInstancia().getBujia(id);
-        editarGui = BujiaEditar.getinstancia(bujia);
-        principal.mostrarInternal(editarGui);
+//        editarGui = BujiaEditar.getinstancia(bujia);
+//        principal.mostrarInternal(editarGui);
 
     }
 

@@ -63,7 +63,7 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
     @Override
     public ArrayList<Repuesto> getAll() {
         ArrayList<Repuesto> lista = new ArrayList<>();
-        String query = "select * from repuesto;";
+        String query = "select * from SPARE;";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,

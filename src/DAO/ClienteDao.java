@@ -28,9 +28,6 @@ public class ClienteDao implements InterfaceDao<Cliente> {
         this.con = con;
     }
 
-    
-
-    
     @Override
     public boolean save(Cliente cliente) {
 
@@ -53,16 +50,17 @@ public class ClienteDao implements InterfaceDao<Cliente> {
                 cliente.setId(rs.getInt(1));
 
             }
-            res=true;
+            res = true;
 
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally {
             try {
-                if(pst!=null)
-                pst.close();
-                if (rs!=null ) {
-                  rs.close(); 
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rs != null) {
+                    rs.close();
                 }
 
             } catch (SQLException ex) {
@@ -76,7 +74,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
     public ArrayList<Cliente> getAll() {
 
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-        String consulta = "select * FROM CLIENTE;";
+        String consulta = "select * FROM CUSTOMER;";
 
         try {
             con.ConexionPostgres();
@@ -95,10 +93,9 @@ public class ClienteDao implements InterfaceDao<Cliente> {
         }
         return clientes;
     }
-    
-    
+
     public ArrayList<Cliente> buscarClientes(String palabra) {
-      palabra="%"+palabra+"%";
+        palabra = "%" + palabra + "%";
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
         String consulta = "select * FROM CLIENTE where nombre_cli ilike ?";
 
@@ -157,7 +154,6 @@ public class ClienteDao implements InterfaceDao<Cliente> {
     @Override
     public boolean delete(int id) {
 
-       
         String consulta = "delete from cliente\n"
                 + "where id_cli=?";
         try {
@@ -179,9 +175,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
 
     @Override
     public Cliente get(int id) {
-    
 
-        
         String consulta = "select * FROM CLIENTE where id_cli=?;";
 
         try {
@@ -192,9 +186,9 @@ public class ClienteDao implements InterfaceDao<Cliente> {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                return  new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                return new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
                 //System.out.println(c.toString());
-                
+
             }
 
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
