@@ -150,11 +150,11 @@ public class Mediador implements InterfaceMediador {
         return new ArrayList<Cliente>();
     }
 
-    public ArrayList<Cliente> buscarCliente(String palabra) {
+    public ArrayList<Cliente> buscarCliente(String palabra,String column) {
 
         try {
             conexion.ConexionPostgres();
-            return clienteDao.buscarClientes(palabra);
+            return clienteDao.buscarClientes(palabra,column);
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

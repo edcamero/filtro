@@ -94,16 +94,17 @@ public class ClienteDao implements InterfaceDao<Cliente> {
         return clientes;
     }
 
-    public ArrayList<Cliente> buscarClientes(String palabra) {
+    public ArrayList<Cliente> buscarClientes(String palabra,String column) {
         palabra = "%" + palabra + "%";
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-        String consulta = "select * FROM CUSTOMER where nombre_cli ilike ?";
+        String consulta = "select * FROM CUSTOMER where ? ilike ?";
 
         try {
             con.ConexionPostgres();
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            pst.setString(1, palabra);
+            pst.setString(1, column);
+            pst.setString(2, palabra);
             rs = pst.executeQuery();
 
             while (rs.next()) {

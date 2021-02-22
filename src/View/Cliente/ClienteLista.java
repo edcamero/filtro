@@ -21,7 +21,7 @@ import javax.swing.JTable;
 public class ClienteLista extends javax.swing.JInternalFrame {
 
     private static ClienteLista clienteLista;
-
+    private static ClienteController clienteControlador;
     /**
      * Creates new form ClienteLista
      */
@@ -32,6 +32,7 @@ public class ClienteLista extends javax.swing.JInternalFrame {
     public static ClienteLista getInstancia() {
         if (clienteLista == null) {
             clienteLista = new ClienteLista();
+            clienteControlador=ClienteController.getInstancia();
         }
 
         return clienteLista;
@@ -54,9 +55,10 @@ public class ClienteLista extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         textBuscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        selectColumn = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -67,7 +69,12 @@ public class ClienteLista extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Por:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Documento", "Telefono" }));
+        selectColumn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Documento", "Telefono" }));
+        selectColumn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectColumnActionPerformed(evt);
+            }
+        });
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,6 +102,13 @@ public class ClienteLista extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tabla);
 
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -103,14 +117,16 @@ public class ClienteLista extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
+                        .addGap(33, 33, 33)
                         .addComponent(textBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 104, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(selectColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -120,7 +136,8 @@ public class ClienteLista extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(selectColumn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -225,6 +242,14 @@ public class ClienteLista extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      clienteControlador.Buscar(textBuscar.getText(),(String)  selectColumn.getSelectedItem());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void selectColumnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectColumnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectColumnActionPerformed
+
     private void opcionesCliente(int id, int opc) {
         switch (opc) {
 
@@ -250,13 +275,14 @@ public class ClienteLista extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> selectColumn;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField textBuscar;
     // End of variables declaration//GEN-END:variables

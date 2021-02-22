@@ -62,8 +62,8 @@ public class Fachada {
     public ArrayList<Cliente> getAllClientes() {
         return mediador.getAllCliente();
     }
-    public ArrayList<Cliente> buscarClientes(String palabra) {
-        return mediador.buscarCliente(palabra);
+    public ArrayList<Cliente> buscarClientes(String palabra,String column) {
+        return mediador.buscarCliente(palabra,column);
     }
     
     public Cliente getCliente(int id){

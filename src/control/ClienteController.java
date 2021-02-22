@@ -84,10 +84,15 @@ public class ClienteController {
 
     }
 
-    public void Buscar(String palabra) {
+    private String nameColumn(int column)
+    {
+        return "";
+    }
+    public void Buscar(String palabra, int column) {
         listaGui = ClienteLista.getInstancia();
         this.clientes.clear();
-        this.clientes = Fachada.getInstancia().buscarClientes(palabra);
+        
+        this.clientes = Fachada.getInstancia().buscarClientes(palabra,nameColumn(column));
 
         DefaultTableModel model = (DefaultTableModel) listaGui.getTabla().getModel();
         model.setRowCount(0);
