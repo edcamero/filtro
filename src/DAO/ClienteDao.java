@@ -33,8 +33,8 @@ public class ClienteDao implements InterfaceDao<Cliente> {
 
         boolean res = false;
         //String consulta="select now()";
-        String consulta = "insert into cliente (documento_cli,nombre_cli,telefono_uno_cli,telefono_dos_cli,"
-                + "direccion_cli,email_cli) values(?,?,?,?,?,?) returning id_cli;";
+        String consulta = "insert into CUSTOMER (cust_document,cust_name,cust_telephone_one,cust_telephone_two,"
+                + "cust_address,cust_email) values(?,?,?,?,?,?) returning cust_id;";
         try {
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -97,7 +97,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
     public ArrayList<Cliente> buscarClientes(String palabra) {
         palabra = "%" + palabra + "%";
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-        String consulta = "select * FROM CLIENTE where nombre_cli ilike ?";
+        String consulta = "select * FROM CUSTOMER where nombre_cli ilike ?";
 
         try {
             con.ConexionPostgres();
@@ -154,7 +154,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
     @Override
     public boolean delete(int id) {
 
-        String consulta = "delete from cliente\n"
+        String consulta = "delete from CUSTOMER\n"
                 + "where id_cli=?";
         try {
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -176,7 +176,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
     @Override
     public Cliente get(int id) {
 
-        String consulta = "select * FROM CLIENTE where id_cli=?;";
+        String consulta = "select * FROM CUSTOMER where id_cli=?;";
 
         try {
             con.ConexionPostgres();

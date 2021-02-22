@@ -49,11 +49,11 @@ CREATE TABLE  CUSTOMER
 (
     cust_id SERIAL ,
     cust_document VARCHAR(12) NOT NULL UNIQUE,
-    cust_name VARCHAR(40) NOT NULL,
+    cust_name VARCHAR(50) NOT NULL,
     cust_telephone_one VARCHAR(12) NOT NULL,
     cust_telephone_two VARCHAR(12) NOT NULL,
     cust_address VARCHAR(12) NOT NULL,
-    cust_email VARCHAR(12) NOT NULL,
+    cust_email VARCHAR(50) NOT NULL,
     cust_status BOOLEAN
     NOT NULL DEFAULT TRUE,	
 	createAt timestamp DEFAULT now(),
