@@ -120,5 +120,8 @@ insert into TIPO_USUARIO  (tius_name,    tius_descripcion) values ('admin','admi
 insert into TIPO_USUARIO  (tius_name,    tius_descripcion) values ('secretaria','operaciones basicas');
 insert into USUARIO (user_name,user_password,tius_id) values ('admin','0cfc5b81354c34dca4122586d754e813',1);
 insert into USUARIO (user_name,user_password,tius_id) values ('secretaria','e10adc3949ba59abbe56e057f20f883e',2);
+
+--PARA AGREGAR DESDE LOS ARCHIVOS CSV COPIAR EN EL DISCO D
 insert into TYPE_SPARE ( tysp_name)values ('ABRAZADERA'),('BUJIA'),('ELECTRICO'),('OTROS');
---copy spare (spar_name,spar_cost,spar_price_without_iva,iva,spar_price_with_iva,type_id) from 
+--COPY spare (spar_name,spar_price_without_iva,iva,spar_price_with_iva,tysp_id) from 
+--'D:\repuestos.csv' WITH  DELIMITER ';'
