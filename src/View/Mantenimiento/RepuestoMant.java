@@ -28,7 +28,7 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
     /**
      * Creates new form RepuestoMant
      */
-    private RepuestoMant() {
+    RepuestoMant() {
         initComponents();
     }
 
@@ -45,20 +45,35 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        botonRepuestos = new javax.swing.JToggleButton();
-        botonBujias = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "NOMBRE", "PRECIO"
+                "ID", "NOMBRE", "PRECIO", "IVA", "TOTAL"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -72,26 +87,43 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tabla);
 
-        botonRepuestos.setText("Repuestos");
-        botonRepuestos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonRepuestosActionPerformed(evt);
-            }
-        });
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "BUSCAR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        botonBujias.setText("Bujias");
-        botonBujias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBujiasActionPerformed(evt);
-            }
-        });
+        jLabel1.setText("Tipo/Repuesto:");
 
-        jButton1.setText("Aceptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Nombre/Repuesto:");
+
+        jButton2.setText("Buscar");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,29 +131,20 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonRepuestos)
-                        .addGap(18, 18, 18)
-                        .addComponent(botonBujias)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(32, 32, 32))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonRepuestos)
-                    .addComponent(botonBujias))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -129,59 +152,37 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-        if (evt.getButton() == 3) {
-            JTable source = (JTable) evt.getSource();
-            int row = source.rowAtPoint(evt.getPoint());
-            if (botonRepuestos.isSelected()) {
-                String dato = JOptionPane.showInputDialog("ingresa la cantidad del repuesto "
-                        + "para el mantenimiento");
-                if(dato==null){
-                    dato="";
-                }
-                if (!dato.equals("")) {
-                    int cantidad = Integer.parseInt(dato);
-
-                    Repuesto repuesto = repuestos.get(row);
-                    if (cantidad > 0) {
-                        MantenimientoController.getInstancia().agregarRepuesto(cantidad, repuesto);
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad valida");
-                    }
-                }else{
-                     JOptionPane.showMessageDialog(rootPane, "No ingreso datos en cantidad del articulo");
-                }
-
-            } else {
-                Bujia bujia=bujias.get(row);
-                MantenimientoController.getInstancia().agregarBujia(bujia);
-                JOptionPane.showMessageDialog(rootPane, "Se agrego la bujia "+bujia.getNombre());
-
-            }
-
-        }
+//        if (evt.getButton() == 3) {
+//            JTable source = (JTable) evt.getSource();
+//            int row = source.rowAtPoint(evt.getPoint());
+//            if (botonRepuestos.isSelected()) {
+//                String dato = JOptionPane.showInputDialog("ingresa la cantidad del repuesto "
+//                        + "para el mantenimiento");
+//                if(dato==null){
+//                    dato="";
+//                }
+//                if (!dato.equals("")) {
+//                    int cantidad = Integer.parseInt(dato);
+//
+//                    Repuesto repuesto = repuestos.get(row);
+//                    if (cantidad > 0) {
+//                        MantenimientoController.getInstancia().agregarRepuesto(cantidad, repuesto);
+//                    } else {
+//                        JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad valida");
+//                    }
+//                }else{
+//                     JOptionPane.showMessageDialog(rootPane, "No ingreso datos en cantidad del articulo");
+//                }
+//
+//            } else {
+//                Bujia bujia=bujias.get(row);
+//                MantenimientoController.getInstancia().agregarBujia(bujia);
+//                JOptionPane.showMessageDialog(rootPane, "Se agrego la bujia "+bujia.getNombre());
+//
+//            }
+//
+//        }
     }//GEN-LAST:event_tablaMouseClicked
-
-    private void botonRepuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRepuestosActionPerformed
-        if (botonRepuestos.isSelected()) {
-            botonBujias.setSelected(false);
-            this.listarRepuestos();
-
-        }
-    }//GEN-LAST:event_botonRepuestosActionPerformed
-
-    private void botonBujiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBujiasActionPerformed
-        if (botonBujias.isSelected()) {
-            botonRepuestos.setSelected(false);
-            this.listarBujias();
-        }
-    }//GEN-LAST:event_botonBujiasActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
-        MantenimientoController.getInstancia().actualizarFormulario();
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void setMantEquipo(MantenimientoEquipo mantEquipo) {
         this.mantEquipo = mantEquipo;
@@ -194,7 +195,7 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
     public void setRepuestos(ArrayList<Repuesto> repuestos) {
         this.repuestos = repuestos;
         this.listarRepuestos();
-        botonRepuestos.setSelected(true);
+        //botonRepuestos.setSelected(true);
     }
 
     public ArrayList<Bujia> getBujias() {
@@ -236,10 +237,13 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton botonBujias;
-    private javax.swing.JToggleButton botonRepuestos;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

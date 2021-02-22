@@ -417,10 +417,13 @@ public class Principal extends javax.swing.JFrame {
     }
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // TODO add your handling code here:
+      this.MantenimientoNuevo();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
         // TODO add your handling code here:
+        MantenimientoController mantenimientoControl = MantenimientoController.getInstancia();
+        mantenimientoControl.nuevoMantenimientoGui(1);
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
