@@ -243,7 +243,7 @@ public class ClienteLista extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      clienteControlador.Buscar(textBuscar.getText(),(String)  selectColumn.getSelectedItem());
+      clienteControlador.Buscar(textBuscar.getText(),Integer.parseInt(selectColumn.getSelectedItem().toString()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void selectColumnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectColumnActionPerformed
