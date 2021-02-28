@@ -8,6 +8,7 @@ package View;
 import Models.Usuario;
 import View.Equipo.EquipoLista;
 import View.Equipo.EquipoNuevo;
+import View.Mantenimiento.MantenimientoGui;
 import View.Repuesto.RepuestoNuevo;
 import View.Tecnico.TecnicoNuevo;
 import control.BujiaController;
@@ -293,6 +294,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu3.add(jMenuItem12);
 
         jMenuItem13.setText("Agendados");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem13);
 
         jMenuItem14.setText("Historial");
@@ -415,9 +421,29 @@ public class Principal extends javax.swing.JFrame {
         // this.add(jipNuevoCliente);
         ventana.show();
     }
+    
+    public void mostrarInternal0(JInternalFrame ventana) {
+        ventana.setResizable(true);
+        ventana.setClosable(true);
+        Dimension desktopSize = this.getSize();
+        Dimension FrameSize = ventana.getSize();
+        ventana.setLocation((desktopSize.width - FrameSize.width) / 2, 4);
+        try {
+
+            DesktopPanel.remove(ventana);
+            DesktopPanel.add(ventana);
+        } catch (Exception e) {
+
+            System.out.println("la ventana ya esta agregada");
+        }
+
+        // this.add(jipNuevoCliente);
+        ventana.show();
+    }
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        // TODO add your handling code here:
-      this.MantenimientoNuevo();
+        //JInternalFrame nuevoMantenimiento = MantenimientoGui.getInstancia();
+        mostrarInternal0(MantenimientoGui.getInstancia());
+      //this.MantenimientoNuevo();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
@@ -467,6 +493,10 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         UsuarioController.getInstancia().listarGui();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     /**
      * @param args the command line arguments

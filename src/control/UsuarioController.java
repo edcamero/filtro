@@ -5,13 +5,9 @@
  */
 package control;
 
-import Models.Usuario;
 import View.Principal;
 import View.Usuario.UsuarioGui2;
 import View.Usuario.UsuarioLista;
-import javax.swing.JOptionPane;
-import logica.Fachada;
-import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *

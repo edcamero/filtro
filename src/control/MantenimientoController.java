@@ -11,7 +11,6 @@ import Models.Tecnico;
 import Models.Mantenimiento;
 import Models.MantenimientoEquipo;
 import Models.Repuesto;
-import Models.RepuestoMante;
 import View.Mantenimiento.MantenimientoGui;
 import View.Mantenimiento.RepuestoMant;
 import View.Principal;
@@ -55,7 +54,6 @@ public class MantenimientoController {
     public void nuevoMantenimientoGui(int id) {
         this.cliente = fachada.getCliente(id);
         mantenimiento = new Mantenimiento(cliente);
-        this.mantenimientoGui = MantenimientoGui.getInstancia(mantenimiento);
         this.tecnicos = fachada.getAllTecnico();
         this.tecnicos.stream().forEach((Tecnico tecnico) -> {
             this.mantenimientoGui.getComboTecnico().removeAllItems();
