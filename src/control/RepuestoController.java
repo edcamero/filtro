@@ -63,7 +63,8 @@ public class RepuestoController {
         String nombre = repuestoGui.getTextNombre().getText();
         int costo = Integer.parseInt(repuestoGui.getTextCosto().getText());
         int valor = Integer.parseInt(repuestoGui.getTextValor().getText());
-        Repuesto repuesto = new Repuesto(nombre, costo, valor);
+        
+        Repuesto repuesto = new Repuesto(nombre, costo, valor ,3);
         if (Fachada.getInstancia().saveRepuesto(repuesto)) {
             JOptionPane.showMessageDialog(repuestoGui, "se agrego el Repuesto");
 
@@ -80,11 +81,15 @@ public class RepuestoController {
         Object[] fila;
         model.setRowCount(0);
         for (Repuesto repuesto : Fachada.getInstancia().getAllRepuesto()) {
-            fila = new Object[3];
-            fila[0] = repuesto.getId();
-            fila[1] = repuesto.getNombre();
-            fila[2] = repuesto.getValorVenta();
-            model.addRow(fila);
+                fila = new Object[7];
+                fila[0] = repuesto.getId();
+                fila[1] = repuesto.getNombre();
+                fila[2] = repuesto.getTipo();
+                fila[3] = repuesto.getValorCosto();
+                fila[4] = repuesto.getValorVenta();
+                fila[5] = repuesto.getIva();
+                fila[6] = repuesto.getValorVentaIva();
+                model.addRow(fila);
         }
     }
 

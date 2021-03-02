@@ -13,24 +13,35 @@ public class Repuesto  implements java.io.Serializable {
 
      private int id;
      private String nombre;
-     private Integer valorCosto;
-     private Integer valorVenta;
+     private String tipo;
+     private int valorCosto;
+     private int valorVenta;
+     private int iva;
+     private double valorVentaIva;
+     private int tipo_id;
      private Set<RepuestoMante> repuestoHasMantenimientos = new HashSet<RepuestoMante>(0);
 
-    public Repuesto(int id, String nombre, Integer valorCosto, Integer valorVenta) {
+    public Repuesto(int id, String nombre, String tipo, int valorCosto, int valorVenta, int iva, double valorVentaIva) {
         this.id = id;
         this.nombre = nombre;
+        this.tipo = tipo;
         this.valorCosto = valorCosto;
         this.valorVenta = valorVenta;
+        this.iva = iva;
+        this.valorVentaIva = valorVentaIva;
     }
 
-    public Repuesto(String nombre, Integer valorCosto, Integer valorVenta) {
+    public Repuesto(String nombre, int valorCosto, int valorVenta, int tipo_id) {
         this.nombre = nombre;
         this.valorCosto = valorCosto;
         this.valorVenta = valorVenta;
+        this.tipo_id = tipo_id;
     }
 
+   
     
+    
+
     public int getId() {
         return id;
     }
@@ -47,20 +58,52 @@ public class Repuesto  implements java.io.Serializable {
         this.nombre = nombre;
     }
 
-    public Integer getValorCosto() {
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getValorCosto() {
         return valorCosto;
     }
 
-    public void setValorCosto(Integer valorCosto) {
+    public void setValorCosto(int valorCosto) {
         this.valorCosto = valorCosto;
     }
 
-    public Integer getValorVenta() {
+    public int getValorVenta() {
         return valorVenta;
     }
 
-    public void setValorVenta(Integer valorVenta) {
+    public void setValorVenta(int valorVenta) {
         this.valorVenta = valorVenta;
+    }
+
+    public int getIva() {
+        return iva;
+    }
+
+    public void setIva(int iva) {
+        this.iva = iva;
+    }
+
+    public double getValorVentaIva() {
+        return valorVentaIva;
+    }
+
+    public void setValorVentaIva(double valorVentaIva) {
+        this.valorVentaIva = valorVentaIva;
+    }
+
+    public int getTipo_id() {
+        return tipo_id;
+    }
+
+    public void setTipo_id(int tipo_id) {
+        this.tipo_id = tipo_id;
     }
 
     public Set<RepuestoMante> getRepuestoHasMantenimientos() {
@@ -71,10 +114,8 @@ public class Repuesto  implements java.io.Serializable {
         this.repuestoHasMantenimientos = repuestoHasMantenimientos;
     }
 
-	
 
-
-
+     
 }
 
 

@@ -63,16 +63,16 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
     @Override
     public ArrayList<Repuesto> getAll() {
         ArrayList<Repuesto> lista = new ArrayList<>();
-        String query = "select * from SPARE;";
+        String query = "SELECT spare.*,type_spare.tysp_name FROM spare inner join type_spare on spare.tysp_id = type_spare.tysp_id;";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-
-                Repuesto repuesto = new Repuesto(rs.getInt("id_rep"), rs.getString("nombre_rep"), rs.getInt("valor_costo"),
-                        rs.getInt("valor_venta"));
+                
+                Repuesto repuesto = new Repuesto(rs.getInt("spar_id"), rs.getString("spar_name"),rs.getString("tysp_name"), rs.getInt("spar_cost"),
+                        rs.getInt("spar_price_without_iva"),rs.getInt("iva"), rs.getDouble("spar_price_with_iva"));
                 lista.add(repuesto);
             }
         } catch (SQLException ex) {
@@ -153,7 +153,7 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
     public Repuesto get(int id) {
         Repuesto repuesto=null;
         
-        String query = "select * from repuesto where id_rep=?;";
+        String query = "SELECT spare.*,type_spare.tysp_name FROM spare inner join type_spare on spare.tysp_id = type_spare.tysp_id where spar_id=?;";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -162,8 +162,9 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
             rs = pst.executeQuery();
             while (rs.next()) {
 
-                repuesto = new Repuesto(rs.getInt("id_rep"), rs.getString("nombre_rep"), rs.getInt("valor_costo"),
-                        rs.getInt("valor_venta"));
+                  repuesto = new Repuesto(rs.getInt("spar_id"), rs.getString("spar_name"),rs.getString("tysp_name"), rs.getInt("spar_cost"),
+                        rs.getInt("spar_price_without_iva"),rs.getInt("iva"), rs.getDouble("spar_price_with_iva"));
+
                
             }
         } catch (SQLException ex) {
