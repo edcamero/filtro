@@ -429,14 +429,11 @@ public class Principal extends javax.swing.JFrame {
         Dimension FrameSize = ventana.getSize();
         ventana.setLocation((desktopSize.width - FrameSize.width) / 2, 4);
         try {
-
             DesktopPanel.remove(ventana);
             DesktopPanel.add(ventana);
         } catch (Exception e) {
-
             System.out.println("la ventana ya esta agregada");
         }
-
         // this.add(jipNuevoCliente);
         ventana.show();
     }
