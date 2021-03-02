@@ -7,6 +7,7 @@ package View.Usuario;
 
 import Models.Usuario;
 import View.Principal;
+import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import logica.Fachada;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -57,6 +58,12 @@ public class UsuarioLogin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel3.setText("Nombre:");
 
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
+
         btnPassword.setText("Ingresar");
         btnPassword.setBorder(null);
         btnPassword.addActionListener(new java.awt.event.ActionListener() {
@@ -104,7 +111,7 @@ public class UsuarioLogin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(btnPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -126,17 +133,24 @@ public class UsuarioLogin extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(20, 20, 20)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-
-        jPanel1.getAccessibleContext().setAccessibleName("Login");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasswordActionPerformed
-        if (txtNombre.getText().equals("") || txtPassword.getText().equals("")) {
+        ingresar();
+    }//GEN-LAST:event_btnPasswordActionPerformed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        if(evt.getKeyCode() == evt.VK_ENTER) {
+            ingresar();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
+public void ingresar(){
+    if (txtNombre.getText().equals("") || txtPassword.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "POR FAVOR LLENE TODOS LOS CAMPOS");
         } else {
             username = txtNombre.getText();
@@ -152,8 +166,7 @@ public class UsuarioLogin extends javax.swing.JFrame {
                         "Mensaje Error", "Error al iniciar sesión", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnPasswordActionPerformed
-
+}
     /**
      * @param args the command line arguments
      */
@@ -168,3 +181,5 @@ public class UsuarioLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }
+
+
