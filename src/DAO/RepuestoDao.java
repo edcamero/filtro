@@ -72,7 +72,7 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
             while (rs.next()) {
                 
                 Repuesto repuesto = new Repuesto(rs.getInt("spar_id"), rs.getString("spar_name"),rs.getString("tysp_name"), rs.getInt("spar_cost"),
-                        rs.getInt("spar_price_without_iva"),rs.getInt("iva"), rs.getDouble("spar_price_with_iva"));
+                        rs.getInt("spar_price_without_iva"),rs.getInt("iva"), rs.getInt("spar_price_with_iva"));
                 lista.add(repuesto);
             }
         } catch (SQLException ex) {
@@ -163,7 +163,7 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
             while (rs.next()) {
 
                   repuesto = new Repuesto(rs.getInt("spar_id"), rs.getString("spar_name"),rs.getString("tysp_name"), rs.getInt("spar_cost"),
-                        rs.getInt("spar_price_without_iva"),rs.getInt("iva"), rs.getDouble("spar_price_with_iva"));
+                        rs.getInt("spar_price_without_iva"),rs.getInt("iva"), rs.getInt("spar_price_with_iva"));
 
                
             }

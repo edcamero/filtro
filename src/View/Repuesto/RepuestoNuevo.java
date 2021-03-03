@@ -34,7 +34,7 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
         if (repuestoNuevo == null) {
             repuestoNuevo = new RepuestoNuevo();
         }
-        
+
         return repuestoNuevo;
     }
     private RepuestoController repuestoControl;
@@ -54,24 +54,24 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
     private void cargar() {
         repuestos = Fachada.getInstancia().getAllRepuesto();
         String data[][] = {};
-        String col[] = {"ID", "NOMBREs","TIPO","COSTO","VALOR","IVA","SUB-TOTAL","TOTAL"};
+        String col[] = {"ID", "NOMBREs", "TIPO", "COSTO", "VALOR", "IVA", "TOTAL"};
         model = new DefaultTableModel(data, col);
         if (repuestos.size() != 0) {
             for (Repuesto repuesto : repuestos) {
-                Object[] fila = new Object[7];
+                Object[] fila = new Object[6];
                 fila[0] = repuesto.getId();
                 fila[1] = repuesto.getNombre();
                 fila[2] = repuesto.getTipo();
                 fila[3] = repuesto.getValorCosto();
                 fila[4] = repuesto.getValorVenta();
                 fila[5] = repuesto.getIva();
-                fila[6] = repuesto.getValorVentaIva();
                 model.addRow(fila);
             }
         }
         tabla.setModel(model);
 
     }
+
     public JTextField getTextCosto() {
         return textCosto;
     }
@@ -143,14 +143,14 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "NOMBRE", "TIPO", "PRECIO", "VALOR", "IVA", "SUB-TOTAL", "TOTAL"
+                "ID", "NOMBRE", "TIPO", "PRECIO", "VALOR", "IVA", "TOTAL"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true
+                false, true, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -208,7 +208,7 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(textCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addContainerGap(25, Short.MAX_VALUE))

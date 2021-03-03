@@ -17,11 +17,11 @@ public class Repuesto  implements java.io.Serializable {
      private int valorCosto;
      private int valorVenta;
      private int iva;
-     private double valorVentaIva;
+     private int valorVentaIva;
      private int tipo_id;
      private Set<RepuestoMante> repuestoHasMantenimientos = new HashSet<RepuestoMante>(0);
 
-    public Repuesto(int id, String nombre, String tipo, int valorCosto, int valorVenta, int iva, double valorVentaIva) {
+    public Repuesto(int id, String nombre, String tipo, int valorCosto, int valorVenta, int iva, int valorVentaIva) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -90,11 +90,11 @@ public class Repuesto  implements java.io.Serializable {
         this.iva = iva;
     }
 
-    public double getValorVentaIva() {
+    public int getValorVentaIva() {
         return valorVentaIva;
     }
 
-    public void setValorVentaIva(double valorVentaIva) {
+    public void setValorVentaIva(int valorVentaIva) {
         this.valorVentaIva = valorVentaIva;
     }
 
