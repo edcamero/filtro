@@ -29,11 +29,24 @@ public class TipoRepuestoDao implements InterfaceDao<TipoRepuesto>{
         this.con = con;
     }
     
-    
-
     @Override
-    public boolean save(TipoRepuesto objeto) {
-       
+    public boolean save(TipoRepuesto tipoRepuesto) {
+       String consulta = "insert into type_spare (tysp_name) values\n"
+                + "		  (?) returning tysp_id";
+        try {
+            pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setString(1, tipoRepuesto.getNombre());
+
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                tipoRepuesto.setId(rs.getInt(1));
+            }
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TipoRepuestoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return false;
     }
 
