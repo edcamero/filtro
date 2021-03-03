@@ -113,6 +113,11 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
         });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
 
@@ -223,6 +228,19 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
         // T your handling code here:
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(txtNombre.getText()!=""){
+             tipoRepuesto = new TipoRepuesto(txtNombre.getText().trim());
+             if(Fachada.getInstancia().updateTipoRespuesto(tipoRepuesto)){
+                 JOptionPane.showMessageDialog(this, "SE MODIFICO CON EXITO");
+                 txtNombre.setText("");
+                 cargar();
+             }else{
+                 JOptionPane.showMessageDialog(this, "NO SE PUDO MODIFICARadmin aaaaaaaaaadcdfbfg");
+             }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

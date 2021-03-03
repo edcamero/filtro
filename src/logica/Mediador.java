@@ -627,6 +627,23 @@ public class Mediador implements InterfaceMediador {
         return respuesta;
     }
 
+    @Override
+    public boolean updateTipoRepuesto(TipoRepuesto tipoRepuesto) {
+        boolean respuesta = false;
+        try {
+            conexion.ConexionPostgres();
+            respuesta = tipoRepuestoDao.update(tipoRepuesto);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conexion.cerrar();
+        }
+        return respuesta;
+    }
+    
+    
+    
+
     
 
    

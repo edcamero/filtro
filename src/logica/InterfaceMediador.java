@@ -97,5 +97,7 @@ public interface InterfaceMediador {
     //********************************************************* METODOS DE TIPO REPUESTOS
     public ArrayList<TipoRepuesto> getTipoRepuestos();
     public boolean saveTipoRepuesto(TipoRepuesto tipoRepuesto);
+    
+    public boolean updateTipoRepuesto(TipoRepuesto tipoRepuesto);
 
 }

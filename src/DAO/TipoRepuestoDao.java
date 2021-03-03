@@ -77,8 +77,24 @@ public class TipoRepuestoDao implements InterfaceDao<TipoRepuesto>{
     }
 
     @Override
-    public boolean update(TipoRepuesto objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(TipoRepuesto tipoRepuesto) {
+        String query = "update type_spare set\n"
+                + "nombre_buj=?,\n"
+                + "where id_buj=?";
+        try {
+            pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setString(1, tipoRepuesto.getNombre());
+            pst.setInt(2, tipoRepuesto.getId());
+
+            pst.execute();
+            pst.close();
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TipoRepuesto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override

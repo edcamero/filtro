@@ -177,5 +177,9 @@ public class Fachada {
         return mediador.saveTipoRepuesto(tipoRepuesto);
     }
     
+    public boolean updateTipoRespuesto(TipoRepuesto tipoRepuesto){
+        return mediador.updateTipoRepuesto(tipoRepuesto);
+    }
+    
    
 }
