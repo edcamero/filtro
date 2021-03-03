@@ -6,6 +6,7 @@
 package View.Repuesto;
 
 import Models.Repuesto;
+import Models.TipoRepuesto;
 import View.Validaciones;
 import control.RepuestoController;
 import java.beans.PropertyVetoException;
@@ -21,39 +22,53 @@ import logica.Fachada;
  *
  * @author blade
  */
-public class RepuestoNuevo extends javax.swing.JInternalFrame {
+public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
 
-    private static RepuestoNuevo repuestoNuevo;
+    private static RepuestoNuevoGui repuestoNuevoGui;
     private boolean editable = false;
     private Repuesto repuesto;
     ArrayList<Repuesto> repuestos;
+    ArrayList<TipoRepuesto> tipoRepuestos;
     private DefaultTableModel model;
 
-    public static RepuestoNuevo getInstancia() {
-        if (repuestoNuevo == null) {
-            repuestoNuevo = new RepuestoNuevo();
+    public static RepuestoNuevoGui getInstancia() {
+        if (repuestoNuevoGui == null) {
+            repuestoNuevoGui = new RepuestoNuevoGui();
         }
-
-        return repuestoNuevo;
+        repuestoNuevoGui.cargar();
+        repuestoNuevoGui.cargaComponentes();
+        
+        return repuestoNuevoGui;
     }
     private RepuestoController repuestoControl;
 
     /**
      * Creates new form RepuestoNuevo
      */
-    private RepuestoNuevo() {
+    private RepuestoNuevoGui() {
         initComponents();
-        cargar();
         Validaciones.TextMayus(textNombre);
         Validaciones.soloNumeros(textCosto);
         Validaciones.soloNumeros(textValor);
+        cargarTiposRepuesto();
 
+    }
+    private void cargaComponentes(){
+        btnEditar.setEnabled(false);
+        btnBorrar.setEnabled(false);
+    }
+
+    private void cargarTiposRepuesto() {
+        tipoRepuestos = Fachada.getInstancia().getTipoRepuestos();
+        for (TipoRepuesto tipo : tipoRepuestos) {
+            comboBoxTipoRepuesto.addItem(tipo.getNombre());
+        }
     }
 
     private void cargar() {
         repuestos = Fachada.getInstancia().getAllRepuesto();
         String data[][] = {};
-        String col[] = {"ID", "NOMBREs", "TIPO", "COSTO", "VALOR", "IVA", "TOTAL"};
+        String col[] = {"CODIGO", "NOMBREs", "TIPO", "COSTO", "VALOR", "IVA", "TOTAL"};
         model = new DefaultTableModel(data, col);
         if (repuestos.size() != 0) {
             for (Repuesto repuesto : repuestos) {
@@ -133,10 +148,12 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
         textCosto = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         textValor = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        comboBoxTipoRepuesto = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         boton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -187,6 +204,11 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel3.setText("Valor");
 
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel5.setText("Tipo Repuesto");
+
+        comboBoxTipoRepuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -195,14 +217,23 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel1))
+                .addGap(48, 48, 48)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(textCosto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                    .addComponent(textNombre, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textValor, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
-                    .addComponent(textCosto)
-                    .addComponent(textNombre))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(comboBoxTipoRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(48, 48, 48)
+                        .addComponent(textValor)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,32 +241,41 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(comboBoxTipoRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(textCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        boton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
+        boton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
+        boton.setMinimumSize(new java.awt.Dimension(60, 60));
         boton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonActionPerformed(evt);
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEditar.setMinimumSize(new java.awt.Dimension(60, 60));
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.setMinimumSize(new java.awt.Dimension(60, 60));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
+        jButton2.setMinimumSize(new java.awt.Dimension(60, 60));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -249,30 +289,29 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(boton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jLabel4.setText("Por:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Codigo", "Precio" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Codigo", "Tipo" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -280,73 +319,42 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 935, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(52, 52, 52)))
-                        .addGap(12, 12, 12))))
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)))
+                .addGap(12, 12, 12))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-        if (this.validar()) {
-            if (editable) {
-                String nombre = this.getTextNombre().getText();
-                int costo = Integer.parseInt(this.getTextCosto().getText());
-                int valor = Integer.parseInt(this.getTextValor().getText());
-                repuesto.setNombre(nombre);
-                repuesto.setValorCosto(costo);
-                repuesto.setValorVenta(valor);
-                if (RepuestoController.getInstancia().actualizar(repuesto)) {
-                    JOptionPane.showMessageDialog(rootPane, "se actualizo el repuesto");
-                    boton.setText("Agregar");
-                    editable = false;
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "error a actulizar repuesto", "Mensjae de Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-            } else {
-                RepuestoController.getInstancia().saveRepuesto();
-            }
-
-        }
-
-
-    }//GEN-LAST:event_botonActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.cerrar();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         if (evt.getButton() == 3) {
@@ -370,6 +378,44 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
             //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:  
         }
     }//GEN-LAST:event_tablaMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.cerrar();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    public int getIdTipoRepuestoComboBox(){
+       
+       return tipoRepuestos.get(comboBoxTipoRepuesto.getSelectedIndex()-1).getId();
+    }
+    private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+        if (this.validar()) {
+            if (editable) {
+                String nombre = this.getTextNombre().getText();
+                int costo = Integer.parseInt(this.getTextCosto().getText());
+                int valor = Integer.parseInt(this.getTextValor().getText());
+                repuesto.setNombre(nombre);
+                repuesto.setValorCosto(costo);
+                repuesto.setValorVenta(valor);
+                repuesto.setTipo_id(getIdTipoRepuestoComboBox());
+                if (Fachada.getInstancia().saveRepuesto(repuesto)) {
+                    JOptionPane.showMessageDialog(rootPane, "se agrego el repuesto");
+                    boton.setText("Agregar");
+                    editable = false;
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "error a actulizar repuesto", "Mensjae de Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                RepuestoController.getInstancia().saveRepuesto();
+            }
+
+        }
+
+    }//GEN-LAST:event_botonActionPerformed
 
     private void opcionesEquipo(int id, int opc) {
         this.repuesto = RepuestoController.getInstancia().buscar(id);
@@ -412,7 +458,7 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
             this.setClosed(true);
             this.dispose();
         } catch (PropertyVetoException ex) {
-            java.util.logging.Logger.getLogger(RepuestoNuevo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RepuestoNuevoGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
     }
@@ -422,19 +468,25 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        if (comboBoxTipoRepuesto.getSelectedIndex()==0){
+              JOptionPane.showMessageDialog(this, "Seleccione un tipo de repuesto", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JComboBox<String> comboBoxTipoRepuesto;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

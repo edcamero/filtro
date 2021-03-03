@@ -34,13 +34,17 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
     public boolean save(Repuesto repuesto) {
         boolean respuesta = false;
         try {
-            String query = "insert into repuesto (nombre_rep,valor_costo,valor_venta)\n"
-                    + "values(?,?,?) returning id_rep;";
+            String query = "insert into SPARE (spar_name,spar_cost,spar_price_without_iva,iva,spar_price_with_iva,tysp_id)\n"
+                    + "values(?,?,?,?,?,?) returning spar_id;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, repuesto.getNombre());
             pst.setInt(2, repuesto.getValorCosto());
             pst.setInt(3, repuesto.getValorVenta());
+            pst.setInt(4, repuesto.getIva());
+            pst.setInt(5, repuesto.getValorVentaIva());
+            pst.setInt(6, repuesto.getTipo_id());
+            
             rs = pst.executeQuery();
             while(rs.next()){
                  repuesto.setId(rs.getInt(1));

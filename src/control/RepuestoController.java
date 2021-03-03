@@ -9,7 +9,7 @@ import Models.Equipo;
 import Models.Repuesto;
 import View.Principal;
 import View.Repuesto.RepuestoListar;
-import View.Repuesto.RepuestoNuevo;
+import View.Repuesto.RepuestoNuevoGui;
 import java.util.ArrayList;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -26,7 +26,7 @@ public class RepuestoController {
     private EquipoController equipoControl;
     Principal principal;
     private static ArrayList<Repuesto> repuestos;
-    RepuestoNuevo repuestoGui;
+    RepuestoNuevoGui repuestoGui;
     Fachada fachada;
     private JInternalFrame gui;
     RepuestoListar repuestoListaGui;
@@ -48,7 +48,7 @@ public class RepuestoController {
     }
 
     public void agregarGui() {
-        repuestoGui = RepuestoNuevo.getInstancia();
+        repuestoGui = RepuestoNuevoGui.getInstancia();
         principal.mostrarInternal(repuestoGui);
         this.getListar();
     }
@@ -63,8 +63,9 @@ public class RepuestoController {
         String nombre = repuestoGui.getTextNombre().getText();
         int costo = Integer.parseInt(repuestoGui.getTextCosto().getText());
         int valor = Integer.parseInt(repuestoGui.getTextValor().getText());
+        int tipo= repuestoGui.getIdTipoRepuestoComboBox();
         
-        Repuesto repuesto = new Repuesto(nombre, costo, valor ,3);
+        Repuesto repuesto = new Repuesto(nombre, costo, valor ,tipo);
         if (Fachada.getInstancia().saveRepuesto(repuesto)) {
             JOptionPane.showMessageDialog(repuestoGui, "se agrego el Repuesto");
 

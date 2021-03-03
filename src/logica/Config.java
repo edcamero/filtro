@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class Config {
     public static int costoMantenimiento;
+    public static float iva;
     public static String ruta;
 
     static Properties config = new Properties();
@@ -30,6 +31,10 @@ public class Config {
     public static String getRuta() {
         return ruta;
     }
+
+    public static float getIva() {
+        return iva;
+    }
     
     
      public static void loadConfig(){
@@ -37,9 +42,9 @@ public class Config {
             configInput = new FileInputStream("config.properties");
             config.load(configInput);
             costoMantenimiento=Integer.parseInt(config.getProperty("costoMantenimiento"));
+            iva= Float.parseFloat(config.getProperty("iva"));
             File miDir = new File (".");
             ruta=miDir.getCanonicalPath();
-           
             } catch(IOException | NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Error cargando configuración\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

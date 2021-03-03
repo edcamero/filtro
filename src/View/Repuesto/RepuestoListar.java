@@ -61,7 +61,7 @@ public class RepuestoListar extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Por:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Valor" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Codigo", "Tipo", "Valor" }));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -9,7 +9,7 @@ import Models.Usuario;
 import View.Equipo.EquipoLista;
 import View.Equipo.EquipoNuevo;
 import View.Mantenimiento.MantenimientoGui;
-import View.Repuesto.RepuestoNuevo;
+import View.Repuesto.RepuestoNuevoGui;
 import View.Tecnico.TecnicoNuevo;
 import View.TipoRepuesto.TipoRepuestoGui;
 import control.BujiaController;
@@ -357,7 +357,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void repuestoNuevo() {
-        RepuestoNuevo jipNuevoRepuesto = RepuestoNuevo.getInstancia();
+        RepuestoNuevoGui jipNuevoRepuesto = RepuestoNuevoGui.getInstancia();
         RepuestoController repuestoControl = RepuestoController.getInstancia();
         repuestoControl.setGui(jipNuevoRepuesto);
         jipNuevoRepuesto.setRepuestoControl(repuestoControl);

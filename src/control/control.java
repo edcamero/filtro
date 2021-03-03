@@ -8,8 +8,6 @@ package control;
 import Models.Usuario;
 import View.Principal;
 import View.Usuario.UsuarioLogin;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logica.Config;
 
 /**
