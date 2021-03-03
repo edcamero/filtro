@@ -6,9 +6,7 @@
 package View.Repuesto;
 
 import Models.Repuesto;
-import Models.Usuario;
 import View.Validaciones;
-import control.EquipoController;
 import control.RepuestoController;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
