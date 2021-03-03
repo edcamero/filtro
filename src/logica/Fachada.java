@@ -167,8 +167,14 @@ public class Fachada {
         return mediador.loginUsuario(username, password);
     }
     
+    
+    //**************************************************TIPO REPUESTO*******************************
     public ArrayList<TipoRepuesto> getTipoRepuestos() {
         return mediador.getTipoRepuestos();
+    }
+    
+    public boolean saveTipoRespuesto(TipoRepuesto tipoRepuesto){
+        return mediador.saveTipoRepuesto(tipoRepuesto);
     }
     
    

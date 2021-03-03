@@ -9,6 +9,7 @@ package View.TipoRepuesto;
 
 import Models.TipoRepuesto;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Fachada;
 
@@ -21,6 +22,7 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
     ArrayList<TipoRepuesto> tipoRepuestos = null;
     DefaultTableModel model;
     private static TipoRepuestoGui tipoRepuestoGui;
+    TipoRepuesto tipoRepuesto;
     /** Creates new form RepuestoNuevo */
     private TipoRepuestoGui() {
         initComponents();
@@ -205,20 +207,16 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        if (this.validar()) {
-//            int resp = 0;
-//            if (equipoControl.agregar()) {
-//                resp = JOptionPane.showConfirmDialog(this, "Se ha agregado con exito el Equipo. \n ¿Desea agregar otro equipo?");
-//                if (JOptionPane.OK_OPTION == resp) {
-//                    this.limpiar();
-//                } else {
-//                    this.cerrar();
-//                }
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Error al agregar el nuevo equipo. Revisar el nombre", "Error Equipo",
-//                    JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
+        if(txtNombre.getText()!=""){
+             tipoRepuesto = new TipoRepuesto(txtNombre.getText().trim());
+             if(Fachada.getInstancia().saveTipoRespuesto(tipoRepuesto)){
+                 JOptionPane.showMessageDialog(this, "SE REGISTRO CON EXITO");
+                 txtNombre.setText("");
+                 cargar();
+             }else{
+                 JOptionPane.showMessageDialog(this, "NO SE PUDO REGISTAR");
+             }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

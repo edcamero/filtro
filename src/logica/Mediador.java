@@ -598,8 +598,7 @@ public class Mediador implements InterfaceMediador {
         return usuario;
     }
     
-   
-
+   //****************************************************** TIPO REPUESTO
     @Override
     public ArrayList<TipoRepuesto> getTipoRepuestos() {
         ArrayList<TipoRepuesto> lista = null;
@@ -613,4 +612,24 @@ public class Mediador implements InterfaceMediador {
         }
         return lista;
     }
+
+    @Override
+    public boolean saveTipoRepuesto(TipoRepuesto tipoRepuesto) {
+        boolean respuesta = false;
+        try {
+            conexion.ConexionPostgres();
+            respuesta = tipoRepuestoDao.save(tipoRepuesto);
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conexion.cerrar();
+        }
+        return respuesta;
+    }
+
+    
+
+   
+    
+    
 }

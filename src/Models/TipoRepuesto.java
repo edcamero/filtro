@@ -18,6 +18,15 @@ public class TipoRepuesto {
         this.nombre = nombre;
     }
 
+    public TipoRepuesto(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public TipoRepuesto() {
+    }
+    
+    
+
     public int getId() {
         return id;
     }
