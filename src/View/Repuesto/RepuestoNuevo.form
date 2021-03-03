@@ -36,11 +36,12 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane1" pref="552" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jPanel1" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" pref="864" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
@@ -64,8 +65,8 @@
                   <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="177" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="208" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -91,6 +92,7 @@
                 <Column editable="true" title="TOTAL" type="java.lang.String"/>
               </Table>
             </Property>
+            <Property name="autoResizeMode" type="int" value="1"/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -141,11 +143,11 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="textValor" pref="192" max="32767" attributes="0"/>
+                      <Component id="textValor" pref="313" max="32767" attributes="0"/>
                       <Component id="textCosto" alignment="0" max="32767" attributes="0"/>
                       <Component id="textNombre" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="190" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

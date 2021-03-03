@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import logica.Fachada;
 
 /**
@@ -56,18 +57,26 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
         model = new DefaultTableModel(data, col);
         if (repuestos.size() != 0) {
             for (Repuesto repuesto : repuestos) {
-                Object[] fila = new Object[6];
+                Object[] fila = new Object[7];
                 fila[0] = repuesto.getId();
                 fila[1] = repuesto.getNombre();
                 fila[2] = repuesto.getTipo();
                 fila[3] = repuesto.getValorCosto();
                 fila[4] = repuesto.getValorVenta();
                 fila[5] = repuesto.getIva();
+                fila[6] = repuesto.getValorVentaIva();
                 model.addRow(fila);
             }
         }
         tabla.setModel(model);
-
+        TableColumnModel columnModel = tabla.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(1);
+        columnModel.getColumn(1).setPreferredWidth(200);
+        columnModel.getColumn(2).setPreferredWidth(50);
+        columnModel.getColumn(3).setPreferredWidth(10);
+        columnModel.getColumn(4).setPreferredWidth(10);
+        columnModel.getColumn(5).setPreferredWidth(10);
+        columnModel.getColumn(6).setPreferredWidth(10);
     }
 
     public JTextField getTextCosto() {
@@ -159,6 +168,7 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         tabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaMouseClicked(evt);
@@ -189,10 +199,10 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textValor, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                    .addComponent(textValor, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                     .addComponent(textCosto)
                     .addComponent(textNombre))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,11 +290,12 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52)))
                         .addGap(12, 12, 12))))
         );
         layout.setVerticalGroup(
@@ -300,8 +311,8 @@ public class RepuestoNuevo extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();

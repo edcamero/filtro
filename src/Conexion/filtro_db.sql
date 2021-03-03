@@ -82,6 +82,7 @@ CREATE TABLE TYPE_SPARE
 (
     tysp_id SERIAL,
     tysp_name VARCHAR NOT NULL UNIQUE,
+	tysp_status BOOLEAN NOT NULL DEFAULT TRUE,
 	createAt timestamp DEFAULT now(),
 	updateAt timestamp DEFAULT now(),
     CONSTRAINT type_spare_pk PRIMARY KEY 
@@ -109,6 +110,7 @@ CREATE TABLE SPARK_PLUG
     sppl_id SERIAL,
     spar_id INTEGER NOT NULL,
     sppl_useful_life INTEGER NOT NULL,
+	sppl_status BOOLEAN NOT NULL DEFAULT TRUE,
 	createAt timestamp DEFAULT now(),
 	updateAt timestamp DEFAULT now(),
     CONSTRAINT spark_plug_pk PRIMARY KEY
