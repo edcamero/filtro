@@ -11,6 +11,7 @@ import Models.Equipo;
 import Models.Mantenimiento;
 import Models.Repuesto;
 import Models.Tecnico;
+import Models.TipoRepuesto;
 import Models.Usuario;
 import java.util.ArrayList;
 
@@ -164,6 +165,11 @@ public class Fachada {
     
     public Usuario login(String username,String password){
         return mediador.loginUsuario(username, password);
+    }
+    
+    
+    public ArrayList<TipoRepuesto> getTipoRepuestos() {
+        return mediador.getTipoRepuestos();
     }
     
    

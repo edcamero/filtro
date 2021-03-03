@@ -15,6 +15,7 @@ import DAO.MantenimientoEquipoDao;
 import DAO.RepuestoDao;
 import DAO.RepuestoManteDao;
 import DAO.TecnicoDao;
+import DAO.TipoRepuestoDao;
 import DAO.UsuarioDao;
 
 import Models.Bujia;
@@ -26,6 +27,7 @@ import Models.MantenimientoEquipo;
 import Models.Repuesto;
 import Models.RepuestoMante;
 import Models.Tecnico;
+import Models.TipoRepuesto;
 import Models.Usuario;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class Mediador implements InterfaceMediador {
     UsuarioDao usuarioDao = new UsuarioDao(conexion);
     MantenimientoDao mantenimientoDao = new MantenimientoDao(conexion);
     MantenimientoEquipoDao mantEquiDao=new MantenimientoEquipoDao(conexion);
+    TipoRepuestoDao tipoRepuestoDao = new TipoRepuestoDao(conexion);
 
     @Override
     public boolean saveEquipo(Equipo equipo) {
@@ -593,5 +596,21 @@ public class Mediador implements InterfaceMediador {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return usuario;
+    }
+    
+   
+
+    @Override
+    public ArrayList<TipoRepuesto> getTipoRepuestos() {
+        ArrayList<TipoRepuesto> lista = null;
+        try {
+            conexion.ConexionPostgres();
+            lista = tipoRepuestoDao.getAll();
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conexion.cerrar();
+        }
+        return lista;
     }
 }
