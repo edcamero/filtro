@@ -12,6 +12,7 @@ import Models.Mantenimiento;
 import Models.Repuesto;
 import Models.Tecnico;
 import Models.Usuario;
+import Models.TipoRepuesto;
 import java.util.ArrayList;
 
 /**
@@ -90,5 +91,13 @@ public interface InterfaceMediador {
     public Usuario loginUsuario(String username,String paswword);
     
     public boolean saveMantenimiento(Mantenimiento manteniemiento);
+    
+    
+    
+    //********************************************************* METODOS DE TIPO REPUESTOS
+    public ArrayList<TipoRepuesto> getTipoRepuestos();
+    public boolean saveTipoRepuesto(TipoRepuesto tipoRepuesto);
+    
+    public boolean updateTipoRepuesto(TipoRepuesto tipoRepuesto);
 
 }

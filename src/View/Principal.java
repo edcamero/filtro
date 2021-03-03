@@ -11,6 +11,7 @@ import View.Equipo.EquipoNuevo;
 import View.Mantenimiento.MantenimientoGui;
 import View.Repuesto.RepuestoNuevo;
 import View.Tecnico.TecnicoNuevo;
+import View.TipoRepuesto.TipoRepuestoGui;
 import control.BujiaController;
 import control.ClienteController;
 import control.EquipoController;
@@ -103,6 +104,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu9 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
@@ -229,6 +231,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu9.add(jMenuItem8);
+
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem10.setText("Tipo de repuesto");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem10);
 
         jMenu1.add(jMenu9);
 
@@ -410,7 +421,6 @@ public class Principal extends javax.swing.JFrame {
         Dimension FrameSize = ventana.getSize();
         ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
         try {
-
             DesktopPanel.remove(ventana);
             DesktopPanel.add(ventana);
         } catch (Exception e) {
@@ -437,6 +447,7 @@ public class Principal extends javax.swing.JFrame {
         // this.add(jipNuevoCliente);
         ventana.show();
     }
+    
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         //JInternalFrame nuevoMantenimiento = MantenimientoGui.getInstancia();
         mostrarInternal0(MantenimientoGui.getInstancia());
@@ -494,6 +505,11 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
         
     }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        
+        mostrarInternal(TipoRepuestoGui.getInstancia());
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -555,6 +571,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
