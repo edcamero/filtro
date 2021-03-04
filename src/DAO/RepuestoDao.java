@@ -97,18 +97,24 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
         boolean respuesta = false;
         try {
 
-            String query = "update repuesto\n"
+            String query = "update spare\n"
                     + "set\n"
-                    + "nombre_rep=?,\n"
-                    + "valor_costo=?,\n"
-                    + "valor_venta=?\n"
-                    + "where id_rep=?;";
+                    + "spar_name=?,\n"
+                    + "spar_cost=?,\n"
+                    + "spar_price_without_iva=?,\n"
+                    + "iva=?,\n"
+                    + "spar_price_with_iva=?,\n"
+                    + "tysp_id=?\n"
+                    + "where spar_id=?;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, repuesto.getNombre());
             pst.setInt(2, repuesto.getValorCosto());
             pst.setInt(3, repuesto.getValorVenta());
-            pst.setInt(4, repuesto.getId());
+            pst.setInt(4, repuesto.getIva());
+            pst.setInt(5, repuesto.getValorVentaIva());
+            pst.setInt(6, repuesto.getTipo_id());
+            pst.setInt(7, repuesto.getId());
             pst.execute();
             //pst.close();
             respuesta =true;

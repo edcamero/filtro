@@ -37,7 +37,7 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
         }
         repuestoNuevoGui.cargar();
         repuestoNuevoGui.cargaComponentes();
-        
+
         return repuestoNuevoGui;
     }
     private RepuestoController repuestoControl;
@@ -53,7 +53,8 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
         cargarTiposRepuesto();
 
     }
-    private void cargaComponentes(){
+
+    private void cargaComponentes() {
         btnEditar.setEnabled(false);
         btnBorrar.setEnabled(false);
     }
@@ -151,7 +152,7 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         comboBoxTipoRepuesto = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
-        boton = new javax.swing.JButton();
+        btnCrear = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -255,11 +256,11 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        boton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
-        boton.setMinimumSize(new java.awt.Dimension(60, 60));
-        boton.addActionListener(new java.awt.event.ActionListener() {
+        btnCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
+        btnCrear.setMinimumSize(new java.awt.Dimension(60, 60));
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonActionPerformed(evt);
+                btnCrearActionPerformed(evt);
             }
         });
 
@@ -290,7 +291,7 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(boton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCrear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -301,7 +302,7 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -384,38 +385,36 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+        if (this.validar() && editable) {
+            String nombre = this.getTextNombre().getText();
+            int costo = Integer.parseInt(this.getTextCosto().getText());
+            int valor = Integer.parseInt(this.getTextValor().getText());
+            repuesto.setNombre(nombre);
+            repuesto.setValorCosto(costo);
+            repuesto.setValorVenta(valor);
+            repuesto.setTipo_id(getIdTipoRepuestoComboBox());
+            if (Fachada.getInstancia().updateRepuesto(repuesto)) {
+                JOptionPane.showMessageDialog(rootPane, "se actualizó el repuesto");
+                btnCrear.setText("Agregar");
+                editable = false;
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "error a actulizar repuesto", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    public int getIdTipoRepuestoComboBox(){
-       
-       return tipoRepuestos.get(comboBoxTipoRepuesto.getSelectedIndex()-1).getId();
+    public int getIdTipoRepuestoComboBox() {
+
+        return tipoRepuestos.get(comboBoxTipoRepuesto.getSelectedIndex() - 1).getId();
     }
-    private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         if (this.validar()) {
-            if (editable) {
-                String nombre = this.getTextNombre().getText();
-                int costo = Integer.parseInt(this.getTextCosto().getText());
-                int valor = Integer.parseInt(this.getTextValor().getText());
-                repuesto.setNombre(nombre);
-                repuesto.setValorCosto(costo);
-                repuesto.setValorVenta(valor);
-                repuesto.setTipo_id(getIdTipoRepuestoComboBox());
-                if (Fachada.getInstancia().saveRepuesto(repuesto)) {
-                    JOptionPane.showMessageDialog(rootPane, "se agrego el repuesto");
-                    boton.setText("Agregar");
-                    editable = false;
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "error a actulizar repuesto", "Mensjae de Error", JOptionPane.ERROR_MESSAGE);
-                }
 
-            } else {
-                RepuestoController.getInstancia().saveRepuesto();
-            }
-
+            RepuestoController.getInstancia().saveRepuesto();
         }
 
-    }//GEN-LAST:event_botonActionPerformed
+
+    }//GEN-LAST:event_btnCrearActionPerformed
 
     private void opcionesEquipo(int id, int opc) {
         this.repuesto = RepuestoController.getInstancia().buscar(id);
@@ -424,9 +423,19 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
                 textNombre.setText(this.repuesto.getNombre());
                 textCosto.setText(String.valueOf(this.repuesto.getValorCosto()));
                 textValor.setText(String.valueOf(this.repuesto.getValorVenta()));
+                int index = 0;
+                for (TipoRepuesto tipo : tipoRepuestos) {
+                    comboBoxTipoRepuesto.setSelectedIndex(index);
+                    if (tipo.getId() == repuesto.getTipo_id()) {
+                        System.out.println(tipo.getNombre());
+
+                        return;
+                    }
+                    index++;
+                }
                 this.editable = true;
-                boton.setText("Editar");
-                //Principal.getInstance().EquipoEditar(id);
+                btnCrear.setEnabled(false);
+                btnEditar.setEnabled(true);
                 //EquipoController.getInstancia().editarGui(id);
 
                 break;
@@ -468,16 +477,16 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (comboBoxTipoRepuesto.getSelectedIndex()==0){
-              JOptionPane.showMessageDialog(this, "Seleccione un tipo de repuesto", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
+        if (comboBoxTipoRepuesto.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione un tipo de repuesto", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton boton;
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEditar;
     private javax.swing.JComboBox<String> comboBoxTipoRepuesto;
     private javax.swing.JButton jButton2;
