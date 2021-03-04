@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import logica.Fachada;
 
 /**
  *
@@ -32,6 +34,8 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
         Validaciones.TextMayus(textNombre);
         Validaciones.TextMayus(textDocumento);
         Validaciones.soloNumeros(textTelefono);
+        btnDraft.setEnabled(false);
+        btnEditar.setEnabled(false);
     }
 
     public static TecnicoNuevo getInstancia() {
@@ -64,10 +68,10 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
         textNombre = new javax.swing.JTextField();
         textTelefono = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        boton = new javax.swing.JButton();
+        btnCrear = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnDraft = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -157,10 +161,10 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        boton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
-        boton.addActionListener(new java.awt.event.ActionListener() {
+        btnCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonActionPerformed(evt);
+                btnCrearActionPerformed(evt);
             }
         });
 
@@ -171,9 +175,14 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnDraft.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -182,11 +191,11 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDraft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(44, 44, 44))
         );
@@ -194,11 +203,11 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+                    .addComponent(btnDraft, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -256,27 +265,12 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         if (this.validar()) {
-            if (editable) {
-                String documento = this.getTextDocumento().getText();
-                String nombre = this.getTextNombre().getText();
-                String telefono = this.getTextTelefono().getText();
-                tecnico.setDocumento(documento);
-                tecnico.setNombre(nombre);
-                tecnico.setTelefonoUno(telefono);
-                if (TecnicoController.getInstancia().actualizar(tecnico)) {
-                    JOptionPane.showMessageDialog(rootPane, "se actualizo el tecnico");
-                    boton.setText("Agregar");
-                    editable = false;
-                }
 
-            } else {
-                TecnicoController.getInstancia().saveTecnico();
-            }
-
+            TecnicoController.getInstancia().saveTecnico();
         }
-    }//GEN-LAST:event_botonActionPerformed
+    }//GEN-LAST:event_btnCrearActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         cerrar();        // TODO add your handling code here:
@@ -300,11 +294,43 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
 
             int id = Integer.parseInt(id_s);
             // System.out.println(source.getModel().getValueAt(row, 0));
-            opcionesEquipo(id, seleccion);
+            opcionesTecnico(id, seleccion);
         }
     }//GEN-LAST:event_tablaMouseClicked
 
-    private void opcionesEquipo(int id, int opc) {
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (editable && this.validar()) {
+            String documento = this.getTextDocumento().getText();
+            String nombre = this.getTextNombre().getText();
+            String telefono = this.getTextTelefono().getText();
+            tecnico.setDocumento(documento);
+            tecnico.setNombre(nombre);
+            tecnico.setTelefonoUno(telefono);
+            if (TecnicoController.getInstancia().actualizar(tecnico)) {
+                JOptionPane.showMessageDialog(rootPane, "se actualizo el tecnico");
+                editable = false;
+                cargarTabla();
+                btnCrear.setEnabled(true);
+                btnEditar.setEnabled(false);
+            }
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    public void cargarTabla() {
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+        Object[] fila;
+        model.setRowCount(0);
+        for (Tecnico tecnico : Fachada.getInstancia().getAllTecnico()) {
+            fila = new Object[4];
+            fila[0] = tecnico.getId();
+            fila[1] = tecnico.getNombre();
+            fila[2] = tecnico.getDocumento();
+            fila[3] = tecnico.getTelefonoUno();
+            model.addRow(fila);
+        }
+    }
+    private void opcionesTecnico(int id, int opc) {
         this.tecnico = TecnicoController.getInstancia().getTecnico(id);
         switch (opc) {
             case 0:
@@ -312,7 +338,8 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
                 textDocumento.setText(this.tecnico.getDocumento());
                 textTelefono.setText(this.tecnico.getTelefonoUno());
                 this.editable = true;
-                boton.setText("Editar");
+                btnCrear.setEnabled(false);
+                btnEditar.setEnabled(true);
                 //Principal.getInstance().EquipoEditar(id);
                 //EquipoController.getInstancia().editarGui(id);
 
@@ -324,7 +351,7 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
 
                     if (TecnicoController.getInstancia().eliminar(id)) {
                         JOptionPane.showMessageDialog(rootPane, "se eliminno el Tecnico");
-                        // RepuestoController.getInstancia().listarGui();
+                        cargarTabla();
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "No se eliminno el Repuesto ya esta asociado a un cliente");
                     }
@@ -393,10 +420,10 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton boton;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnDraft;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

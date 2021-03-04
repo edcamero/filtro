@@ -97,7 +97,6 @@ public class TecnicoController {
 
     public boolean eliminar(int id) {
         if (fachada.deleteTecnico(id)) {
-            this.getLista();
             return true;
         }
         return false;
