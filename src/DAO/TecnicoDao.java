@@ -31,18 +31,17 @@ public class TecnicoDao implements InterfaceDao<Tecnico> {
     @Override
     public boolean save(Tecnico tecnico) {
         try {
-            String query = "insert into tecnico (documento_tec,nombre_tec,telefono_uno_tec,estado_tec)\n"
-                    + "values(?,?,?,?) returning id_tec;";
+            String query = "insert into tecnico (tecn_document,tecn_name,tecn_telephone)\n"
+                    + "values(?,?,?) returning tecn_id;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, tecnico.getDocumento());
             pst.setString(2, tecnico.getNombre());
             pst.setString(3, tecnico.getTelefonoUno());
-            pst.setBoolean(4, tecnico.getEstado());
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                tecnico.setId(rs.getInt("id_tec"));
+                tecnico.setId(rs.getInt("tecn_id"));
             }
 
             return true;
@@ -55,7 +54,7 @@ public class TecnicoDao implements InterfaceDao<Tecnico> {
     @Override
     public ArrayList<Tecnico> getAll() {
         ArrayList<Tecnico> lista = new ArrayList<Tecnico>();
-        String query = "select * from tecnico order by tecn_id;";
+        String query = "select * from tecnico WHERE tecn_status = true order by tecn_id;";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -79,18 +78,16 @@ public class TecnicoDao implements InterfaceDao<Tecnico> {
         try {
             String query = "update tecnico\n"
                     + "set\n"
-                    + "documento_tec=?,\n"
-                    + "nombre_tec=?,\n"
-                    + "telefono_uno_tec=?,\n"
-                    + "estado_tec=?\n"
-                    + "where id_tec=?;";
+                    + "tecn_document=?,\n"
+                    + "tecn_name=?,\n"
+                    + "tecn_telephone=? \n"
+                    + "where tecn_id=?;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, tecnico.getDocumento());
             pst.setString(2, tecnico.getNombre());
             pst.setString(3, tecnico.getTelefonoUno());
-            pst.setBoolean(4, tecnico.getEstado());
-            pst.setInt(5, tecnico.getId());
+            pst.setInt(4, tecnico.getId());
             pst.execute();
             respuesta=true;
             pst.close();
@@ -105,8 +102,10 @@ public class TecnicoDao implements InterfaceDao<Tecnico> {
     public boolean delete(int id) {
         boolean respuesta=false;
         try {
-            String query = "delete from tecnico "
-                    + "where id_tec=?;";
+            String query = "update tecnico\n"
+                    + "set\n"
+                    + "tecn_status=false \n"
+                    + "where tecn_id=?;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setInt(1, id);
@@ -128,7 +127,7 @@ public class TecnicoDao implements InterfaceDao<Tecnico> {
     @Override
     public Tecnico get(int id) {
 
-        String query = "select * from tecnico where id_tec=?";
+        String query = "select * from tecnico where tecn_id=? and tecn_status = true";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -136,8 +135,8 @@ public class TecnicoDao implements InterfaceDao<Tecnico> {
             pst.setInt(1, id);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Tecnico tecnico = new Tecnico(rs.getInt("id_tec"), rs.getString("documento_tec"), rs.getString("nombre_tec"),
-                        rs.getString("telefono_uno_tec"), rs.getBoolean("estado_tec"));
+                Tecnico tecnico = new Tecnico(rs.getInt("tecn_id"), rs.getString("tecn_document"), rs.getString("tecn_name"),
+                        rs.getString("tecn_telephone"), rs.getBoolean("tecn_status"));
                 return tecnico;
             }
 
