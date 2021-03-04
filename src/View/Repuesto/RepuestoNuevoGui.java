@@ -54,6 +54,13 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
 
     }
 
+    private void limpiar() {
+        textNombre.setText("");
+        textCosto.setText("");
+        textValor.setText("");
+        comboBoxTipoRepuesto.setSelectedIndex(0);
+    }
+
     private void cargaComponentes() {
         btnEditar.setEnabled(false);
         btnBorrar.setEnabled(false);
@@ -69,7 +76,7 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
     private void cargar() {
         repuestos = Fachada.getInstancia().getAllRepuesto();
         String data[][] = {};
-        String col[] = {"CODIGO", "NOMBREs", "TIPO", "COSTO", "VALOR", "IVA", "TOTAL"};
+        String col[] = {"CODIGO", "NOMBRE", "TIPO", "COSTO", "VALOR", "IVA", "TOTAL"};
         model = new DefaultTableModel(data, col);
         if (repuestos.size() != 0) {
             for (Repuesto repuesto : repuestos) {
@@ -86,9 +93,9 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
         }
         tabla.setModel(model);
         TableColumnModel columnModel = tabla.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(1);
-        columnModel.getColumn(1).setPreferredWidth(200);
-        columnModel.getColumn(2).setPreferredWidth(50);
+        columnModel.getColumn(0).setPreferredWidth(10);
+        columnModel.getColumn(1).setPreferredWidth(50);
+        columnModel.getColumn(2).setPreferredWidth(10);
         columnModel.getColumn(3).setPreferredWidth(10);
         columnModel.getColumn(4).setPreferredWidth(10);
         columnModel.getColumn(5).setPreferredWidth(10);
@@ -321,7 +328,7 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 935, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -381,6 +388,8 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.limpiar();
+        repuesto = null;
         this.cerrar();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -395,8 +404,11 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
             repuesto.setTipo_id(getIdTipoRepuestoComboBox());
             if (Fachada.getInstancia().updateRepuesto(repuesto)) {
                 JOptionPane.showMessageDialog(rootPane, "se actualizó el repuesto");
-                btnCrear.setText("Agregar");
                 editable = false;
+                btnEditar.setEnabled(false);
+                btnCrear.setEnabled(true);
+                cargar();
+                limpiar();
             } else {
                 JOptionPane.showMessageDialog(rootPane, "error a actulizar repuesto", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -404,7 +416,6 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     public int getIdTipoRepuestoComboBox() {
-
         return tipoRepuestos.get(comboBoxTipoRepuesto.getSelectedIndex() - 1).getId();
     }
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
@@ -412,8 +423,6 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
 
             RepuestoController.getInstancia().saveRepuesto();
         }
-
-
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void opcionesEquipo(int id, int opc) {
@@ -446,7 +455,7 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
 
                     if (RepuestoController.getInstancia().eliminar(id)) {
                         JOptionPane.showMessageDialog(rootPane, "se eliminno el Repuesto");
-                        // RepuestoController.getInstancia().listarGui();
+                        cargar();
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "No se eliminno el Repuesto ya esta asociado a un cliente");
                     }
