@@ -61,18 +61,17 @@ public class BujiaDao implements InterfaceDao<Bujia> {
         ArrayList<Bujia> lista = new ArrayList<Bujia>();
         try {
 
-            String query = "select * FROM spark_plug ;";
+            String query = "select * ,COALESCE((select sppl_useful_life from spark_plug where spar_id = spar_id ),0) as life from spare where tysp_id = 2 ;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-
-                Bujia c = new Bujia(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+                Bujia bujia = new Bujia(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getInt("life"), rs.getInt("spar_cost"), rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_without_iva"),2);
                 //Equipo c=new Equipo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6));
                 //System.out.println(c.toString());
-                lista.add(c);
+                lista.add(bujia);
             }
 
         } catch (SQLException ex) {
@@ -143,7 +142,7 @@ public class BujiaDao implements InterfaceDao<Bujia> {
 
             while (rs.next()) {
 
-                Bujia bujia = new Bujia(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+              Bujia bujia = new Bujia(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getInt("life"), rs.getInt("spar_cost"), rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_without_iva"),2);
                 //Equipo c=new Equipo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6));
                 //System.out.println(c.toString());
                 return bujia;

@@ -48,6 +48,7 @@ public class BujiaController {
         int costo = Integer.parseInt(bujiaNuevaGui.getTextCosto().getText());
         int valor = Integer.parseInt(bujiaNuevaGui.getTextValor().getText());
         int vidaUtil = Integer.parseInt(bujiaNuevaGui.getTextVida().getText());
+        
         Bujia bujia = new Bujia(nombre, vidaUtil, costo, valor);
         if (Fachada.getInstancia().saveBujia(bujia)) {
             JOptionPane.showMessageDialog(bujiaNuevaGui, "se agrego la bujia");

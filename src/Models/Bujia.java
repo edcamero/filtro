@@ -16,22 +16,32 @@ public class Bujia  implements java.io.Serializable {
      private int vidaUtil;
      private int valorCosto;
      private int valorVenta;
+     private int iva;
+     private int valorVentaIva;
+     private int tipo_id;
      private Set<MantenimientoEquipo> mantenimientoHasPurificadors = new HashSet<MantenimientoEquipo>(0);
+
+    public Bujia(int id, String nombre, int vidaUtil, int valorCosto, int valorVenta, int iva, int valorVentaIva, int tipo_id) {
+        this.id = id;
+        this.nombre = nombre;
+        this.vidaUtil = vidaUtil;
+        this.valorCosto = valorCosto;
+        this.valorVenta = valorVenta;
+        this.iva = iva;
+        this.valorVentaIva = valorVentaIva;
+        this.tipo_id = tipo_id;
+    }
 
     public Bujia(String nombre, int vidaUtil, int valorCosto, int valorVenta) {
         this.nombre = nombre;
         this.vidaUtil = vidaUtil;
         this.valorCosto = valorCosto;
         this.valorVenta = valorVenta;
+        this.valorVentaIva = valorVentaIva;
+        this.tipo_id = 2;
     }
 
-    public Bujia(int id, String nombre, int vidaUtil, int valorCosto, int valorVenta) {
-        this.id = id;
-        this.nombre = nombre;
-        this.vidaUtil = vidaUtil;
-        this.valorCosto = valorCosto;
-        this.valorVenta = valorVenta;
-    }
+     
 
     public int getId() {
         return id;
@@ -73,6 +83,31 @@ public class Bujia  implements java.io.Serializable {
         this.valorVenta = valorVenta;
     }
 
+    public int getIva() {
+        return iva;
+    }
+
+    public void setIva(int iva) {
+        this.iva = iva;
+    }
+
+    public int getValorVentaIva() {
+        return valorVentaIva;
+    }
+
+    public void setValorVentaIva(int valorVentaIva) {
+        this.valorVentaIva = valorVentaIva;
+    }
+
+    public int getTipo_id() {
+        return tipo_id;
+    }
+
+    public void setTipo_id(int tipo_id) {
+        this.tipo_id = tipo_id;
+    }
+
+    
     public Set<MantenimientoEquipo> getMantenimientoHasPurificadors() {
         return mantenimientoHasPurificadors;
     }
