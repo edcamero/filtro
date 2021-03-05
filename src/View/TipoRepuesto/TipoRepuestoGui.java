@@ -45,13 +45,14 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
         String col[] = {"ID", "NOMBRE"};
         DefaultTableModel model = new DefaultTableModel(data, col);
         if (tipoRepuestos.size() != 0) {
-            for (TipoRepuesto repuesto : tipoRepuestos) {
-                
-                Object[] fila = new Object[2];
-                fila[0] = repuesto.getId();
-                fila[1] = repuesto.getNombre();
+            for (TipoRepuesto tipoRepuesto : tipoRepuestos) {
+                if(tipoRepuesto.isEstado()){
+                    Object[] fila = new Object[2];
+                fila[0] = tipoRepuesto.getId();
+                fila[1] = tipoRepuesto.getNombre();
 
                 model.addRow(fila);
+                }
             }
         }
         tabla.setModel(model);
@@ -121,6 +122,11 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
         });
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -272,6 +278,23 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
            txtNombre.setText("else");
        }
     }//GEN-LAST:event_tablaMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(txtNombre.getText()!="" && tipoRepuesto != null){
+            tipoRepuesto.setNombre(txtNombre.getText().trim());
+             if(Fachada.getInstancia().deleteTipoRespuesto(tipoRepuesto.getId())){
+                JOptionPane.showMessageDialog(this, "SE ELIMINO CON EXITO");
+                txtNombre.setText("");
+                cargar();
+                btnAgregar.setEnabled(true);
+                btnCancelar.setEnabled(true);
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+             }else{
+                 JOptionPane.showMessageDialog(this, "NO SE PUDO ELIMINAR");
+             }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
