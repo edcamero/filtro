@@ -181,5 +181,9 @@ public class Fachada {
         return mediador.updateTipoRepuesto(tipoRepuesto);
     }
     
+    public boolean deleteTipoRespuesto(int id){
+        return mediador.deleteTipoRepuesto(id);
+    }
+    
    
 }
