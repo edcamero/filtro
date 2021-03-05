@@ -53,7 +53,7 @@ public class TipoRepuestoDao implements InterfaceDao<TipoRepuesto>{
     @Override
     public ArrayList<TipoRepuesto> getAll() {
         ArrayList<TipoRepuesto> lista = new ArrayList<>();
-        String query = "SELECT * FROM type_spare";
+        String query = "SELECT * FROM type_spare order by tysp_id;";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -78,9 +78,7 @@ public class TipoRepuestoDao implements InterfaceDao<TipoRepuesto>{
 
     @Override
     public boolean update(TipoRepuesto tipoRepuesto) {
-        String query = "update type_spare set\n"
-                + "nombre_buj=?,\n"
-                + "where id_buj=?";
+        String query = "update type_spare set tysp_name=? where tysp_id=?";
         try {
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
