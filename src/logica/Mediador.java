@@ -46,11 +46,11 @@ public class Mediador implements InterfaceMediador {
     BujiaDao bujiaDao = new BujiaDao(conexion);
     EquipoDao equipoDao = new EquipoDao(conexion);
     RepuestoDao repuestoDao = new RepuestoDao(conexion);
-    RepuestoManteDao repuestoManteDao=new RepuestoManteDao(conexion);
+    RepuestoManteDao repuestoManteDao = new RepuestoManteDao(conexion);
     TecnicoDao tecnicoDao = new TecnicoDao(conexion);
     UsuarioDao usuarioDao = new UsuarioDao(conexion);
     MantenimientoDao mantenimientoDao = new MantenimientoDao(conexion);
-    MantenimientoEquipoDao mantEquiDao=new MantenimientoEquipoDao(conexion);
+    MantenimientoEquipoDao mantEquiDao = new MantenimientoEquipoDao(conexion);
     TipoRepuestoDao tipoRepuestoDao = new TipoRepuestoDao(conexion);
 
     @Override
@@ -153,11 +153,11 @@ public class Mediador implements InterfaceMediador {
         return new ArrayList<Cliente>();
     }
 
-    public ArrayList<Cliente> buscarCliente(String palabra,String column) {
+    public ArrayList<Cliente> buscarCliente(String palabra, String column) {
 
         try {
             conexion.ConexionPostgres();
-            return clienteDao.buscarClientes(palabra,column);
+            return clienteDao.buscarClientes(palabra, column);
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -232,13 +232,25 @@ public class Mediador implements InterfaceMediador {
 
     @Override
     public boolean saveBujia(Bujia bujia) {
+        boolean result = false;
         try {
             conexion.ConexionPostgres();
-            return bujiaDao.save(bujia);
+            conexion.setAutoCommit(false);
+            Repuesto repuesto = bujia.getRepuesto();
+            repuestoDao.save(repuesto);
+            bujia.setId(repuesto.getId());
+            result = bujiaDao.save(bujia);
+            conexion.commit();
+            return result;
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conexion.rollback();
+                Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } catch (InstantiationException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -290,6 +302,14 @@ public class Mediador implements InterfaceMediador {
         try {
             conexion.ConexionPostgres();
             respuesta = bujiaDao.update(bujia);
+
+            conexion.ConexionPostgres();
+            conexion.setAutoCommit(false);
+            Repuesto repuesto = bujia.getRepuesto();
+            repuestoDao.update(repuesto);
+            bujia.setId(repuesto.getId());
+            respuesta = bujiaDao.update(bujia);
+            conexion.commit();
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -558,47 +578,46 @@ public class Mediador implements InterfaceMediador {
         try {
             conexion.ConexionPostgres();
             conexion.getCon().setAutoCommit(false);
-            
+
             respuesta = mantenimientoDao.save(manteniemiento);
-            
-            for(MantenimientoEquipo mantEquipo:manteniemiento.getMantenimientoEquipo()){
-               respuesta=respuesta&&mantEquiDao.save(mantEquipo); 
-               for(RepuestoMante respuestoMant:mantEquipo.getRepuestos()){
-                   respuesta=respuesta&&repuestoManteDao.save(respuestoMant);
-               }
+
+            for (MantenimientoEquipo mantEquipo : manteniemiento.getMantenimientoEquipo()) {
+                respuesta = respuesta && mantEquiDao.save(mantEquipo);
+                for (RepuestoMante respuestoMant : mantEquipo.getRepuestos()) {
+                    respuesta = respuesta && repuestoManteDao.save(respuestoMant);
+                }
             }
-            
-            conexion.getCon().commit(); 
+
+            conexion.getCon().commit();
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
-             try {
-              conexion.getCon().rollback();
-             } catch (SQLException ex2) {
-                      System.out.println(ex2.toString());
+            try {
+                conexion.getCon().rollback();
+            } catch (SQLException ex2) {
+                System.out.println(ex2.toString());
             }
         }
         return respuesta;
 
     }
-    
-    
-    public void generarRecibo(Mantenimiento mantenimiento){
-        
+
+    public void generarRecibo(Mantenimiento mantenimiento) {
+
     }
 
     @Override
     public Usuario loginUsuario(String username, String paswword) {
-        Usuario usuario=null;
+        Usuario usuario = null;
         try {
             conexion.ConexionPostgres();
-            usuario =usuarioDao.login(username, paswword);
+            usuario = usuarioDao.login(username, paswword);
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return usuario;
     }
-    
-   //****************************************************** TIPO REPUESTO
+
+    //****************************************************** TIPO REPUESTO
     @Override
     public ArrayList<TipoRepuesto> getTipoRepuestos() {
         ArrayList<TipoRepuesto> lista = null;
@@ -640,12 +659,10 @@ public class Mediador implements InterfaceMediador {
         }
         return respuesta;
     }
-    
-    
 
     @Override
     public boolean deleteTipoRepuesto(int id) {
-       boolean respuesta = false;
+        boolean respuesta = false;
         try {
             conexion.ConexionPostgres();
             respuesta = tipoRepuestoDao.delete(id);
@@ -654,13 +671,5 @@ public class Mediador implements InterfaceMediador {
         }
         return respuesta;
     }
-    
-    
-    
 
-    
-
-   
-    
-    
 }

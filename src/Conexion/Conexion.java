@@ -51,7 +51,7 @@ public class Conexion {
             con = DriverManager.getConnection("jdbc:" + puente
                     + ":" + nombreBD, usuario, password);
         }
-        
+
     }
 
     // Con JDBC
@@ -62,8 +62,6 @@ public class Conexion {
         conectar("sun.jdbc.odbc.JdbcOdbcDriver", "odbc", false);
     }
 
-   
-
     // Con PostgreSql
     public void ConexionPostgres() throws ClassNotFoundException,
             SQLException,
@@ -72,11 +70,23 @@ public class Conexion {
         conectar("org.postgresql.Driver", "postgresql", true);
     }
 
-   
+    public void setAutoCommit(boolean value) throws SQLException {
+        con.setAutoCommit(value);
+    }
+
+    public void commit() throws SQLException {
+        con.commit();
+    }
+
+    public void rollback() throws SQLException {
+        con.rollback();
+    }
 
     public void cerrar() {
-        try {if(con!=null)
-            con.close();
+        try {
+            if (con != null) {
+                con.close();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }

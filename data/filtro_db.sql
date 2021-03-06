@@ -108,7 +108,7 @@ CREATE TABLE  SPARE
 CREATE TABLE SPARK_PLUG
 (
     sppl_id SERIAL,
-    spar_id INTEGER NOT NULL,
+    spar_id INTEGER NOT NULL UNIQUE,
     sppl_useful_life INTEGER NOT NULL,
 	sppl_status BOOLEAN NOT NULL DEFAULT TRUE,
 	createAt timestamp DEFAULT now(),
@@ -128,3 +128,5 @@ insert into TYPE_SPARE ( tysp_name)values ('ABRAZADERA'),('BUJIA'),('ELECTRICO')
 --PARA AGREGAR DESDE LOS ARCHIVOS CSV COPIAR EN EL DISCO D
 --COPY spare (spar_name,spar_price_without_iva,iva,spar_price_with_iva,tysp_id) from 
 --'D:\repuestos.csv' WITH  DELIMITER ';'
+
+insert into SPARK_PLUG (spar_id,sppl_useful_life) values (4,30),(5,30),(6,30),(7,30),(8,30),(9,30),(10,30),(11,30);

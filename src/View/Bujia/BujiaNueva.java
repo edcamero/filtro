@@ -8,6 +8,7 @@ package View.Bujia;
 import Models.Bujia;
 import View.Cliente.ClienteNuevo;
 import View.Validaciones;
+import control.BujiaController;
 import control.RepuestoController;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
@@ -257,15 +258,32 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-//        if (this.validar()) {
-//            BujiaController.getInstancia().saveBujia();
-//        }
+        if (this.validar()) {
+            BujiaController.getInstancia().saveBujia();
+        }
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-//        if (this.validar()) {
-//            BujiaController.getInstancia().editarBujia(bujia2);
-//        }
+        if (this.validar()) {
+            String nombre = this.getTextNombre().getText();
+            int costo = Integer.parseInt(this.getTextCosto().getText());
+            int valor = Integer.parseInt(this.getTextValor().getText());
+            int vidaUtil = Integer.parseInt(textVida.getText());
+            bujia.setNombre(nombre);
+            bujia.setValorCosto(costo);
+            bujia.setValorVenta(valor);
+            bujia.setVidaUtil(vidaUtil);
+            if (Fachada.getInstancia().updateBujia(bujia)) {
+                JOptionPane.showMessageDialog(rootPane, "se actualizó el Bujia");
+                editable = false;
+                btnEditar.setEnabled(false);
+                btnCrear.setEnabled(true);
+                cargar();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "error a actulizar la bujia", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -314,18 +332,18 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
                 break;
             case 1:
 
-                String respuesta = JOptionPane.showInputDialog("Escribe " + bujia.getNombre() + " para confirmar que desea eliminar el purificador.");
+                String respuesta = JOptionPane.showInputDialog("Escribe " + bujia.getNombre() + " para confirmar que desea eliminar el la bujia.");
                 if (bujia.getNombre().equalsIgnoreCase(respuesta)) {
 
-                    if (RepuestoController.getInstancia().eliminar(id)) {
-                        JOptionPane.showMessageDialog(rootPane, "se eliminno el Repuesto");
+                    if (Fachada.getInstancia().deleteRepuesto(id)) {
+                        JOptionPane.showMessageDialog(rootPane, "se eliminno la Bujia");
                         cargar();
                     } else {
-                        JOptionPane.showMessageDialog(rootPane, "No se eliminno el Repuesto ya esta asociado a un cliente");
+                        JOptionPane.showMessageDialog(rootPane, "No se eliminno la bujia");
                     }
 
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "No se eliminno el Repuesto");
+                    JOptionPane.showMessageDialog(rootPane, "No se eliminno la bujia");
                 }
                 break;
         }

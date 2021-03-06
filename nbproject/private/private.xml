@@ -14,9 +14,11 @@
         <group>
             <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/logica/Mediador.java</file>
             <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/DAO/TecnicoDao.java</file>
+            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/View/Repuesto/RepuestoNuevoGui.java</file>
             <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/View/Tecnico/TecnicoNuevo.java</file>
             <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/View/Repuesto/RepuestoListar.java</file>
             <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/logica/Fachada.java</file>
+            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/Models/Repuesto.java</file>
             <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/control/TecnicoController.java</file>
         </group>
     </open-files>
