@@ -20,6 +20,10 @@ public class Cliente implements java.io.Serializable {
 
     public Cliente() {
     }
+    
+    public String[] getArray(){
+        return new String[] {String.valueOf(id),nombre,documento,telefonoUno +" "+telefonoDos,direccion, email};
+    }
 
     public Cliente(String documento, String nombre, String telefonoUno, String telefonoDos, String direccion, String email) {
         this.documento = documento;

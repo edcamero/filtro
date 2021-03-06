@@ -5,7 +5,7 @@
  */
 package View.Equipo;
 
-import View.Cliente.ClienteNuevo;
+import View.Cliente.ClienteNuevoGui;
 import View.Validaciones;
 import control.EquipoController;
 import java.beans.PropertyVetoException;
@@ -255,7 +255,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             this.setClosed(true);
             this.dispose();
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(ClienteNuevo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteNuevoGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

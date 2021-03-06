@@ -461,7 +461,7 @@ public class ClienteVer extends javax.swing.JInternalFrame {
             this.setClosed(true);
             this.dispose();
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(ClienteNuevo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteNuevoGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
