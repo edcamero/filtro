@@ -39,11 +39,8 @@ public class Repuesto  implements java.io.Serializable {
         this.tipo_id = tipo_id;
         this.iva= (int) (valorVenta * Config.getIva());
         this.valorVentaIva=this.iva+this.valorVenta;
-    }
-
-   
-    
-    
+        
+    } 
 
     public int getId() {
         return id;

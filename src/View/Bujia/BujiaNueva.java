@@ -6,14 +6,20 @@
 package View.Bujia;
 
 import Models.Bujia;
-import View.Cliente.ClienteNuevo;
+import View.Cliente.ClienteNuevoGui;
 import View.Validaciones;
 import control.BujiaController;
+import control.RepuestoController;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import logica.Fachada;
 
 /**
  *
@@ -21,8 +27,11 @@ import javax.swing.JTextField;
  */
 public class BujiaNueva extends javax.swing.JInternalFrame {
 
-    private static BujiaNueva bujia;
-    Bujia bujia2;
+    private static BujiaNueva bujiaGui;
+    Bujia bujia;
+    private boolean editable = false;
+    ArrayList<Bujia> bujias;
+    private DefaultTableModel model;
 
     private BujiaNueva() {
         initComponents();
@@ -33,10 +42,11 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
     }
 
     public static BujiaNueva getInstancia() {
-        if (bujia == null) {
-            bujia = new BujiaNueva();
+        if (bujiaGui == null) {
+            bujiaGui = new BujiaNueva();
         }
-        return bujia;
+        bujiaGui.cargar();
+        return bujiaGui;
     }
 
     /**
@@ -58,12 +68,12 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         textValor = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCrear = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
 
         setTitle("Agregar Bujia");
 
@@ -93,15 +103,15 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2))
                         .addGap(60, 60, 60)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textVida, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .addComponent(textVida)
                             .addComponent(textNombre)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textCosto, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textCosto)
                             .addComponent(textValor))))
                 .addGap(10, 10, 10))
         );
@@ -128,17 +138,17 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCrearActionPerformed(evt);
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
@@ -163,11 +173,11 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -175,40 +185,58 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "NOMBRE", "TIPO", "PRECIO", "VALOR", "IVA", "TOTAL"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +246,7 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -229,17 +257,34 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
         this.cerrar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        if (this.validar()) {
-//            BujiaController.getInstancia().saveBujia();
-//        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        if (this.validar()) {
+            BujiaController.getInstancia().saveBujia();
+        }
+    }//GEN-LAST:event_btnCrearActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        if (this.validar()) {
-//            BujiaController.getInstancia().editarBujia(bujia2);
-//        }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (this.validar()) {
+            String nombre = this.getTextNombre().getText();
+            int costo = Integer.parseInt(this.getTextCosto().getText());
+            int valor = Integer.parseInt(this.getTextValor().getText());
+            int vidaUtil = Integer.parseInt(textVida.getText());
+            bujia.setNombre(nombre);
+            bujia.setValorCosto(costo);
+            bujia.setValorVenta(valor);
+            bujia.setVidaUtil(vidaUtil);
+            if (Fachada.getInstancia().updateBujia(bujia)) {
+                JOptionPane.showMessageDialog(rootPane, "se actualizó el Bujia");
+                editable = false;
+                btnEditar.setEnabled(false);
+                btnCrear.setEnabled(true);
+                cargar();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "error a actulizar la bujia", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 //        if (this.validar()) {
@@ -247,6 +292,91 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
 //        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        if (evt.getButton() == 3) {
+            JTable source = (JTable) evt.getSource();
+            int row = source.rowAtPoint(evt.getPoint());
+            int seleccion = JOptionPane.showOptionDialog(
+                this,
+                "Seleccione opcion",
+                "Selector de opciones",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, // null para icono por defecto.
+                new Object[]{"Editar", "Eliminar", "Cancelar"}, // null para YES, NO y CANCEL
+                "opcion 1");
+            //int column = source.columnAtPoint( evt.getPoint() );
+            String id_s = "" + source.getModel().getValueAt(row, 0);
+
+            int id = Integer.parseInt(id_s);
+            // System.out.println(source.getModel().getValueAt(row, 0));
+            opcionesEquipo(id, seleccion);
+            //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void opcionesEquipo(int id, int opc) {
+        bujia = Fachada.getInstancia().getBujia(id);
+        switch (opc) {
+            case 0:
+                textNombre.setText(bujia.getNombre());
+                textCosto.setText(String.valueOf(bujia.getValorCosto()));
+                textValor.setText(String.valueOf(bujia.getValorVenta()));
+                textVida.setText(String.valueOf(bujia.getVidaUtil()));
+                
+                this.editable = true;
+                btnCrear.setEnabled(false);
+                btnEditar.setEnabled(true);
+                //EquipoController.getInstancia().editarGui(id);
+
+                break;
+            case 1:
+
+                String respuesta = JOptionPane.showInputDialog("Escribe " + bujia.getNombre() + " para confirmar que desea eliminar el la bujia.");
+                if (bujia.getNombre().equalsIgnoreCase(respuesta)) {
+
+                    if (Fachada.getInstancia().deleteRepuesto(id)) {
+                        JOptionPane.showMessageDialog(rootPane, "se eliminno la Bujia");
+                        cargar();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "No se eliminno la bujia");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "No se eliminno la bujia");
+                }
+                break;
+        }
+    }
+    
+    private void cargar() {
+        bujias = Fachada.getInstancia().getAllBujias();
+        String data[][] = {};
+        String col[] = {"CODIGO", "NOMBRE", "VIDA UTIL", "COSTO", "VALOR", "IVA", "TOTAL"};
+        model = new DefaultTableModel(data, col);
+        if (bujias.size() != 0) {
+            for (Bujia bujia : bujias) {
+                Object[] fila = new Object[7];
+                fila[0] = bujia.getId();
+                fila[1] = bujia.getNombre();
+                fila[2] = bujia.getVidaUtil();
+                fila[3] = bujia.getValorCosto();
+                fila[4] = bujia.getValorVenta();
+                fila[5] = bujia.getIva();
+                fila[6] = bujia.getValorVentaIva();
+                model.addRow(fila);
+            }
+        }
+        tabla.setModel(model);
+        TableColumnModel columnModel = tabla.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(10);
+        columnModel.getColumn(1).setPreferredWidth(50);
+        columnModel.getColumn(2).setPreferredWidth(10);
+        columnModel.getColumn(3).setPreferredWidth(10);
+        columnModel.getColumn(4).setPreferredWidth(10);
+        columnModel.getColumn(5).setPreferredWidth(10);
+        columnModel.getColumn(6).setPreferredWidth(10);
+    }
     private void cerrar() {
         try {
             //this.dispose();        // TODO add your handling code here:
@@ -254,7 +384,7 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
             this.setClosed(true);
             this.dispose();
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(ClienteNuevo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteNuevoGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -309,9 +439,9 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -320,7 +450,7 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     private javax.swing.JTextField textCosto;
     private javax.swing.JTextField textNombre;
     private javax.swing.JTextField textValor;

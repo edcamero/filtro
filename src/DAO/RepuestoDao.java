@@ -151,7 +151,6 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
         } finally {
             try {
                 pst.close();
-                rs.close();
             } catch (SQLException ex) {
                 Logger.getLogger(RepuestoDao.class.getName()).log(Level.SEVERE, null, ex);
             }

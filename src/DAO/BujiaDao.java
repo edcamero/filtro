@@ -31,16 +31,14 @@ public class BujiaDao implements InterfaceDao<Bujia> {
     @Override
     public boolean save(Bujia bujia) {
 
-        String consulta = "insert into bujia (nombre_buj,vida_util_buj,valor_costo,valor_venta) values\n"
-                + "		  (?,?,?,?) returning id_buj";
+        String consulta = "insert into spark_plug (spar_id,sppl_useful_life) values\n"
+                + "		  (?,?) returning sppl_id";
         try {
 
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            pst.setString(1, bujia.getNombre());
+            pst.setInt(1, bujia.getId());
             pst.setInt(2, bujia.getVidaUtil());
-            pst.setInt(3, bujia.getValorCosto());
-            pst.setInt(4, bujia.getValorVenta());
 
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -61,18 +59,17 @@ public class BujiaDao implements InterfaceDao<Bujia> {
         ArrayList<Bujia> lista = new ArrayList<Bujia>();
         try {
 
-            String query = "select * FROM spark_plug ;";
+            String query = "select * ,COALESCE((select sppl_useful_life from spark_plug where spar_id = spare.spar_id ),0) as life from spare where tysp_id = 2 AND spar_status = true;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-
-                Bujia c = new Bujia(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+                Bujia bujia = new Bujia(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getInt("life"), rs.getInt("spar_cost"), rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_without_iva"),2);
                 //Equipo c=new Equipo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6));
                 //System.out.println(c.toString());
-                lista.add(c);
+                lista.add(bujia);
             }
 
         } catch (SQLException ex) {
@@ -84,20 +81,14 @@ public class BujiaDao implements InterfaceDao<Bujia> {
     @Override
     public boolean update(Bujia bujia) {
 
-        String query = "update bujia set\n"
-                + "nombre_buj=?,\n"
-                + "vida_util_buj=?,\n"
-                + "valor_costo=?,\n"
-                + "valor_venta=? \n"
-                + "where id_buj=?";
+        String query = "update spark_plug set\n"
+                + "sppl_useful_life=? \n"
+                + "where spar_id = ?;";
         try {
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            pst.setString(1, bujia.getNombre());
-            pst.setInt(2, bujia.getVidaUtil());
-            pst.setInt(3, bujia.getValorCosto());
-            pst.setInt(4, bujia.getValorVenta());
-            pst.setInt(5, bujia.getId());
+            pst.setInt(1, bujia.getVidaUtil());
+            pst.setInt(2, bujia.getId());
 
             pst.execute();
             pst.close();
@@ -112,7 +103,7 @@ public class BujiaDao implements InterfaceDao<Bujia> {
 
     @Override
     public boolean delete(int id) {
-        String query = "delete from bujia\n"
+        String query = "delete from spare\n"
                 + "where id_buj=?";
         try {
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -134,7 +125,7 @@ public class BujiaDao implements InterfaceDao<Bujia> {
     public Bujia get(int id) {
 
         try {
-            String query = "select * FROM bujia where id_buj=?;";
+            String query = "select * ,COALESCE((select sppl_useful_life from spark_plug where spar_id = spare.spar_id ),0) as life from spare where spar_id = ? ;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -143,7 +134,7 @@ public class BujiaDao implements InterfaceDao<Bujia> {
 
             while (rs.next()) {
 
-                Bujia bujia = new Bujia(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+              Bujia bujia = new Bujia(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getInt("life"), rs.getInt("spar_cost"), rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_without_iva"),2);
                 //Equipo c=new Equipo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6));
                 //System.out.println(c.toString());
                 return bujia;

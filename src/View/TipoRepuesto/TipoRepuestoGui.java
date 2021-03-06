@@ -10,6 +10,7 @@ package View.TipoRepuesto;
 import Models.TipoRepuesto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import logica.Fachada;
 
@@ -44,13 +45,14 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
         String col[] = {"ID", "NOMBRE"};
         DefaultTableModel model = new DefaultTableModel(data, col);
         if (tipoRepuestos.size() != 0) {
-            for (TipoRepuesto repuesto : tipoRepuestos) {
-                
-                Object[] fila = new Object[2];
-                fila[0] = repuesto.getId();
-                fila[1] = repuesto.getNombre();
+            for (TipoRepuesto tipoRepuesto : tipoRepuestos) {
+                if(tipoRepuesto.isEstado()){
+                    Object[] fila = new Object[2];
+                fila[0] = tipoRepuesto.getId();
+                fila[1] = tipoRepuesto.getNombre();
 
                 model.addRow(fila);
+                }
             }
         }
         tabla.setModel(model);
@@ -71,10 +73,10 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
 
@@ -105,26 +107,31 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -135,12 +142,12 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -148,12 +155,12 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(0, 14, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -179,6 +186,11 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
                 "ID", "NOMBRE"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -211,7 +223,7 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(txtNombre.getText()!=""){
              tipoRepuesto = new TipoRepuesto(txtNombre.getText().trim());
              if(Fachada.getInstancia().saveTipoRespuesto(tipoRepuesto)){
@@ -222,32 +234,74 @@ public class TipoRepuestoGui extends javax.swing.JInternalFrame {
                  JOptionPane.showMessageDialog(this, "NO SE PUDO REGISTAR");
              }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // T your handling code here:
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(txtNombre.getText()!=""){
-             tipoRepuesto = new TipoRepuesto(txtNombre.getText().trim());
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if(txtNombre.getText()!="" && tipoRepuesto != null){
+            tipoRepuesto.setNombre(txtNombre.getText().trim());
              if(Fachada.getInstancia().updateTipoRespuesto(tipoRepuesto)){
-                 JOptionPane.showMessageDialog(this, "SE MODIFICO CON EXITO");
-                 txtNombre.setText("");
-                 cargar();
+                JOptionPane.showMessageDialog(this, "SE MODIFICO CON EXITO");
+                txtNombre.setText("");
+                cargar();
+                btnAgregar.setEnabled(true);
+                btnCancelar.setEnabled(true);
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
              }else{
-                 JOptionPane.showMessageDialog(this, "NO SE PUDO MODIFICARadmin aaaaaaaaaadcdfbfg");
+                 JOptionPane.showMessageDialog(this, "NO SE PUDO MODIFICAR");
              }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+       if (tipoRepuestos.size() > 0) {
+            JTable source = (JTable) evt.getSource();
+            for (TipoRepuesto tipoRepuesto : tipoRepuestos) {
+                //compara el id de cada usuario con el id de la fila seleccionada
+                if (tipoRepuesto.getId() == Integer.parseInt(source.getValueAt(source.getSelectedRow(), 0).toString())) {
+                    this.tipoRepuesto = null;
+                    this.tipoRepuesto = tipoRepuesto;
+                    break;
+                }
+            }
+            txtNombre.setText(this.tipoRepuesto.getNombre());
+            btnAgregar.setEnabled(false);
+            btnCancelar.setEnabled(true);
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(true);
+        }else{
+           txtNombre.setText("else");
+       }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(txtNombre.getText()!="" && tipoRepuesto != null){
+            tipoRepuesto.setNombre(txtNombre.getText().trim());
+             if(Fachada.getInstancia().deleteTipoRespuesto(tipoRepuesto.getId())){
+                JOptionPane.showMessageDialog(this, "SE ELIMINO CON EXITO");
+                txtNombre.setText("");
+                cargar();
+                btnAgregar.setEnabled(true);
+                btnCancelar.setEnabled(true);
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+             }else{
+                 JOptionPane.showMessageDialog(this, "NO SE PUDO ELIMINAR");
+             }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

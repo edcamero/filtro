@@ -53,14 +53,14 @@ public class TipoRepuestoDao implements InterfaceDao<TipoRepuesto>{
     @Override
     public ArrayList<TipoRepuesto> getAll() {
         ArrayList<TipoRepuesto> lista = new ArrayList<>();
-        String query = "SELECT * FROM type_spare";
+        String query = "SELECT * FROM type_spare order by tysp_id;";
         try {
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
             while (rs.next()) {
-                TipoRepuesto tipoRepuesto = new TipoRepuesto(rs.getInt("tysp_id"), rs.getString("tysp_name"));
+                TipoRepuesto tipoRepuesto = new TipoRepuesto(rs.getInt("tysp_id"), rs.getString("tysp_name"), rs.getBoolean("tysp_status"));
                 lista.add(tipoRepuesto);
             }
         } catch (SQLException ex) {
@@ -78,9 +78,7 @@ public class TipoRepuestoDao implements InterfaceDao<TipoRepuesto>{
 
     @Override
     public boolean update(TipoRepuesto tipoRepuesto) {
-        String query = "update type_spare set\n"
-                + "nombre_buj=?,\n"
-                + "where id_buj=?";
+        String query = "update type_spare set tysp_name=? where tysp_id=?";
         try {
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -99,7 +97,28 @@ public class TipoRepuestoDao implements InterfaceDao<TipoRepuesto>{
 
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean respuesta=false;
+        try {
+            String query = "update type_spare\n"
+                    + "set\n"
+                    + "tysp_status=false \n"
+                    + "where tysp_id=?;";
+            pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setInt(1, id);
+            pst.execute();
+            respuesta=true;
+        } catch (SQLException ex) {
+            Logger.getLogger(TecnicoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(TipoRepuestoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return respuesta;
     }
 
     @Override

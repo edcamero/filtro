@@ -6,7 +6,7 @@
 package View.Tecnico;
 
 import Models.Tecnico;
-import View.Cliente.ClienteNuevo;
+import View.Cliente.ClienteNuevoGui;
 import View.Validaciones;
 import control.TecnicoController;
 import java.beans.PropertyVetoException;
@@ -407,7 +407,7 @@ public class TecnicoNuevo extends javax.swing.JInternalFrame {
             this.setClosed(true);
             this.dispose();
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(ClienteNuevo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteNuevoGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

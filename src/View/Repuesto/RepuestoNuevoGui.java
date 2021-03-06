@@ -420,7 +420,6 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
     }
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         if (this.validar()) {
-
             RepuestoController.getInstancia().saveRepuesto();
         }
     }//GEN-LAST:event_btnCrearActionPerformed
@@ -464,7 +463,6 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(rootPane, "No se eliminno el Repuesto");
                 }
                 break;
-
         }
     }
 

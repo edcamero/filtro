@@ -11,7 +11,7 @@ import Models.Equipo;
 import Models.EquipoCliente;
 import View.Cliente.ClienteEquipos;
 import View.Cliente.ClienteLista;
-import View.Cliente.ClienteNuevo;
+import View.Cliente.ClienteNuevoGui;
 import View.Cliente.ClienteVer;
 import View.Principal;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class ClienteController {
 
     private static ClienteController Controlador;
 
-    private ClienteNuevo nuevoGui;
+    private ClienteNuevoGui nuevoGui;
     private ClienteLista listaGui;
     private ClienteVer verGui;
     private ClienteEquipos equiposGui;
@@ -49,12 +49,12 @@ public class ClienteController {
     }
 
     public void NuevoClienteGui() {
-        nuevoGui = ClienteNuevo.getInstancia();
+        nuevoGui = ClienteNuevoGui.getInstancia();
         principal.mostrarInternal(nuevoGui);
     }
 
     public boolean agregar() {
-        nuevoGui = ClienteNuevo.getInstancia();
+        nuevoGui = ClienteNuevoGui.getInstancia();
         String documento = nuevoGui.getTextDoc().getText();
         String nombre = nuevoGui.getTextNombre().getText();
         String tel_uno = nuevoGui.getTextTel1().getText();

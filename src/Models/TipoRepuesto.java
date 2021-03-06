@@ -12,10 +12,12 @@ package Models;
 public class TipoRepuesto {
     private int id;
     private String nombre;
+    private boolean estado;
 
-    public TipoRepuesto(int id, String nombre) {
+    public TipoRepuesto(int id, String nombre, boolean estado) {
         this.id = id;
         this.nombre = nombre;
+        this.estado = estado;
     }
 
     public TipoRepuesto(String nombre) {
@@ -42,5 +44,15 @@ public class TipoRepuesto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
+    
     
 }
