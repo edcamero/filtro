@@ -198,4 +198,26 @@ public class ClienteDao implements InterfaceDao<Cliente> {
         return null;
     }
 
+    public Cliente get(String word, String column ) {
+
+        String consulta = "select * FROM CUSTOMER where "+column+" = ?;";
+
+        try {
+            con.ConexionPostgres();
+            pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pst.setString(1, word);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                return new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                //System.out.println(c.toString());
+
+            }
+
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

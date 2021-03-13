@@ -44,15 +44,16 @@ public class Fachada {
     public boolean saveEquipo(Equipo equipo) {
         return mediador.saveEquipo(equipo);
     }
+
     public boolean updateEquipo(Equipo equipo) {
         return mediador.updateEquipo(equipo);
     }
-    
+
     public Equipo getEquipo(int id) {
         return mediador.getEquipo(id);
     }
-    
-    public boolean deleteEquipo(int id){
+
+    public boolean deleteEquipo(int id) {
         return mediador.deleteEquipo(id);
     }
 
@@ -63,33 +64,40 @@ public class Fachada {
     public ArrayList<Cliente> getAllClientes() {
         return mediador.getAllCliente();
     }
-    public ArrayList<Cliente> buscarClientes(String palabra,String column) {
-        return mediador.buscarCliente(palabra,column);
+
+    public ArrayList<Cliente> buscarClientes(String palabra, String column) {
+        return mediador.buscarCliente(palabra, column);
     }
-    
-    public Cliente getCliente(int id){
+
+    public Cliente getCliente(int id) {
         return mediador.getCliente(id);
     }
 
-    public boolean updateCliente(Cliente cliente){
+    public Cliente getCliente(String word, String column) {
+        return mediador.getCliente(word, column);
+    }
+
+    public boolean updateCliente(Cliente cliente) {
         return mediador.updateCliente(cliente);
     }
+
     public boolean saveBujia(Bujia bujia) {
         return mediador.saveBujia(bujia);
     }
+
     public boolean updateBujia(Bujia bujia) {
         return mediador.updateBujia(bujia);
     }
-    
-    public boolean deleteBujia(int id){
+
+    public boolean deleteBujia(int id) {
         return mediador.deleteBujia(id);
     }
 
     public ArrayList<Bujia> getAllBujias() {
         return mediador.getAllBujia();
     }
-    
-    public Bujia getBujia(int id){
+
+    public Bujia getBujia(int id) {
         return mediador.getBujia(id);
     }
 
@@ -146,44 +154,41 @@ public class Fachada {
         return mediador.getUsuario(id);
     }
 
-    public boolean updateUsuario(Usuario usuario){
+    public boolean updateUsuario(Usuario usuario) {
         return mediador.updateUsuario(usuario);
     }
 
-    public boolean deleteUsuario(int id){
+    public boolean deleteUsuario(int id) {
         return mediador.deleteUsuario(id);
     }
 
-    
-    public boolean deleteEquipoCliente(int id){
+    public boolean deleteEquipoCliente(int id) {
         return mediador.deleteEquipoCliente(id);
     }
-    
-    public boolean saveMantenimiento(Mantenimiento mantenimiento){
+
+    public boolean saveMantenimiento(Mantenimiento mantenimiento) {
         return mediador.saveMantenimiento(mantenimiento);
     }
-    
-    public Usuario login(String username,String password){
+
+    public Usuario login(String username, String password) {
         return mediador.loginUsuario(username, password);
     }
-    
-    
+
     //**************************************************TIPO REPUESTO*******************************
     public ArrayList<TipoRepuesto> getTipoRepuestos() {
         return mediador.getTipoRepuestos();
     }
-    
-    public boolean saveTipoRespuesto(TipoRepuesto tipoRepuesto){
+
+    public boolean saveTipoRespuesto(TipoRepuesto tipoRepuesto) {
         return mediador.saveTipoRepuesto(tipoRepuesto);
     }
-    
-    public boolean updateTipoRespuesto(TipoRepuesto tipoRepuesto){
+
+    public boolean updateTipoRespuesto(TipoRepuesto tipoRepuesto) {
         return mediador.updateTipoRepuesto(tipoRepuesto);
     }
-    
-    public boolean deleteTipoRespuesto(int id){
+
+    public boolean deleteTipoRespuesto(int id) {
         return mediador.deleteTipoRepuesto(id);
     }
-    
-   
+
 }
