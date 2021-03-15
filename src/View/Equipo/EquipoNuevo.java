@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import logica.Fachada;
@@ -28,6 +29,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     private static EquipoNuevo equipoNuevo;
     private EquipoController equipoControl;
     private ArrayList<Equipo> equipos;
+    private Equipo equipo;
 
     /**
      * Creates new form EquipoNuevo
@@ -42,17 +44,19 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
     public static EquipoNuevo getInstancia() {
         if (equipoNuevo == null) {
-            equipoNuevo= new EquipoNuevo();
+            equipoNuevo = new EquipoNuevo();
         }
         equipoNuevo.cargarTabla();
         equipoNuevo.cargarElementos();
         return equipoNuevo;
     }
 
-    private void cargarElementos(){
+    private void cargarElementos() {
+        btnCreate.setEnabled(true);
         btnEdit.setEnabled(false);
         btnBorrar.setEnabled(false);
     }
+
     public void setEquipoControl(EquipoController equipoControl) {
         this.equipoControl = equipoControl;
     }
@@ -78,7 +82,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         textColor = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -157,14 +161,19 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCreateActionPerformed(evt);
             }
         });
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
 
@@ -182,7 +191,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +203,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,6 +227,11 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -278,14 +292,15 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             Logger.getLogger(ClienteNuevoGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         if (this.validar()) {
             int resp = 0;
-            
+
             if (equipoControl.agregar()) {
                 resp = JOptionPane.showConfirmDialog(this, "Se ha agregado con exito el Equipo. \n ¿Desea agregar otro equipo?");
                 if (JOptionPane.OK_OPTION == resp) {
                     this.limpiar();
+                    cargarTabla();
                 } else {
                     this.limpiar();
                     this.cerrar();
@@ -296,7 +311,83 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             }
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        JTable source = (JTable) evt.getSource();
+        int row = source.rowAtPoint(evt.getPoint());
+        int seleccion = JOptionPane.showOptionDialog(
+                this,
+                "Seleccione opcion",
+                "Selector de opciones",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, // null para icono por defecto.
+                new Object[]{"Editar", "Eliminar", "Cancelar"}, // null para YES, NO y CANCEL
+                "opcion 1");
+        //int column = source.columnAtPoint( evt.getPoint() );
+        String id_s = "" + source.getModel().getValueAt(row, 0);
+
+        int id = Integer.parseInt(id_s);
+        // System.out.println(source.getModel().getValueAt(row, 0));
+        opcionesEquipo(id, seleccion);
+        //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:          // TODO add your handling code here:
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+             if(validar()){
+                 equipo.setMaterial((String) comboMaterial.getSelectedItem());
+                 equipo.setModelo(textModelo.getText());
+                 equipo.setNombre(textNombre.getText());
+                 equipo.setColor(textColor.getText());
+                 equipo.setPrecio(Integer.parseInt(textPrecio.getText()));
+                if(Fachada.getInstancia().updateEquipo(equipo)) {
+                     JOptionPane.showMessageDialog(rootPane, "se actualizó el quipo correctamente");
+                     limpiar();
+                     cargarElementos();
+                     cargarTabla();
+                }else{
+                       JOptionPane.showMessageDialog(rootPane, "error a actulizar el equipo", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+                }
+             }  
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void opcionesEquipo(int id, int opc) {
+
+        switch (opc) {
+            case 0:
+                equipo = Fachada.getInstancia().getEquipo(id);
+                btnEdit.setEnabled(true);
+                btnBorrar.setEnabled(true);
+                btnCreate.setEnabled(false);
+                comboMaterial.setSelectedItem(equipo.getMaterial());
+                textModelo.setText(equipo.getModelo());
+                textNombre.setText(equipo.getNombre());
+                textColor.setText(equipo.getColor());
+                textPrecio.setText(String.valueOf(equipo.getPrecio()));
+
+                break;
+            case 1:
+
+                //Equipo equipo = this.equipoControl.Buscar(id);
+                equipo = Fachada.getInstancia().getEquipo(id);
+                String respuesta = JOptionPane.showInputDialog("Escribe " + equipo.getNombre() + " para confirmar que desea eliminar el purificador.");
+                if (equipo.getNombre().equalsIgnoreCase(respuesta)) {
+
+                    if (EquipoController.getInstancia().eliminar(id)) {
+                        JOptionPane.showMessageDialog(rootPane, "se eliminno el Purificador");
+                        EquipoController.getInstancia().listarGui();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador ya esta asociado a un cliente");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador");
+                }
+                break;
+
+        }
+    }
 
     public JComboBox<String> getComboMaterial() {
         return comboMaterial;
@@ -317,8 +408,6 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     public JTextField getTextColor() {
         return textColor;
     }
-    
-    
 
     private void limpiar() {
         comboMaterial.setSelectedIndex(0);
@@ -329,10 +418,14 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     }
 
     private boolean validar() {
-        if (textModelo.getText().isEmpty() || textNombre.getText().isEmpty() || textPrecio.getText().isEmpty()) {
+        if (textModelo.getText().isEmpty() || textNombre.getText().isEmpty() || 
+                textPrecio.getText().isEmpty()||textColor.getText().isEmpty()||
+                comboMaterial.getSelectedIndex()==0) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
+            
             return false;
         }
+        
         return true;
     }
 
@@ -341,7 +434,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         String col[] = {"CODIGO", "MATERIAL", "MODELO", "NOMBRE", "COLOR", "VALOR"};
         String data[][] = {};
         DefaultTableModel model = new DefaultTableModel(data, col);
-        
+
         if (!equipos.isEmpty()) {
             equipos.forEach(equipo -> {
                 model.addRow(equipo.toArray());
@@ -353,10 +446,10 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnEdit;
     private javax.swing.JComboBox<String> comboMaterial;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

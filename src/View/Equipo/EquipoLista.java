@@ -18,7 +18,6 @@ import javax.swing.JTable;
 public class EquipoLista extends javax.swing.JInternalFrame {
 
     private static EquipoLista equipoLista;
-    
 
     /**
      * Creates new form EquipoLista
@@ -184,8 +183,6 @@ public class EquipoLista extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-
     public JTable getTabla() {
         return tabla;
     }
@@ -194,7 +191,6 @@ public class EquipoLista extends javax.swing.JInternalFrame {
         this.tabla = tabla;
     }
 
-   
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
@@ -225,7 +221,7 @@ public class EquipoLista extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      Principal.getInstance().equipoNuevo();
+        Principal.getInstance().equipoNuevo();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void opcionesEquipo(int id, int opc) {
@@ -237,7 +233,7 @@ public class EquipoLista extends javax.swing.JInternalFrame {
 
                 break;
             case 1:
-                
+
                 //Equipo equipo = this.equipoControl.Buscar(id);
                 Equipo equipo = EquipoController.getInstancia().Buscar(id);
                 String respuesta = JOptionPane.showInputDialog("Escribe " + equipo.getNombre() + " para confirmar que desea eliminar el purificador.");

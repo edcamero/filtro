@@ -61,7 +61,7 @@ public class EquipoDao implements InterfaceDao<Equipo> {
 
         ArrayList<Equipo> equipos = new ArrayList<>();
         try {
-            String query = "select * from divice";
+            String query = "select * from divice order by divi_id ";
             pst = this.con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
@@ -94,7 +94,7 @@ public class EquipoDao implements InterfaceDao<Equipo> {
     public boolean delete(int id) {
         try {
             String query = "delete from equipo"
-                    + " where id_equi =? order by id_equi ;";
+                    + " where id_equi =?;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -114,19 +114,19 @@ public class EquipoDao implements InterfaceDao<Equipo> {
     public boolean update(Equipo equipo) {
 
         try {
-            String query = "UPDATE equipo\n"
-                    + "   SET  material_equi=?, modelo_equi=?, nombre_equi=?, precio_equi=? \n"
-                    + "       , disponible=?\n"
-                    + " WHERE id_equi=?;";
+            String query = "UPDATE divice\n"
+                    + "   SET  divi_material=?, divi_model=?, divi_name=?, divi_color=?,divi_cost=?,divi_price=? \n"
+                    + " WHERE divi_id=?;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, equipo.getMaterial());
             pst.setString(2, equipo.getModelo());
             pst.setString(3, equipo.getNombre());
-            pst.setInt(4, equipo.getPrecio());
-            pst.setBoolean(5, equipo.getDisponible());
-            pst.setInt(6, equipo.getId());
+            pst.setString(4, equipo.getColor());
+            pst.setInt(5, equipo.getCosto());
+            pst.setInt(6, equipo.getPrecio());
+            pst.setInt(7, equipo.getId());
             pst.execute();
             return true;
 
