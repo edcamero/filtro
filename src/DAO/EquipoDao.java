@@ -31,16 +31,17 @@ public class EquipoDao implements InterfaceDao<Equipo> {
 
     @Override
     public boolean save(Equipo equipo) {
-        String query = "insert into equipo(material_equi,modelo_equi,nombre_equi,precio_equi,disponible)\n"
-                + "	values(?,?,?,?,?) returning id_equi";
+        String query = "insert into divice(divi_material,divi_model,divi_name,divi_color,divi_cost,divi_price)\n"
+                + "	values(?,?,?,?,?,?) returning divi_id";
         try {
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setString(1, equipo.getMaterial());
             pst.setString(2, equipo.getModelo());
             pst.setString(3, equipo.getNombre());
-            pst.setInt(4, equipo.getPrecio());
-            pst.setBoolean(5, equipo.getDisponible());
+            pst.setString(4, equipo.getColor());
+             pst.setInt(5, equipo.getCosto());
+            pst.setInt(6, equipo.getPrecio());
             rs = pst.executeQuery();
             while (rs.next()) {
                 equipo.setId(rs.getInt(1));

@@ -49,8 +49,9 @@ public class EquipoController {
         String material = (String) panel.getComboMaterial().getSelectedItem();
         String modelo = panel.getTextModelo().getText();
         String nombre = panel.getTextNombre().getText();
+        String color = panel.getTextColor().getText();
         int precio = Integer.parseInt(panel.getTextPrecio().getText());
-        Equipo nuevo = new Equipo(material, modelo, nombre, precio);
+        Equipo nuevo = new Equipo(material, modelo, nombre,color, precio);
         return Fachada.getInstancia().saveEquipo(nuevo);
     }
 
