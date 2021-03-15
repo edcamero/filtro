@@ -5,15 +5,19 @@
  */
 package View.Equipo;
 
+import Models.Equipo;
 import View.Cliente.ClienteNuevoGui;
 import View.Validaciones;
 import control.EquipoController;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import logica.Fachada;
 
 /**
  *
@@ -23,6 +27,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
     private static EquipoNuevo equipoNuevo;
     private EquipoController equipoControl;
+    private ArrayList<Equipo> equipos;
 
     /**
      * Creates new form EquipoNuevo
@@ -36,8 +41,9 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
     public static EquipoNuevo getInstancia() {
         if (equipoNuevo == null) {
-            return new EquipoNuevo();
+            equipoNuevo= new EquipoNuevo();
         }
+        equipoNuevo.cargarTabla();
         return equipoNuevo;
     }
 
@@ -72,7 +78,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
 
         setTitle("Nuevo Equipo");
 
@@ -186,7 +192,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Modelo", "Material" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -197,7 +203,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -261,6 +267,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (this.validar()) {
             int resp = 0;
+            
             if (equipoControl.agregar()) {
                 resp = JOptionPane.showConfirmDialog(this, "Se ha agregado con exito el Equipo. \n ¿Desea agregar otro equipo?");
                 if (JOptionPane.OK_OPTION == resp) {
@@ -307,6 +314,20 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         return true;
     }
 
+    private void cargarTabla() {
+        equipos = Fachada.getInstancia().getAllEquipo();
+        String col[] = {"CODIGO", "MATERIAL", "MODELO", "NOMBRE", "COLOR", "VALOR"};
+        String data[][] = {};
+        DefaultTableModel model = new DefaultTableModel(data, col);
+        
+        if (!equipos.isEmpty()) {
+            equipos.forEach(equipo -> {
+                model.addRow(equipo.toArray());
+            });
+        }
+        tabla.setModel(model);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboMaterial;
@@ -323,8 +344,8 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tabla;
     private javax.swing.JTextField textModelo;
     private javax.swing.JTextField textNombre;
     private javax.swing.JTextField textPrecio;

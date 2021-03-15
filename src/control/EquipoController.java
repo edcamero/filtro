@@ -68,10 +68,11 @@ public class EquipoController {
         model.addColumn("MATERIAL");
         model.addColumn("MODELO");
         model.addColumn("NOMBRE");
+         model.addColumn("COLOR");
         model.addColumn("PRECIO");
 
         for (Equipo e : equipos) {
-            model.addRow(new Object[]{e.getId(), e.getMaterial(), e.getModelo(), e.getNombre(), e.getPrecio()});
+            model.addRow(new Object[]{e.getId(), e.getMaterial(), e.getModelo(), e.getNombre(),e.getColor(), e.getPrecio()});
         }
         equipoListaGui.getTabla().setModel(model);
     }

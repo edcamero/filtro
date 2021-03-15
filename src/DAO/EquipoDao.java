@@ -29,8 +29,6 @@ public class EquipoDao implements InterfaceDao<Equipo> {
         this.con = con;
     }
 
-    
-    
     @Override
     public boolean save(Equipo equipo) {
         String query = "insert into equipo(material_equi,modelo_equi,nombre_equi,precio_equi,disponible)\n"
@@ -50,8 +48,8 @@ public class EquipoDao implements InterfaceDao<Equipo> {
             }
             return true;
         } catch (SQLException ex) {
-           Logger.getLogger(EquipoDao.class.getName()).log(Level.SEVERE, null, ex);
-            
+            Logger.getLogger(EquipoDao.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return false;
 
@@ -60,36 +58,42 @@ public class EquipoDao implements InterfaceDao<Equipo> {
     @Override
     public ArrayList getAll() {
 
-        ArrayList<Equipo> list = new ArrayList<>();
+        ArrayList<Equipo> equipos = new ArrayList<>();
         try {
-            String query = "select * from Equipo";
+            String query = "select * from divice";
             pst = this.con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Equipo equipo = new Equipo(rs.getInt("id_equi"), rs.getString("material_equi"), rs.getString("modelo_equi"),
-                        rs.getString("nombre_equi"), rs.getInt("precio_equi"), rs.getBoolean("disponible"));
-                list.add(equipo);
+                 Equipo equipo= new Equipo(
+                        rs.getInt("divi_id"),
+                        rs.getString("divi_material"),
+                        rs.getString("divi_model"),
+                        rs.getString("divi_name"), 
+                        rs.getString("divi_color"),
+                        rs.getInt("divi_price"),
+                        rs.getBoolean("divi_available"));
+                equipos.add(equipo);
             }
-                return list;
+            return equipos;
         } catch (SQLException ex) {
             Logger.getLogger(EquipoDao.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally {
             try {
                 pst.close();
             } catch (SQLException ex) {
                 Logger.getLogger(EquipoDao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return list;
+        return equipos;
     }
 
     @Override
     public boolean delete(int id) {
         try {
             String query = "delete from equipo"
-                    + " where id_equi =?;";
+                    + " where id_equi =? order by id_equi ;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -131,28 +135,33 @@ public class EquipoDao implements InterfaceDao<Equipo> {
         return false;
     }
 
-  
-
     @Override
     public Equipo get(int id) {
-        
+
         try {
-            String query = "select * from Equipo where id_equi=?;";
+            String query = "select * from divice where divi_id=?;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setInt(1, id);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Equipo equipo = new Equipo(rs.getInt("id_equi"), rs.getString("material_equi"), rs.getString("modelo_equi"),
-                        rs.getString("nombre_equi"), rs.getInt("precio_equi"), rs.getBoolean("disponible"));
+                Equipo equipo = new Equipo(
+                        rs.getInt("divi_id"),
+                        rs.getString("divi_material"),
+                        rs.getString("divi_model"),
+                        rs.getString("divi_name"),
+                        rs.getString("divi_color"),
+                        rs.getInt("divi_price"),
+                        rs.getBoolean("divi_available"));
+                
                 return equipo;
             }
         } catch (SQLException ex) {
             Logger.getLogger(EquipoDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    return null;
+        return null;
     }
 
 }
