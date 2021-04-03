@@ -212,7 +212,7 @@ public class Mediador implements InterfaceMediador {
         try {
 
             conexion.ConexionPostgres();
-            clienteDao.update(cliente);
+            respuesta = clienteDao.update(cliente);
             for (EquipoCliente equipo : cliente.getEquiposCliente()) {
                 if (equipo.getId() == 0) {
                     System.out.println(equipo.getId() + " " + equipo.getEquipo().getNombre());
