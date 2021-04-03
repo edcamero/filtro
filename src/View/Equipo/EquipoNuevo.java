@@ -176,6 +176,11 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         });
 
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -335,22 +340,26 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaMouseClicked
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-             if(validar()){
-                 equipo.setMaterial((String) comboMaterial.getSelectedItem());
-                 equipo.setModelo(textModelo.getText());
-                 equipo.setNombre(textNombre.getText());
-                 equipo.setColor(textColor.getText());
-                 equipo.setPrecio(Integer.parseInt(textPrecio.getText()));
-                if(Fachada.getInstancia().updateEquipo(equipo)) {
-                     JOptionPane.showMessageDialog(rootPane, "se actualizó el quipo correctamente");
-                     limpiar();
-                     cargarElementos();
-                     cargarTabla();
-                }else{
-                       JOptionPane.showMessageDialog(rootPane, "error a actulizar el equipo", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
-                }
-             }  
+        if (validar()) {
+            equipo.setMaterial((String) comboMaterial.getSelectedItem());
+            equipo.setModelo(textModelo.getText());
+            equipo.setNombre(textNombre.getText());
+            equipo.setColor(textColor.getText());
+            equipo.setPrecio(Integer.parseInt(textPrecio.getText()));
+            if (Fachada.getInstancia().updateEquipo(equipo)) {
+                JOptionPane.showMessageDialog(rootPane, "se actualizó el quipo correctamente");
+                limpiar();
+                cargarElementos();
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "error a actulizar el equipo", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void opcionesEquipo(int id, int opc) {
 
@@ -373,7 +382,6 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
                 equipo = Fachada.getInstancia().getEquipo(id);
                 String respuesta = JOptionPane.showInputDialog("Escribe " + equipo.getNombre() + " para confirmar que desea eliminar el purificador.");
                 if (equipo.getNombre().equalsIgnoreCase(respuesta)) {
-
                     if (EquipoController.getInstancia().eliminar(id)) {
                         JOptionPane.showMessageDialog(rootPane, "se eliminno el Purificador");
                         EquipoController.getInstancia().listarGui();
@@ -418,14 +426,14 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     }
 
     private boolean validar() {
-        if (textModelo.getText().isEmpty() || textNombre.getText().isEmpty() || 
-                textPrecio.getText().isEmpty()||textColor.getText().isEmpty()||
-                comboMaterial.getSelectedIndex()==0) {
+        if (textModelo.getText().isEmpty() || textNombre.getText().isEmpty()
+                || textPrecio.getText().isEmpty() || textColor.getText().isEmpty()
+                || comboMaterial.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
-            
+
             return false;
         }
-        
+
         return true;
     }
 

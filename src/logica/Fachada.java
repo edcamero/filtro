@@ -80,6 +80,9 @@ public class Fachada {
     public boolean updateCliente(Cliente cliente) {
         return mediador.updateCliente(cliente);
     }
+    public boolean deleteCliente(int id){
+        return mediador.deleteCliente(id);
+    }
 
     public boolean saveBujia(Bujia bujia) {
         return mediador.saveBujia(bujia);

@@ -94,7 +94,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
         return clientes;
     }
 
-    public ArrayList<Cliente> buscarClientes(String palabra,String column) {
+    public ArrayList<Cliente> buscarClientes(String palabra, String column) {
         palabra = "%" + palabra + "%";
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
         String consulta = "select * FROM CUSTOMER where ? ilike ?";
@@ -156,8 +156,10 @@ public class ClienteDao implements InterfaceDao<Cliente> {
     @Override
     public boolean delete(int id) {
 
-        String consulta = "delete from CUSTOMER\n"
-                + "where id_cli=?";
+        String consulta = "update CUSTOMER set \n"
+                + "	cust_status=false,\n"
+                + "	updateat=now()\n"
+                + "where cust_id =? returning *";
         try {
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -199,9 +201,9 @@ public class ClienteDao implements InterfaceDao<Cliente> {
         return null;
     }
 
-    public Cliente get(String word, String column ) {
+    public Cliente get(String word, String column) {
 
-        String consulta = "select * FROM CUSTOMER where "+column+" = ?;";
+        String consulta = "select * FROM CUSTOMER where " + column + " = ?;";
 
         try {
             con.ConexionPostgres();

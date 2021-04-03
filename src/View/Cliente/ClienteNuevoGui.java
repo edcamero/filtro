@@ -229,6 +229,11 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         });
 
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -335,6 +340,8 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_textTel1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        limpiar();
+        cliente = null;
         cerrar();
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -401,6 +408,10 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        eliminarCliente(cliente.getId());
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
     private void cargarElementos() {
         btnCreate.setEnabled(true);
         btnEdit.setEnabled(false);
@@ -420,6 +431,27 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
                 textTel2.setText(cliente.getTelefonoDos() == null ? "" : cliente.getTelefonoDos());
                 textDir.setText(cliente.getDireccion());
                 textEmail.setText(cliente.getEmail() == null ? "" : cliente.getEmail());
+                break;
+            case 1:
+                cliente = Fachada.getInstancia().getCliente(id);
+                eliminarCliente(id);
+                break;
+        }
+    }
+
+    private void eliminarCliente(int id) {
+        String respuesta = JOptionPane.showInputDialog("Escribe si  para confirmar que desea eliminar el cliente.");
+        if (respuesta.equalsIgnoreCase("si")) {
+            if (Fachada.getInstancia().deleteCliente(id)) {
+                JOptionPane.showMessageDialog(rootPane, "se eliminno el Cliente");
+                limpiar();
+                cargarElementos();
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No se eliminno el cliente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No se eliminno el Cliente");
         }
     }
 
@@ -497,7 +529,7 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
 
     private boolean validar() {
         if (textDoc.getText().isEmpty() || textNombre.getText().isEmpty() || textTel1.getText().isEmpty()
-                 || textDir.getText().isEmpty() ) {
+                || textDir.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
