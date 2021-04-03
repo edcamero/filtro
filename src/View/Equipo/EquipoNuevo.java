@@ -358,7 +358,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
+        eliminarEquipo(equipo.getId());        // TODO add your handling code here:
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void opcionesEquipo(int id, int opc) {
@@ -374,26 +374,30 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
                 textNombre.setText(equipo.getNombre());
                 textColor.setText(equipo.getColor());
                 textPrecio.setText(String.valueOf(equipo.getPrecio()));
-
                 break;
+
             case 1:
-
-                //Equipo equipo = this.equipoControl.Buscar(id);
-                equipo = Fachada.getInstancia().getEquipo(id);
-                String respuesta = JOptionPane.showInputDialog("Escribe " + equipo.getNombre() + " para confirmar que desea eliminar el purificador.");
-                if (equipo.getNombre().equalsIgnoreCase(respuesta)) {
-                    if (EquipoController.getInstancia().eliminar(id)) {
-                        JOptionPane.showMessageDialog(rootPane, "se eliminno el Purificador");
-                        EquipoController.getInstancia().listarGui();
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador ya esta asociado a un cliente");
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador");
-                }
+                eliminarEquipo(id);
                 break;
 
+        }
+    }
+
+    private void eliminarEquipo(int id) {
+        equipo = Fachada.getInstancia().getEquipo(id);
+        String respuesta = JOptionPane.showInputDialog("Escribe si para confirmar que desea eliminar el purificador.");
+        if (respuesta.equalsIgnoreCase("si")) {
+            if (EquipoController.getInstancia().eliminar(id)) {
+                JOptionPane.showMessageDialog(rootPane, "se eliminno el Purificador");
+                limpiar();
+                cargarElementos();
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador ya esta asociado a un cliente");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador");
         }
     }
 

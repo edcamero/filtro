@@ -40,7 +40,7 @@ public class EquipoDao implements InterfaceDao<Equipo> {
             pst.setString(2, equipo.getModelo());
             pst.setString(3, equipo.getNombre());
             pst.setString(4, equipo.getColor());
-             pst.setInt(5, equipo.getCosto());
+            pst.setInt(5, equipo.getCosto());
             pst.setInt(6, equipo.getPrecio());
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -61,17 +61,17 @@ public class EquipoDao implements InterfaceDao<Equipo> {
 
         ArrayList<Equipo> equipos = new ArrayList<>();
         try {
-            String query = "select * from divice order by divi_id ";
+            String query = "select * from divice where divi_status = true order by divi_id ";
             pst = this.con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                 Equipo equipo= new Equipo(
+                Equipo equipo = new Equipo(
                         rs.getInt("divi_id"),
                         rs.getString("divi_material"),
                         rs.getString("divi_model"),
-                        rs.getString("divi_name"), 
+                        rs.getString("divi_name"),
                         rs.getString("divi_color"),
                         rs.getInt("divi_price"),
                         rs.getBoolean("divi_available"));
@@ -93,8 +93,10 @@ public class EquipoDao implements InterfaceDao<Equipo> {
     @Override
     public boolean delete(int id) {
         try {
-            String query = "delete from equipo"
-                    + " where id_equi =?;";
+            String query = "UPDATE  divice set"
+                    + " divi_status=false , \n"
+                    + "	updateat=now()\n"
+                    + " where divi_id = ?;";
 
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -155,7 +157,7 @@ public class EquipoDao implements InterfaceDao<Equipo> {
                         rs.getString("divi_color"),
                         rs.getInt("divi_price"),
                         rs.getBoolean("divi_available"));
-                
+
                 return equipo;
             }
         } catch (SQLException ex) {
