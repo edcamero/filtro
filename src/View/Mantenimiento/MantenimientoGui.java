@@ -638,9 +638,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         String documento = textDocCli.getText();
         cliente = Fachada.getInstancia().getCliente(documento, "cust_document");
         JOptionPane.showMessageDialog(null, cliente.getNombre());
-        textNombreCli.setText(cliente.getNombre());
-        textTelefeno.setText(cliente.getTelefonoUno() + " - " + cliente.getTelefonoDos());
-        textDireccion.setText(cliente.getDireccion());
+        mostrarDatos();
 
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -698,15 +696,17 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             textDireccion.setText(cliente.getDireccion());
             DefaultTableModel model = (DefaultTableModel) this.tabla.getModel();
             model.setRowCount(0);
+            comboEquipo.removeAllItems();
+            comboEquipo.addItem("seleccionar");
             for (EquipoCliente equipoCliente : cliente.getEquiposCliente()) {
                 Equipo equipo = equipoCliente.getEquipo();
+                System.out.println(equipo.getNombre());
                 comboEquipo.addItem(equipo.getModelo() + "-" + equipo.getNombre());
             }
             totalMant.setText(String.valueOf(mantenimiento.getValorMantenimiento()));
         }
 
         fecha.setDate(new Date());
-        comboEquipo.removeAllItems();
         mostrarTecnicosDisponibles();
 
     }

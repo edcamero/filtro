@@ -64,7 +64,7 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
 
             while (rs.next()) {
 
-                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("id_eqcl"), rs.getInt("id_equi"), rs.getInt("id_id_cli"));
+                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("id_eqcl"), rs.getInt("id_equi"), rs.getInt("id_id_cli"),rs.getDate(""));
                 lista.add(equipoCliente);
             }
 
@@ -75,11 +75,10 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
     }
 
     public ArrayList<EquipoCliente> getAll(int id_cliente) {
-        ArrayList<Equipo> lista = new ArrayList<>();
         ArrayList<EquipoCliente> equipos = new ArrayList<>();
         try {
 
-            String query = "SELECT dc.dicu_id as id,d.* FROM divice as d inner join divice_customer as dc on d.divi_id = dc.divi_id"
+            String query = "SELECT * FROM public.divice_customer"
                     + " where cust_id=?;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -87,15 +86,8 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Equipo equipo = new Equipo(
-                        rs.getInt("id"),
-                        rs.getString("divi_material"),
-                        rs.getString("divi_model"),
-                        rs.getString("divi_name"),
-                        rs.getString("divi_color"),
-                        rs.getInt("divi_price"),
-                        rs.getBoolean("divi_available"));
-                lista.add(equipo);
+                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("dicu_id"), rs.getInt("cust_id"), rs.getInt("divi_id"),rs.getDate("divi_date"));
+                equipos.add(equipoCliente);
             }
 
         } catch (SQLException ex) {
@@ -159,7 +151,7 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
 
             while (rs.next()) {
 
-                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("id_eqcl"), rs.getInt("id_equi"), rs.getInt("id_id_cli"));
+                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("dicu_id"), rs.getInt("cust_id"), rs.getInt("divi_id"),rs.getDate("divi_date"));
 
                 return equipoCliente;
             }
