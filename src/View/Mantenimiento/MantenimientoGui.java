@@ -11,8 +11,9 @@ import Models.EquipoCliente;
 import Models.Mantenimiento;
 import Models.MantenimientoEquipo;
 import Models.RepuestoMante;
-import View.Principal;
+import Models.Tecnico;
 import control.MantenimientoController;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -28,10 +29,10 @@ import logica.Fachada;
 public class MantenimientoGui extends javax.swing.JInternalFrame {
 
     private static MantenimientoGui mantenimientoGui;
-
     private Mantenimiento mantenimiento;
     private Cliente cliente;
     private MantenimientoController mantController;
+    private ArrayList<Tecnico> tecnicos;
 
     private MantenimientoGui() {
         initComponents();
@@ -634,13 +635,13 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        String documento= textDocCli.getText();
+        String documento = textDocCli.getText();
         cliente = Fachada.getInstancia().getCliente(documento, "cust_document");
-        JOptionPane.showMessageDialog(null,cliente.getNombre());
+        JOptionPane.showMessageDialog(null, cliente.getNombre());
         textNombreCli.setText(cliente.getNombre());
-        textTelefeno.setText(cliente.getTelefonoUno()+ " - " +cliente.getTelefonoDos() );
+        textTelefeno.setText(cliente.getTelefonoUno() + " - " + cliente.getTelefonoDos());
         textDireccion.setText(cliente.getDireccion());
-        
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void textNombreCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNombreCliActionPerformed
@@ -693,6 +694,8 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         if (cliente != null) {
             textNombreCli.setText(cliente.getNombre());
             textDocCli.setText(cliente.getDocumento());
+            textTelefeno.setText(cliente.getTelefonoUno() + "-" + (cliente.getTelefonoDos() == null ? "" : cliente.getTelefonoDos()));
+            textDireccion.setText(cliente.getDireccion());
             DefaultTableModel model = (DefaultTableModel) this.tabla.getModel();
             model.setRowCount(0);
             for (EquipoCliente equipoCliente : cliente.getEquiposCliente()) {
@@ -704,7 +707,17 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
         fecha.setDate(new Date());
         comboEquipo.removeAllItems();
-        
+        mostrarTecnicosDisponibles();
+
+    }
+
+    public void mostrarTecnicosDisponibles() {
+        comboTecnico.removeAllItems();
+        tecnicos = Fachada.getInstancia().getAllTecnico();
+        comboTecnico.addItem("Seleccionar");
+        tecnicos.forEach(tecnico -> {
+            comboTecnico.addItem(tecnico.getNombre());
+        });
 
     }
 
