@@ -31,20 +31,18 @@ public interface InterfaceMediador {
 
     public boolean deleteEquipo(int id);
 
-    
     public boolean saveCliente(Cliente cliente);
 
     public ArrayList<Cliente> getAllCliente();
 
     public Cliente getCliente(int id);
 
+    public Cliente getCliente(String word, String column);
+
     public boolean updateCliente(Cliente cliente);
 
     public boolean deleteCliente(int id);
 
-    
-    
-    
     public boolean saveBujia(Bujia bujia);
 
     public ArrayList<Bujia> getAllBujia();
@@ -54,8 +52,7 @@ public interface InterfaceMediador {
     public boolean updateBujia(Bujia bujia);
 
     public boolean deleteBujia(int id);
-    
-    
+
     public boolean saveRepuesto(Repuesto repuesto);
 
     public ArrayList<Repuesto> getAllRepuesto();
@@ -65,8 +62,7 @@ public interface InterfaceMediador {
     public boolean updateRepuesto(Repuesto repuesto);
 
     public boolean deleteRepuesto(int id);
-    
-    
+
     public boolean saveTecnico(Tecnico tecnico);
 
     public ArrayList<Tecnico> getAllTecnico();
@@ -77,7 +73,6 @@ public interface InterfaceMediador {
 
     public boolean deleteTecnico(int id);
 
-
     public boolean saveUsuario(Usuario usuario);
 
     public ArrayList<Usuario> getAllUsuario();
@@ -87,17 +82,18 @@ public interface InterfaceMediador {
     public boolean updateUsuario(Usuario usuario);
 
     public boolean deleteUsuario(int id);
-    
-    public Usuario loginUsuario(String username,String paswword);
-    
+
+    public Usuario loginUsuario(String username, String paswword);
+
     public boolean saveMantenimiento(Mantenimiento manteniemiento);
-    
-    
-    
+
     //********************************************************* METODOS DE TIPO REPUESTOS
     public ArrayList<TipoRepuesto> getTipoRepuestos();
+
     public boolean saveTipoRepuesto(TipoRepuesto tipoRepuesto);
+
     public boolean updateTipoRepuesto(TipoRepuesto tipoRepuesto);
+
     public boolean deleteTipoRepuesto(int id);
 
 }

@@ -187,12 +187,32 @@ public class Mediador implements InterfaceMediador {
     }
 
     @Override
+    public Cliente getCliente(String word, String column) {
+        Cliente cliente = null;
+        try {
+            conexion.ConexionPostgres();
+            cliente = clienteDao.get(word, column);
+            ArrayList<EquipoCliente> equiposCliente = equipoClienteDao.getAll(cliente.getId());
+            equiposCliente.stream().forEach(equi -> {
+                equi.setEquipo(equipoDao.get(equi.getIdEquipo()));
+            });
+            cliente.setEquiposCliente(equiposCliente);
+
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conexion.cerrar();
+        }
+        return cliente;
+    }
+
+    @Override
     public boolean updateCliente(Cliente cliente) {
         boolean respuesta = false;
         try {
 
             conexion.ConexionPostgres();
-            clienteDao.update(cliente);
+            respuesta = clienteDao.update(cliente);
             for (EquipoCliente equipo : cliente.getEquiposCliente()) {
                 if (equipo.getId() == 0) {
                     System.out.println(equipo.getId() + " " + equipo.getEquipo().getNombre());

@@ -28,10 +28,11 @@ public class EquipoCliente  implements java.io.Serializable {
         this.idEquipo=equipo.getId();
     }
 
-    public EquipoCliente(int id, int idCliente, int idEquipo) {
+    public EquipoCliente(int id, int idCliente, int idEquipo, Date fechaCreado) {
         this.id = id;
         this.idCliente = idCliente;
         this.idEquipo = idEquipo;
+        this.fechaCreado = fechaCreado;
     }
     
     

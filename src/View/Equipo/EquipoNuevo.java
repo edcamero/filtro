@@ -5,15 +5,20 @@
  */
 package View.Equipo;
 
+import Models.Equipo;
 import View.Cliente.ClienteNuevoGui;
 import View.Validaciones;
 import control.EquipoController;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import logica.Fachada;
 
 /**
  *
@@ -23,6 +28,8 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
     private static EquipoNuevo equipoNuevo;
     private EquipoController equipoControl;
+    private ArrayList<Equipo> equipos;
+    private Equipo equipo;
 
     /**
      * Creates new form EquipoNuevo
@@ -31,14 +38,23 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         initComponents();
         Validaciones.TextMayus(textModelo);
         Validaciones.TextMayus(textNombre);
+        Validaciones.TextMayus(textColor);
         Validaciones.soloNumeros(textPrecio);
     }
 
     public static EquipoNuevo getInstancia() {
         if (equipoNuevo == null) {
-            return new EquipoNuevo();
+            equipoNuevo = new EquipoNuevo();
         }
+        equipoNuevo.cargarTabla();
+        equipoNuevo.cargarElementos();
         return equipoNuevo;
+    }
+
+    private void cargarElementos() {
+        btnCreate.setEnabled(true);
+        btnEdit.setEnabled(false);
+        btnBorrar.setEnabled(false);
     }
 
     public void setEquipoControl(EquipoController equipoControl) {
@@ -63,16 +79,18 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         textModelo = new javax.swing.JTextField();
         textNombre = new javax.swing.JTextField();
         textPrecio = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        textColor = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
 
         setTitle("Nuevo Equipo");
 
@@ -90,7 +108,10 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         jLabel4.setFont(jLabel1.getFont());
         jLabel4.setText("Precio:");
 
-        comboMaterial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIDRIO", "METAL", "ACRILICO" }));
+        comboMaterial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONAR", "VIDRIO", "METAL", "ACRILICO" }));
+
+        jLabel6.setFont(jLabel1.getFont());
+        jLabel6.setText("Color:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,19 +123,20 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(textModelo)
-                    .addComponent(comboMaterial, javax.swing.GroupLayout.Alignment.LEADING, 0, 174, Short.MAX_VALUE)
-                    .addComponent(textNombre)
-                    .addComponent(textPrecio))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textColor)
+                    .addComponent(textModelo, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(comboMaterial, 0, 277, Short.MAX_VALUE)
+                    .addComponent(textNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(textPrecio, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -127,25 +149,38 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3))
                     .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addComponent(textColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_to_cart.png"))); // NOI18N
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCreateActionPerformed(evt);
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -161,11 +196,11 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -173,11 +208,11 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -186,7 +221,7 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Modelo", "Material" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -197,7 +232,12 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -205,22 +245,21 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 246, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -258,14 +297,17 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             Logger.getLogger(ClienteNuevoGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         if (this.validar()) {
             int resp = 0;
+
             if (equipoControl.agregar()) {
                 resp = JOptionPane.showConfirmDialog(this, "Se ha agregado con exito el Equipo. \n ¿Desea agregar otro equipo?");
                 if (JOptionPane.OK_OPTION == resp) {
                     this.limpiar();
+                    cargarTabla();
                 } else {
+                    this.limpiar();
                     this.cerrar();
                 }
             } else {
@@ -274,7 +316,90 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
             }
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        JTable source = (JTable) evt.getSource();
+        int row = source.rowAtPoint(evt.getPoint());
+        int seleccion = JOptionPane.showOptionDialog(
+                this,
+                "Seleccione opcion",
+                "Selector de opciones",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, // null para icono por defecto.
+                new Object[]{"Editar", "Eliminar", "Cancelar"}, // null para YES, NO y CANCEL
+                "opcion 1");
+        //int column = source.columnAtPoint( evt.getPoint() );
+        String id_s = "" + source.getModel().getValueAt(row, 0);
+
+        int id = Integer.parseInt(id_s);
+        // System.out.println(source.getModel().getValueAt(row, 0));
+        opcionesEquipo(id, seleccion);
+        //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:          // TODO add your handling code here:
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        if (validar()) {
+            equipo.setMaterial((String) comboMaterial.getSelectedItem());
+            equipo.setModelo(textModelo.getText());
+            equipo.setNombre(textNombre.getText());
+            equipo.setColor(textColor.getText());
+            equipo.setPrecio(Integer.parseInt(textPrecio.getText()));
+            if (Fachada.getInstancia().updateEquipo(equipo)) {
+                JOptionPane.showMessageDialog(rootPane, "se actualizó el quipo correctamente");
+                limpiar();
+                cargarElementos();
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "error a actulizar el equipo", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        eliminarEquipo(equipo.getId());        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void opcionesEquipo(int id, int opc) {
+
+        switch (opc) {
+            case 0:
+                equipo = Fachada.getInstancia().getEquipo(id);
+                btnEdit.setEnabled(true);
+                btnBorrar.setEnabled(true);
+                btnCreate.setEnabled(false);
+                comboMaterial.setSelectedItem(equipo.getMaterial());
+                textModelo.setText(equipo.getModelo());
+                textNombre.setText(equipo.getNombre());
+                textColor.setText(equipo.getColor());
+                textPrecio.setText(String.valueOf(equipo.getPrecio()));
+                break;
+
+            case 1:
+                eliminarEquipo(id);
+                break;
+
+        }
+    }
+
+    private void eliminarEquipo(int id) {
+        equipo = Fachada.getInstancia().getEquipo(id);
+        String respuesta = JOptionPane.showInputDialog("Escribe si para confirmar que desea eliminar el purificador.");
+        if (respuesta.equalsIgnoreCase("si")) {
+            if (EquipoController.getInstancia().eliminar(id)) {
+                JOptionPane.showMessageDialog(rootPane, "se eliminno el Purificador");
+                limpiar();
+                cargarElementos();
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador ya esta asociado a un cliente");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No se eliminno el Purificador");
+        }
+    }
 
     public JComboBox<String> getComboMaterial() {
         return comboMaterial;
@@ -292,39 +417,64 @@ public class EquipoNuevo extends javax.swing.JInternalFrame {
         return textPrecio;
     }
 
+    public JTextField getTextColor() {
+        return textColor;
+    }
+
     private void limpiar() {
         comboMaterial.setSelectedIndex(0);
         textModelo.setText("");
         textNombre.setText("");
         textPrecio.setText("");
+        textColor.setText("");
     }
 
     private boolean validar() {
-        if (textModelo.getText().isEmpty() || textNombre.getText().isEmpty() || textPrecio.getText().isEmpty()) {
+        if (textModelo.getText().isEmpty() || textNombre.getText().isEmpty()
+                || textPrecio.getText().isEmpty() || textColor.getText().isEmpty()
+                || comboMaterial.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
+
             return false;
         }
+
         return true;
+    }
+
+    private void cargarTabla() {
+        equipos = Fachada.getInstancia().getAllEquipo();
+        String col[] = {"CODIGO", "MATERIAL", "MODELO", "NOMBRE", "COLOR", "VALOR"};
+        String data[][] = {};
+        DefaultTableModel model = new DefaultTableModel(data, col);
+
+        if (!equipos.isEmpty()) {
+            equipos.forEach(equipo -> {
+                model.addRow(equipo.toArray());
+            });
+        }
+        tabla.setModel(model);
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JComboBox<String> comboMaterial;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tabla;
+    private javax.swing.JTextField textColor;
     private javax.swing.JTextField textModelo;
     private javax.swing.JTextField textNombre;
     private javax.swing.JTextField textPrecio;

@@ -6,7 +6,6 @@
 package View.Cliente;
 
 import Models.Cliente;
-import Models.Repuesto;
 import View.Validaciones;
 import logica.Fachada;
 import java.beans.PropertyVetoException;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -25,9 +25,11 @@ import javax.swing.table.TableColumnModel;
 public class ClienteNuevoGui extends javax.swing.JInternalFrame {
 
     private static ClienteNuevoGui clienteNuevoGui;
+    private Cliente cliente;
     private boolean editable = false;
     private ArrayList<Cliente> clientes;
     private DefaultTableModel model;
+
     /**
      * Creates new form ClienteNuevo
      */
@@ -45,8 +47,8 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         if (clienteNuevoGui == null) {
             clienteNuevoGui = new ClienteNuevoGui();
         }
-        clienteNuevoGui.cargar();
-
+        clienteNuevoGui.cargarTabla();
+        clienteNuevoGui.cargarElementos();
         return clienteNuevoGui;
     }
 
@@ -78,9 +80,9 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         textDoc = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        btnCrear = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -212,16 +214,26 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("OPCIONES"));
 
-        btnCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+        btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
+                btnCreateActionPerformed(evt);
             }
         });
 
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar.png"))); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -237,11 +249,11 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCrear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(32, 32, 32))
         );
@@ -249,11 +261,11 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -273,6 +285,11 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -323,11 +340,13 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_textTel1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        limpiar();
+        cliente = null;
         cerrar();
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-      
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+
         String documento = textDoc.getText();
         String nombre = textNombre.getText();
         String tel_uno = textTel1.getText();
@@ -337,19 +356,106 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         Cliente nuevo = new Cliente(documento, nombre, tel_uno, tel_dos, direccion, email);
 
         if (Fachada.getInstancia().saveCliente(nuevo)) {
-                JOptionPane.showMessageDialog(rootPane, "se agrego un cliente");
-                this.editable = false;
-                btnEditar.setEnabled(false);
-                btnCrear.setEnabled(true);
-                cargar();
-                limpiar();
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "error a actulizar repuesto", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
-            }
-        
-    }//GEN-LAST:event_btnCrearActionPerformed
+            JOptionPane.showMessageDialog(rootPane, "se agrego un cliente");
+            this.editable = false;
+            btnEdit.setEnabled(false);
+            btnCreate.setEnabled(true);
+            cargarTabla();
+            limpiar();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "error a actulizar repuesto", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+        }
 
-     private void cargar() {
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        JTable source = (JTable) evt.getSource();
+        int row = source.rowAtPoint(evt.getPoint());
+        int seleccion = JOptionPane.showOptionDialog(
+                this,
+                "Seleccione opcion",
+                "Selector de opciones",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, // null para icono por defecto.
+                new Object[]{"Editar", "Eliminar", "Cancelar"}, // null para YES, NO y CANCEL
+                "opcion 1");
+        //int column = source.columnAtPoint( evt.getPoint() );
+        String id_s = "" + source.getModel().getValueAt(row, 0);
+
+        int id = Integer.parseInt(id_s);
+        // System.out.println(source.getModel().getValueAt(row, 0));
+        opcionesCliente(id, seleccion);        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        if (validar()) {
+            cliente.setDocumento(textDoc.getText());
+            cliente.setNombre(textNombre.getText());
+            cliente.setTelefonoUno(textTel1.getText());
+            cliente.setTelefonoDos(textTel2.getText());
+            cliente.setDireccion(textDir.getText());
+            cliente.setEmail(textEmail.getText());
+            if (Fachada.getInstancia().updateCliente(cliente)) {
+                JOptionPane.showMessageDialog(rootPane, "se actualizó el cliente correctamente");
+                limpiar();
+                cargarElementos();
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "error a actulizar el cliente", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        eliminarCliente(cliente.getId());
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void cargarElementos() {
+        btnCreate.setEnabled(true);
+        btnEdit.setEnabled(false);
+        btnBorrar.setEnabled(false);
+    }
+
+    private void opcionesCliente(int id, int opc) {
+        switch (opc) {
+            case 0:
+                cliente = Fachada.getInstancia().getCliente(id);
+                btnEdit.setEnabled(true);
+                btnBorrar.setEnabled(true);
+                btnCreate.setEnabled(false);
+                textDoc.setText(cliente.getDocumento());
+                textNombre.setText(cliente.getNombre());
+                textTel1.setText(cliente.getTelefonoUno());
+                textTel2.setText(cliente.getTelefonoDos() == null ? "" : cliente.getTelefonoDos());
+                textDir.setText(cliente.getDireccion());
+                textEmail.setText(cliente.getEmail() == null ? "" : cliente.getEmail());
+                break;
+            case 1:
+                cliente = Fachada.getInstancia().getCliente(id);
+                eliminarCliente(id);
+                break;
+        }
+    }
+
+    private void eliminarCliente(int id) {
+        String respuesta = JOptionPane.showInputDialog("Escribe si  para confirmar que desea eliminar el cliente.");
+        if (respuesta.equalsIgnoreCase("si")) {
+            if (Fachada.getInstancia().deleteCliente(id)) {
+                JOptionPane.showMessageDialog(rootPane, "se eliminno el Cliente");
+                limpiar();
+                cargarElementos();
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No se eliminno el cliente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No se eliminno el Cliente");
+        }
+    }
+
+    private void cargarTabla() {
         this.clientes = Fachada.getInstancia().getAllClientes();
         String data[][] = {};
         String col[] = {"CODIGO", "NOMBRE", "DOCUMENTO", "TELEFONOS", "DIRECCIÓN", "EMAIL"};
@@ -369,14 +475,17 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         columnModel.getColumn(4).setPreferredWidth(10);
         columnModel.getColumn(5).setPreferredWidth(10);
     }
+
     private void cerrar() {
         try {
             //this.dispose();        // TODO add your handling code here:
 
             this.setClosed(true);
             this.dispose();
+
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(ClienteNuevoGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteNuevoGui.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -420,7 +529,7 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
 
     private boolean validar() {
         if (textDoc.getText().isEmpty() || textNombre.getText().isEmpty() || textTel1.getText().isEmpty()
-                || textTel2.getText().isEmpty() || textDir.getText().isEmpty() || textEmail.getText().isEmpty()) {
+                || textDir.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -429,9 +538,9 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCrear;
-    private javax.swing.JButton btnEditar;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;

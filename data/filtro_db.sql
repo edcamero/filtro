@@ -1,5 +1,9 @@
-DROP TABLE IF EXISTS USUARIO;
+﻿DROP TABLE IF EXISTS USUARIO;
 DROP TABLE IF EXISTS TIPO_USUARIO;
+DROP TABLE IF EXISTS DIVICE_CUSTOMER;
+DROP TABLE IF EXISTS DETAIL_MAINTENANCE;
+
+DROP TABLE IF EXISTS MAINTENANCE;
 DROP TABLE IF EXISTS TECNICO;
 DROP TABLE IF EXISTS CUSTOMER;
 DROP TABLE IF EXISTS DIVICE;
@@ -48,12 +52,12 @@ CREATE TABLE TECNICO
 CREATE TABLE  CUSTOMER
 (
     cust_id SERIAL ,
-    cust_document VARCHAR(12) NOT NULL UNIQUE,
-    cust_name VARCHAR(50) NOT NULL,
-    cust_telephone_one VARCHAR(12) NOT NULL,
-    cust_telephone_two VARCHAR(12) NOT NULL,
-    cust_address VARCHAR(12) NOT NULL,
-    cust_email VARCHAR(50) NOT NULL,
+    cust_document VARCHAR(20) NOT NULL UNIQUE,
+    cust_name VARCHAR(80) NOT NULL,
+    cust_telephone_one VARCHAR(80) NOT NULL,
+    cust_telephone_two VARCHAR(12) ,
+    cust_address VARCHAR(200) NOT NULL,
+    cust_email VARCHAR(50) ,
     cust_status BOOLEAN
     NOT NULL DEFAULT TRUE,	
 	createAt timestamp DEFAULT now(),
@@ -67,10 +71,11 @@ CREATE TABLE  DIVICE
     divi_id SERIAL ,
     divi_material VARCHAR(12) NOT NULL ,
     divi_model VARCHAR(20) NOT NULL,
-    divi_name VARCHAR(20) NOT NULL,
+    divi_name VARCHAR(100) NOT NULL,
+	divi_color VARCHAR(20) NOT NULL,
     divi_cost INTEGER NOT NULL,
     divi_price INTEGER NOT NULL,
-    divi_available BOOLEAN NOT NULL,
+    divi_available BOOLEAN NOT NULL DEFAULT TRUE,
     divi_status BOOLEAN
     NOT NULL DEFAULT TRUE,
 	createAt timestamp DEFAULT now(),
@@ -118,6 +123,47 @@ CREATE TABLE SPARK_PLUG
     CONSTRAINT sppl_spar_fk FOREIGN KEY (spar_id) REFERENCES SPARE(spar_id)
 );
 
+CREATE TABLE DIVICE_CUSTOMER(
+dicu_id serial,
+cust_id INTEGER NOT NULL,
+divi_id INTEGER NOT NULL,
+divi_date DATE DEFAULT now(),
+createAt timestamp DEFAULT now(),
+updateAt timestamp DEFAULT now(),
+CONSTRAINT divice_customer_pk PRIMARY KEY
+        (dicu_id),
+CONSTRAINT dicu_cust_fk FOREIGN KEY (cust_id) REFERENCES CUSTOMER(cust_id),
+CONSTRAINT dicu_divi_fk FOREIGN KEY (divi_id) REFERENCES DIVICE(divi_id)
+);
+
+CREATE TABLE  MAINTENANCE
+(
+main_id serial ,
+cust_id INTEGER NOT NULL,
+main_datail VARCHAR,
+tecn_id INTEGER,
+main_date date,
+createAt timestamp DEFAULT now(),
+updateAt timestamp DEFAULT now(),
+CONSTRAINT maintenance_pk PRIMARY KEY
+        (main_id),
+CONSTRAINT main_cust_fk FOREIGN KEY (cust_id) REFERENCES CUSTOMER(cust_id),
+CONSTRAINT main_tecn_fk FOREIGN KEY (tecn_id) REFERENCES TECNICO(tecn_id)
+);
+
+
+CREATE TABLE DETAIL_MAINTENANCE(
+dema_id serial,
+dicu_id INTEGER,
+spar_id INTEGER, 
+dema_spar_cant integer,
+spar_cost INTEGER NOT NULL DEFAULT 0,
+spar_price_without_iva_unit INTEGER NOT NULL,
+spar_price_without_iva_total INTEGER NOT NULL,
+iva INTEGER NOT NULL,
+spar_price_total INTEGER NOT NULL
+);
+
 insert into TIPO_USUARIO  (tius_name,    tius_descripcion) values ('admin','administrados del sistema');
 insert into TIPO_USUARIO  (tius_name,    tius_descripcion) values ('secretaria','operaciones basicas');
 insert into USUARIO (user_name,user_password,tius_id) values ('admin','0cfc5b81354c34dca4122586d754e813',1);
@@ -125,8 +171,25 @@ insert into USUARIO (user_name,user_password,tius_id) values ('secretaria','e10a
 
 insert into TYPE_SPARE ( tysp_name)values ('ABRAZADERA'),('BUJIA'),('ELECTRICO'),('OTROS');
 
+INSERT INTO public.tecnico(tecn_document, tecn_name, tecn_telephone)
+	VALUES ('109020', 'por defecto', '55555');
+	
 --PARA AGREGAR DESDE LOS ARCHIVOS CSV COPIAR EN EL DISCO D
 --COPY spare (spar_name,spar_price_without_iva,iva,spar_price_with_iva,tysp_id) from 
---'D:\repuestos.csv' WITH  DELIMITER ';'
+--'D:\repuestos.csv' WITH  DELIMITER ';';
 
 insert into SPARK_PLUG (spar_id,sppl_useful_life) values (4,30),(5,30),(6,30),(7,30),(8,30),(9,30),(10,30),(11,30);
+
+
+COPY DIVICE (divi_material,divi_model,divi_name,divi_color,divi_cost,divi_price) from 
+'C:\equipos.csv' WITH  DELIMITER ';';
+
+COPY CUSTOMER (cust_id,cust_document,cust_name,cust_address,cust_telephone_one) from 
+'C:\clientes.csv' WITH  DELIMITER ';';
+
+COPY DIVICE_CUSTOMER(cust_id,cust_id) from 
+'C:\equipos-cliente.csv' WITH  DELIMITER ';';
+
+COPY MAINTENANCE(main_id,cust_id, main_datail,tecn_id,main_date) from 
+'C:\mantenimientos.csv' WITH  DELIMITER ';';
+

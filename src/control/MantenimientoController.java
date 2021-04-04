@@ -55,13 +55,8 @@ public class MantenimientoController {
         this.cliente = fachada.getCliente(id);
         mantenimiento = new Mantenimiento(cliente);
         this.tecnicos = fachada.getAllTecnico();
-        this.tecnicos.stream().forEach((Tecnico tecnico) -> {
-            this.mantenimientoGui.getComboTecnico().removeAllItems();
-            this.mantenimientoGui.getComboTecnico().addItem(tecnico.getNombre());
-        });
-        DefaultTableModel model = (DefaultTableModel) this.mantenimientoGui.getTablaRepuesto().getModel();
-        model.setRowCount(0);
-
+        this.mantenimientoGui = (MantenimientoGui) MantenimientoGui.getInstancia(mantenimiento);
+        this.mantenimientoGui.mostrarDatos();
         Principal.getInstance().mostrarInternal(mantenimientoGui);
 
     }

@@ -49,8 +49,9 @@ public class EquipoController {
         String material = (String) panel.getComboMaterial().getSelectedItem();
         String modelo = panel.getTextModelo().getText();
         String nombre = panel.getTextNombre().getText();
+        String color = panel.getTextColor().getText();
         int precio = Integer.parseInt(panel.getTextPrecio().getText());
-        Equipo nuevo = new Equipo(material, modelo, nombre, precio);
+        Equipo nuevo = new Equipo(material, modelo, nombre,color, precio);
         return Fachada.getInstancia().saveEquipo(nuevo);
     }
 
@@ -68,10 +69,11 @@ public class EquipoController {
         model.addColumn("MATERIAL");
         model.addColumn("MODELO");
         model.addColumn("NOMBRE");
+         model.addColumn("COLOR");
         model.addColumn("PRECIO");
 
         for (Equipo e : equipos) {
-            model.addRow(new Object[]{e.getId(), e.getMaterial(), e.getModelo(), e.getNombre(), e.getPrecio()});
+            model.addRow(new Object[]{e.getId(), e.getMaterial(), e.getModelo(), e.getNombre(),e.getColor(), e.getPrecio()});
         }
         equipoListaGui.getTabla().setModel(model);
     }

@@ -6,6 +6,7 @@
 package DAO;
 
 import Conexion.Conexion;
+import Models.Equipo;
 import Models.EquipoCliente;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -28,8 +29,6 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
         this.con = con;
     }
 
-    
-    
     @Override
     public boolean save(EquipoCliente equipoCliente) {
         try {
@@ -65,7 +64,7 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
 
             while (rs.next()) {
 
-                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("id_eqcl"), rs.getInt("id_equi"), rs.getInt("id_id_cli"));
+                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("id_eqcl"), rs.getInt("id_equi"), rs.getInt("id_id_cli"),rs.getDate(""));
                 lista.add(equipoCliente);
             }
 
@@ -74,28 +73,27 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
         }
         return lista;
     }
-    
-        public ArrayList<EquipoCliente> getAll(int id_cliente) {
-        ArrayList<EquipoCliente> lista = new ArrayList<>();
+
+    public ArrayList<EquipoCliente> getAll(int id_cliente) {
+        ArrayList<EquipoCliente> equipos = new ArrayList<>();
         try {
 
-            String query = "select * from equipo_cliente "
-                    + " where id_cli=?;";
+            String query = "SELECT * FROM public.divice_customer"
+                    + " where cust_id=?;";
             pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pst.setInt(1, id_cliente);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-
-                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("id_eqcl"), rs.getInt("id_cli"), rs.getInt("id_equi"));
-                lista.add(equipoCliente);
+                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("dicu_id"), rs.getInt("cust_id"), rs.getInt("divi_id"),rs.getDate("divi_date"));
+                equipos.add(equipoCliente);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(EquipoClienteDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lista;
+        return equipos;
     }
 
     @Override
@@ -131,7 +129,7 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
 
             pst.setInt(1, id);
 
-           pst.execute();
+            pst.execute();
 
             return true;
 
@@ -143,7 +141,7 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
 
     @Override
     public EquipoCliente get(int id) {
-        
+
         try {
             String query = "select * from equipo_cliente"
                     + "where id_eqcl=?;";
@@ -153,8 +151,8 @@ public class EquipoClienteDao implements InterfaceDao<EquipoCliente> {
 
             while (rs.next()) {
 
-                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("id_eqcl"), rs.getInt("id_equi"), rs.getInt("id_id_cli"));
-                
+                EquipoCliente equipoCliente = new EquipoCliente(rs.getInt("dicu_id"), rs.getInt("cust_id"), rs.getInt("divi_id"),rs.getDate("divi_date"));
+
                 return equipoCliente;
             }
         } catch (SQLException ex) {
