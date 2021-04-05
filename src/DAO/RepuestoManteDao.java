@@ -6,7 +6,7 @@
 package DAO;
 
 import Conexion.Conexion;
-import Models.RepuestoMante;
+import Models.MantenimientoRepuesto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +28,7 @@ public class RepuestoManteDao {
         this.con = con;
     }
 
-    public boolean save(RepuestoMante repuestoMante) {
+    public boolean save(MantenimientoRepuesto repuestoMante) {
         boolean respuesta = false;
         try {
 

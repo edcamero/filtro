@@ -111,6 +111,14 @@ public class Fachada {
     public ArrayList<Repuesto> getAllRepuesto() {
         return mediador.getAllRepuesto();
     }
+    
+    public ArrayList<Repuesto> getAllRepuesto(String typeSpare) {
+        return mediador.getAllRepuesto(typeSpare);
+    }
+    
+    public ArrayList<Repuesto> searchAllRepuesto(String keyWord) {
+        return mediador.searchAllRepuesto(keyWord);
+    }    
 
     public Repuesto getRepuesto(int id) {
         return mediador.getRepuesto(id);

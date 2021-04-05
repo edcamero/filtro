@@ -25,7 +25,7 @@ import Models.EquipoCliente;
 import Models.Mantenimiento;
 import Models.MantenimientoEquipo;
 import Models.Repuesto;
-import Models.RepuestoMante;
+import Models.MantenimientoRepuesto;
 import Models.Tecnico;
 import Models.TipoRepuesto;
 import Models.Usuario;
@@ -392,6 +392,53 @@ public class Mediador implements InterfaceMediador {
     }
 
     @Override
+    public ArrayList<Repuesto> getAllRepuesto(String typeSpare) {
+        ArrayList<Repuesto> lista = null;
+        try {
+            conexion.ConexionPostgres();
+            if (typeSpare.equalsIgnoreCase("TODOS")) {
+                lista = repuestoDao.getAll();
+            } else {
+                lista = repuestoDao.getAll(typeSpare);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conexion.cerrar();
+        }
+
+        return lista;
+    }
+
+    @Override
+    public ArrayList<Repuesto> searchAllRepuesto(String keyWord) {
+        ArrayList<Repuesto> lista = null;
+        try {
+            conexion.ConexionPostgres();
+            lista = repuestoDao.getAllSearch(keyWord);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conexion.cerrar();
+        }
+
+        return lista;
+    }
+
+    @Override
     public Repuesto getRepuesto(int id) {
         Repuesto repuesto = null;
         try {
@@ -603,7 +650,7 @@ public class Mediador implements InterfaceMediador {
 
             for (MantenimientoEquipo mantEquipo : manteniemiento.getMantenimientoEquipo()) {
                 respuesta = respuesta && mantEquiDao.save(mantEquipo);
-                for (RepuestoMante respuestoMant : mantEquipo.getRepuestos()) {
+                for (MantenimientoRepuesto respuestoMant : mantEquipo.getRepuestos()) {
                     respuesta = respuesta && repuestoManteDao.save(respuestoMant);
                 }
             }

@@ -56,6 +56,10 @@ public interface InterfaceMediador {
     public boolean saveRepuesto(Repuesto repuesto);
 
     public ArrayList<Repuesto> getAllRepuesto();
+    
+    public ArrayList<Repuesto> getAllRepuesto(String typeSpare);
+    
+    public ArrayList<Repuesto> searchAllRepuesto(String keyword);
 
     public Repuesto getRepuesto(int id);
 

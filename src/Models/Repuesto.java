@@ -20,7 +20,7 @@ public class Repuesto  implements java.io.Serializable {
      private int iva;
      private int valorVentaIva;
      private int tipo_id;
-     private Set<RepuestoMante> repuestoHasMantenimientos = new HashSet<RepuestoMante>(0);
+     private Set<MantenimientoRepuesto> repuestoHasMantenimientos = new HashSet<MantenimientoRepuesto>(0);
 
     public Repuesto(int id, String nombre, String tipo, int valorCosto, int valorVenta, int iva, int valorVentaIva) {
         this.id = id;
@@ -109,11 +109,11 @@ public class Repuesto  implements java.io.Serializable {
         this.tipo_id = tipo_id;
     }
 
-    public Set<RepuestoMante> getRepuestoHasMantenimientos() {
+    public Set<MantenimientoRepuesto> getRepuestoHasMantenimientos() {
         return repuestoHasMantenimientos;
     }
 
-    public void setRepuestoHasMantenimientos(Set<RepuestoMante> repuestoHasMantenimientos) {
+    public void setRepuestoHasMantenimientos(Set<MantenimientoRepuesto> repuestoHasMantenimientos) {
         this.repuestoHasMantenimientos = repuestoHasMantenimientos;
     }
 

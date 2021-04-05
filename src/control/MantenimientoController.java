@@ -16,7 +16,6 @@ import View.Mantenimiento.RepuestoMant;
 import View.Principal;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import logica.Fachada;
 
 /**
@@ -49,6 +48,14 @@ public class MantenimientoController {
     public void setCliente(Cliente cliente) {
         mantenimiento = new Mantenimiento(cliente);
         this.cliente = cliente;
+    }
+
+    public MantenimientoGui getMantenimientoGui() {
+        return mantenimientoGui;
+    }
+
+    public void setMantenimientoGui(MantenimientoGui mantenimientoGui) {
+        this.mantenimientoGui = mantenimientoGui;
     }
 
     public void nuevoMantenimientoGui(int id) {
@@ -87,6 +94,7 @@ public class MantenimientoController {
 
         //RepuestoMante repuestoMant=new RepuestoMante(mantEquipo, repuesto, cant);
         mantEquipo.agregarRepuestos(repuesto, cant);
+        mantenimientoGui.mostrarDetalle();
     }
 
     public void eliminarRepuesto(int id) {
@@ -110,7 +118,7 @@ public class MantenimientoController {
 
     public void nuevoMantenimientoEquipo(int index) {
         // Equipo equipo=mantenimiento.getCliente().getEquiposCliente().get(index).getEquipo();
-        MantenimientoEquipo mantEquipo = new MantenimientoEquipo(mantenimiento, mantenimiento.getCliente().getEquiposCliente().get(index));
+        MantenimientoEquipo mantEquipo = new MantenimientoEquipo(mantenimiento, mantenimiento.getCliente().getEquiposCliente().get(index - 1));
         if (mantenimiento.getMantenimientoEquipo().indexOf(mantEquipo) >= 0) {
             JOptionPane.showMessageDialog(null, "Ya selecciono este equipo", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -121,7 +129,7 @@ public class MantenimientoController {
     }
 
     public void seleccionarTecnico(int index) {
-        Tecnico tecnico = tecnicos.get(index);
+        Tecnico tecnico = tecnicos.get(index - 1);
         mantenimiento.setTecnico(tecnico);
     }
 

@@ -10,8 +10,9 @@ import Models.Equipo;
 import Models.EquipoCliente;
 import Models.Mantenimiento;
 import Models.MantenimientoEquipo;
-import Models.RepuestoMante;
+import Models.MantenimientoRepuesto;
 import Models.Tecnico;
+import View.Principal;
 import control.MantenimientoController;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +33,8 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
     private Mantenimiento mantenimiento;
     private Cliente cliente;
     private MantenimientoController mantController;
+    private int indexEquipoMantenimiento;
+    private RepuestoMant almacenRepuestos;
     private ArrayList<Tecnico> tecnicos;
 
     private MantenimientoGui() {
@@ -389,7 +392,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "OBSERVACIONES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("Mano de obra");
+        jLabel6.setText("Mano de obra:");
 
         totalManoObra.setEditable(false);
         totalManoObra.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -431,11 +434,11 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(45, 45, 45)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel12)
                     .addComponent(jLabel6))
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(totalManoObra, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -465,24 +468,26 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(totalManoObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
                     .addComponent(jLabel5)
                     .addComponent(totalMant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 51));
@@ -574,6 +579,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
             // String id_s = "" + source.getModel().getValueAt(row, 0);
             int id = row;
+            indexEquipoMantenimiento = row;
             // System.out.println(source.getModel().getValueAt(row, 0));
             opcionesEquipo(id, seleccion);
         } else {
@@ -581,11 +587,15 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaMouseClicked
 
+    public void mostrarDetalle() {
+        mostrarDetalle(indexEquipoMantenimiento);
+    }
+
     public void mostrarDetalle(int index) {
         DefaultTableModel model = (DefaultTableModel) this.tablaRepuesto.getModel();
         model.setRowCount(0);
         Object[] fila;
-        for (RepuestoMante repuestoMant : mantenimiento.getMantenimientoEquipo().get(index).getRepuestos()) {
+        for (MantenimientoRepuesto repuestoMant : mantenimiento.getMantenimientoEquipo().get(index).getRepuestos()) {
 
             // model.setRowCount(0);
             fila = new Object[5];
@@ -596,6 +606,8 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             fila[4] = repuestoMant.getIngresosRespuestos();
             model.addRow(fila);
         }
+        totalMant.setText(String.valueOf(mantenimiento.getValorMantenimiento()));
+        total.setText(String.valueOf(mantenimiento.getValorTotal()));
     }
     private void tablaRepuestoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaRepuestoMouseClicked
         JTable source = (JTable) evt.getSource();
@@ -623,12 +635,13 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // ABRIR LA INTERFAZ PARA SELECCIONAR LOS REPUESTOS
-        new RepuestoMant().setVisible(true);
+        almacenRepuestos = RepuestoMant.getInstancia();
+        Principal.getInstance().mostrarInternal(almacenRepuestos);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (validar()) {
-            mantController.seleccionarTecnico(comboTecnico.getSelectedIndex());
+            mantenimiento.setTecnico(tecnicos.get(comboTecnico.getSelectedIndex()-1));
             mantenimiento.setFechaMan(fecha.getDate());
             mantController.agregarMantenimiento();
         }
@@ -637,6 +650,9 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         String documento = textDocCli.getText();
         cliente = Fachada.getInstancia().getCliente(documento, "cust_document");
+        mantenimiento = new Mantenimiento(cliente);
+        mantController.setMantenimientoGui(this);
+        mantController.setMantenimiento(mantenimiento);
         JOptionPane.showMessageDialog(null, cliente.getNombre());
         mostrarDatos();
 
@@ -700,7 +716,6 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             comboEquipo.addItem("seleccionar");
             for (EquipoCliente equipoCliente : cliente.getEquiposCliente()) {
                 Equipo equipo = equipoCliente.getEquipo();
-                System.out.println(equipo.getNombre());
                 comboEquipo.addItem(equipo.getModelo() + "-" + equipo.getNombre());
             }
             totalMant.setText(String.valueOf(mantenimiento.getValorMantenimiento()));

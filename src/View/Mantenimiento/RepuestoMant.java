@@ -8,11 +8,14 @@ package View.Mantenimiento;
 import Models.Bujia;
 import Models.MantenimientoEquipo;
 import Models.Repuesto;
+import Models.TipoRepuesto;
 import control.MantenimientoController;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import logica.Fachada;
 
 /**
  *
@@ -21,21 +24,25 @@ import javax.swing.table.DefaultTableModel;
 public class RepuestoMant extends javax.swing.JInternalFrame {
 
     private static RepuestoMant repuestosGui;
+    ArrayList<TipoRepuesto> tipoRepuestos;
     private ArrayList<Repuesto> repuestos;
     private ArrayList<Bujia> bujias;
     private MantenimientoEquipo mantEquipo;
+    private DefaultTableModel model;
 
     /**
      * Creates new form RepuestoMant
      */
-    RepuestoMant() {
+    private RepuestoMant() {
         initComponents();
     }
 
     public static RepuestoMant getInstancia() {
         if (repuestosGui == null) {
             repuestosGui = new RepuestoMant();
+            repuestosGui.cargarTiposRepuesto();
         }
+        repuestosGui.cargarRepuestos(Fachada.getInstancia().getAllRepuesto());
         return repuestosGui;
     }
 
@@ -47,9 +54,9 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
         tabla = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboBoxTipoRepuesto = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        textSearch = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -91,9 +98,20 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Tipo/Repuesto:");
 
+        comboBoxTipoRepuesto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxTipoRepuestoItemStateChanged(evt);
+            }
+        });
+
         jLabel2.setText("Nombre/Repuesto:");
 
         jButton2.setText("Buscar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,11 +121,11 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboBoxTipoRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -118,9 +136,9 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxTipoRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -152,37 +170,82 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-//        if (evt.getButton() == 3) {
-//            JTable source = (JTable) evt.getSource();
-//            int row = source.rowAtPoint(evt.getPoint());
-//            if (botonRepuestos.isSelected()) {
-//                String dato = JOptionPane.showInputDialog("ingresa la cantidad del repuesto "
-//                        + "para el mantenimiento");
-//                if(dato==null){
-//                    dato="";
-//                }
-//                if (!dato.equals("")) {
-//                    int cantidad = Integer.parseInt(dato);
-//
-//                    Repuesto repuesto = repuestos.get(row);
-//                    if (cantidad > 0) {
-//                        MantenimientoController.getInstancia().agregarRepuesto(cantidad, repuesto);
-//                    } else {
-//                        JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad valida");
-//                    }
-//                }else{
-//                     JOptionPane.showMessageDialog(rootPane, "No ingreso datos en cantidad del articulo");
-//                }
-//
-//            } else {
-//                Bujia bujia=bujias.get(row);
-//                MantenimientoController.getInstancia().agregarBujia(bujia);
-//                JOptionPane.showMessageDialog(rootPane, "Se agrego la bujia "+bujia.getNombre());
-//
-//            }
-//
-//        }
+        if (evt.getButton() == 3) {
+            JTable source = (JTable) evt.getSource();
+            int row = source.rowAtPoint(evt.getPoint());
+            if (comboBoxTipoRepuesto.getSelectedItem().toString().equalsIgnoreCase("bujia")) {
+                Repuesto repuesto = repuestos.get(row);
+                Bujia bujia = Fachada.getInstancia().getBujia(repuesto.getId());
+                MantenimientoController.getInstancia().agregarBujia(bujia);
+                JOptionPane.showMessageDialog(rootPane, "Se agrego la bujia " + bujia.getNombre());
+            } else {
+
+                String dato = JOptionPane.showInputDialog("ingresa la cantidad del repuesto "
+                        + "para el mantenimiento");
+                if (dato == null) {
+                    dato = "";
+                }
+                if (!dato.equals("")) {
+                    int cantidad = Integer.parseInt(dato);
+
+                    Repuesto repuesto = repuestos.get(row);
+                    if (cantidad > 0) {
+                        MantenimientoController.getInstancia().agregarRepuesto(cantidad, repuesto);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad valida");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "No ingreso datos en cantidad del articulo");
+                }
+            }
+
+        }
     }//GEN-LAST:event_tablaMouseClicked
+
+    private void comboBoxTipoRepuestoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxTipoRepuestoItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            cargarRepuestos(comboBoxTipoRepuesto.getSelectedItem().toString());
+        }
+    }//GEN-LAST:event_comboBoxTipoRepuestoItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String keyWord = textSearch.getText();
+        cargarRepuestos(Fachada.getInstancia().searchAllRepuesto(keyWord));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cargarTiposRepuesto() {
+        tipoRepuestos = Fachada.getInstancia().getTipoRepuestos();
+        comboBoxTipoRepuesto.addItem("TODOS");
+        for (TipoRepuesto tipo : tipoRepuestos) {
+            comboBoxTipoRepuesto.addItem(tipo.getNombre());
+        }
+    }
+
+    private void cargarRepuestos(ArrayList<Repuesto> repuestosX) {
+        repuestos = repuestosX;
+        String data[][] = {};
+        String col[] = {"ID", "NOMBRE", "TIPO", "VALOR", "IVA", "TOTAL"};
+        model = new DefaultTableModel(data, col);
+        if (repuestos.size() != 0) {
+            for (Repuesto repuesto : repuestos) {
+                Object[] fila = new Object[6];
+                fila[0] = repuesto.getId();
+                fila[1] = repuesto.getNombre();
+                fila[2] = repuesto.getTipo();
+                fila[3] = repuesto.getValorVenta();
+                fila[4] = repuesto.getIva();
+                fila[5] = repuesto.getValorVentaIva();
+                model.addRow(fila);
+            }
+        }
+        tabla.setModel(model);
+
+    }
+
+    private void cargarRepuestos(String typeSpare) {
+        repuestos = Fachada.getInstancia().getAllRepuesto(typeSpare);
+        cargarRepuestos(repuestos);
+    }
 
     public void setMantEquipo(MantenimientoEquipo mantEquipo) {
         this.mantEquipo = mantEquipo;
@@ -194,8 +257,7 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
 
     public void setRepuestos(ArrayList<Repuesto> repuestos) {
         this.repuestos = repuestos;
-        this.listarRepuestos();
-        //botonRepuestos.setSelected(true);
+        this.cargarRepuestos(repuestos);
     }
 
     public ArrayList<Bujia> getBujias() {
@@ -237,13 +299,13 @@ public class RepuestoMant extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> comboBoxTipoRepuesto;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField textSearch;
     // End of variables declaration//GEN-END:variables
 }

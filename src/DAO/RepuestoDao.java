@@ -90,6 +90,81 @@ public class RepuestoDao implements InterfaceDao<Repuesto> {
         return lista;
     }
 
+    public ArrayList<Repuesto> getAll(String typeSpare) {
+        ArrayList<Repuesto> lista = new ArrayList<>();
+        String query = "SELECT \n"
+                + "  spare.*, \n"
+                + "  type_spare.tysp_name \n"
+                + "FROM \n"
+                + "  spare \n"
+                + "  inner join type_spare on spare.tysp_id = type_spare.tysp_id \n"
+                + "where \n"
+                + "  spare.spar_status = true \n"
+                + "  and type_spare.tysp_name = '" + typeSpare + "' \n"
+                + "order by \n"
+                + "  spar_id;";
+        try {
+
+            pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+
+                Repuesto repuesto = new Repuesto(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getString("tysp_name"), rs.getInt("spar_cost"),
+                        rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_with_iva"));
+                lista.add(repuesto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(RepuestoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lista;
+    }
+
+    public ArrayList<Repuesto> getAllSearch(String keyWord) {
+        ArrayList<Repuesto> lista = new ArrayList<>();
+        String query = "SELECT \n"
+                + "  spare.*, \n"
+                + "  type_spare.tysp_name \n"
+                + "FROM \n"
+                + "  spare \n"
+                + "  inner join type_spare on spare.tysp_id = type_spare.tysp_id \n"
+                + "where \n"
+                + "  spare.spar_status = true \n"
+                + "  and (tysp_name ilike '%" + keyWord + "%'\n"
+                + "  or spar_name ilike '%" + keyWord + "%')\n"
+                + "order by \n"
+                + "  spar_id;";
+        try {
+
+            pst = con.getCon().prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+
+                Repuesto repuesto = new Repuesto(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getString("tysp_name"), rs.getInt("spar_cost"),
+                        rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_with_iva"));
+                lista.add(repuesto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(RepuestoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lista;
+    }
+
     @Override
     public boolean update(Repuesto repuesto) {
         boolean respuesta = false;
