@@ -9,6 +9,7 @@ import Models.Repuesto;
 import Models.TipoRepuesto;
 import View.Validaciones;
 import control.RepuestoController;
+import java.awt.event.ItemEvent;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -68,9 +69,12 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
 
     private void cargarTiposRepuesto() {
         tipoRepuestos = Fachada.getInstancia().getTipoRepuestos();
+        comboBoxTipoRepuestoFilter.addItem("TODOS");
         for (TipoRepuesto tipo : tipoRepuestos) {
             comboBoxTipoRepuesto.addItem(tipo.getNombre());
+            comboBoxTipoRepuestoFilter.addItem(tipo.getNombre());
         }
+
     }
 
     private void cargar() {
@@ -163,9 +167,11 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        comboBoxTipoRepuestoFilter = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        textSearch = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setResizable(true);
         setTitle("Repuesto Nuevo");
@@ -317,9 +323,22 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
                     .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jLabel4.setText("Por:");
+        jLabel6.setText("Tipo/Repuesto:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Codigo", "Tipo" }));
+        comboBoxTipoRepuestoFilter.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxTipoRepuestoFilterItemStateChanged(evt);
+            }
+        });
+
+        jLabel7.setText("Nombre/Repuesto:");
+
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -327,35 +346,42 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)))
+                        .addGap(12, 12, 12))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBoxTipoRepuestoFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)))
-                .addGap(12, 12, 12))
+                        .addComponent(jButton3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6)
+                    .addComponent(comboBoxTipoRepuestoFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -423,6 +449,43 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
             RepuestoController.getInstancia().saveRepuesto();
         }
     }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void comboBoxTipoRepuestoFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxTipoRepuestoFilterItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            cargarRepuestos(comboBoxTipoRepuestoFilter.getSelectedItem().toString());
+        }
+    }//GEN-LAST:event_comboBoxTipoRepuestoFilterItemStateChanged
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String keyWord = textSearch.getText();
+        cargarRepuestos(Fachada.getInstancia().searchAllRepuesto(keyWord));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cargarRepuestos(String typeSpare) {
+        repuestos = Fachada.getInstancia().getAllRepuesto(typeSpare);
+        cargarRepuestos(repuestos);
+    }
+
+    private void cargarRepuestos(ArrayList<Repuesto> repuestosX) {
+        repuestos = repuestosX;
+        String data[][] = {};
+        String col[] = {"ID", "NOMBRE", "TIPO", "VALOR", "IVA", "TOTAL"};
+        model = new DefaultTableModel(data, col);
+        if (repuestos.size() != 0) {
+            for (Repuesto repuesto : repuestos) {
+                Object[] fila = new Object[6];
+                fila[0] = repuesto.getId();
+                fila[1] = repuesto.getNombre();
+                fila[2] = repuesto.getTipo();
+                fila[3] = repuesto.getValorVenta();
+                fila[4] = repuesto.getIva();
+                fila[5] = repuesto.getValorVentaIva();
+                model.addRow(fila);
+            }
+        }
+        tabla.setModel(model);
+
+    }
 
     private void opcionesEquipo(int id, int opc) {
         this.repuesto = RepuestoController.getInstancia().buscar(id);
@@ -496,20 +559,22 @@ public class RepuestoNuevoGui extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEditar;
     private javax.swing.JComboBox<String> comboBoxTipoRepuesto;
+    private javax.swing.JComboBox<String> comboBoxTipoRepuestoFilter;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField textCosto;
     private javax.swing.JTextField textNombre;
+    private javax.swing.JTextField textSearch;
     private javax.swing.JTextField textValor;
     // End of variables declaration//GEN-END:variables
 }
