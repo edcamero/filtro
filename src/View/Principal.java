@@ -92,12 +92,12 @@ public class Principal extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenu11 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu11 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -132,14 +132,11 @@ public class Principal extends javax.swing.JFrame {
         DesktopPanelLayout.setHorizontalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DesktopPanelLayout.createSequentialGroup()
+                .addGap(862, 862, 862)
                 .addGroup(DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DesktopPanelLayout.createSequentialGroup()
-                        .addGap(261, 261, 261)
-                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DesktopPanelLayout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(583, Short.MAX_VALUE))
+                    .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(0, Short.MAX_VALUE))
         );
         DesktopPanelLayout.setVerticalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,32 +145,14 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71)
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(383, Short.MAX_VALUE))
+                .addContainerGap(354, Short.MAX_VALUE))
         );
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/opciones.png"))); // NOI18N
         jMenu1.setText("Opciones");
         jMenu1.add(jSeparator1);
 
-        jMenu11.setText("Usuarios");
-
-        jMenuItem1.setText("Gestionar Usuarios");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu11.add(jMenuItem1);
-
-        jMenuItem5.setText("Listar");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        jMenu11.add(jMenuItem5);
-
-        jMenu1.add(jMenu11);
-
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/filtros.png"))); // NOI18N
         jMenu7.setText("Equipos");
 
         jMenuItem2.setText("Nuevo");
@@ -193,6 +172,27 @@ public class Principal extends javax.swing.JFrame {
         jMenu7.add(jMenuItem3);
 
         jMenu1.add(jMenu7);
+
+        jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/client.png"))); // NOI18N
+        jMenu11.setText("Usuarios");
+
+        jMenuItem1.setText("Gestionar Usuarios");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem1);
+
+        jMenuItem5.setText("Listar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem5);
+
+        jMenu1.add(jMenu11);
 
         jMenu8.setText("Bujias");
 
@@ -274,6 +274,7 @@ public class Principal extends javax.swing.JFrame {
 
         menu.add(jMenu1);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clients.png"))); // NOI18N
         jMenu2.setText("Clientes");
 
         JitemNuevoCliente.setText("Nuevo Cliente");
@@ -294,6 +295,7 @@ public class Principal extends javax.swing.JFrame {
 
         menu.add(jMenu2);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/mantenimiento.png"))); // NOI18N
         jMenu3.setText("Mantenimientos");
 
         jMenuItem12.setText("Nuevo");
@@ -322,9 +324,11 @@ public class Principal extends javax.swing.JFrame {
 
         menu.add(jMenu3);
 
+        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/reportes.png"))); // NOI18N
         jMenu5.setText("Reportes");
         menu.add(jMenu5);
 
+        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sales.png"))); // NOI18N
         jMenu6.setText("Ventas");
         menu.add(jMenu6);
 

@@ -25,6 +25,7 @@ public class prueba {
 
     public static void main(String arg[]) {
         try {
+            
             Config.loadConfig();
             Fachada fachada = Fachada.getInstancia();
             Cliente cliente = fachada.getCliente(1);
