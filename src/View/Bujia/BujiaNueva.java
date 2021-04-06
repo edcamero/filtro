@@ -83,7 +83,7 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
         jLabel1.setText("Nombre:");
 
         jLabel2.setFont(jLabel1.getFont());
-        jLabel2.setText("Vida util:");
+        jLabel2.setText("Vida util (dias):");
 
         jLabel3.setFont(jLabel1.getFont());
         jLabel3.setText("Costo:");
@@ -101,7 +101,7 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(60, 60, 60)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textVida)
                             .addComponent(textNombre)))
@@ -277,9 +277,9 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "se actualizó el Bujia");
                 editable = false;
                 btnEditar.setEnabled(false);
-                btnCrear.setEnabled(true);
-                cargar();
+                btnCrear.setEnabled(true);                
                 limpiar();
+                cargar();
             } else {
                 JOptionPane.showMessageDialog(rootPane, "error a actulizar la bujia", "Mensajae de Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -349,7 +349,7 @@ public class BujiaNueva extends javax.swing.JInternalFrame {
         }
     }
     
-    private void cargar() {
+    public void cargar() {
         bujias = Fachada.getInstancia().getAllBujias();
         String data[][] = {};
         String col[] = {"CODIGO", "NOMBRE", "VIDA UTIL", "COSTO", "VALOR", "IVA", "TOTAL"};

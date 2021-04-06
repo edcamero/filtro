@@ -321,17 +321,17 @@ public class Mediador implements InterfaceMediador {
         boolean respuesta = false;
         try {
             conexion.ConexionPostgres();
-            respuesta = bujiaDao.update(bujia);
-
-            conexion.ConexionPostgres();
             conexion.setAutoCommit(false);
             Repuesto repuesto = bujia.getRepuesto();
             repuestoDao.update(repuesto);
-            bujia.setId(repuesto.getId());
             respuesta = bujiaDao.update(bujia);
             conexion.commit();
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conexion.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         } finally {
             conexion.cerrar();
         }

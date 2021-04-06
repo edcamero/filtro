@@ -113,7 +113,9 @@ public class Bujia  implements java.io.Serializable {
     }
 
     public Repuesto getRepuesto(){
-        return new Repuesto(nombre,valorCosto,valorVenta,tipo_id);
+        Repuesto repuesto = new Repuesto(nombre,valorCosto,valorVenta,tipo_id);
+        repuesto.setId(this.id);
+        return repuesto;
     }
     
     public Set<MantenimientoEquipo> getMantenimientoHasPurificadors() {

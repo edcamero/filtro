@@ -53,6 +53,8 @@ public class BujiaController {
         if (Fachada.getInstancia().saveBujia(bujia)) {
             JOptionPane.showMessageDialog(bujiaNuevaGui, "se agrego la bujia");
             bujiaNuevaGui.limpiar();
+            bujiaNuevaGui.cargar();
+            
         } else {
             JOptionPane.showMessageDialog(bujiaNuevaGui, "Error a agregar la bujia");
         }

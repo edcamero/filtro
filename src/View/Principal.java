@@ -178,6 +178,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/client.png"))); // NOI18N
         jMenu11.setText("Usuarios");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gestion_32.png"))); // NOI18N
         jMenuItem1.setText("Gestionar Usuarios");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,6 +187,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu11.add(jMenuItem1);
 
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nota.png"))); // NOI18N
         jMenuItem5.setText("Listar");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,6 +201,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/filtros.png"))); // NOI18N
         jMenu8.setText("Bujias");
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gestion_32.png"))); // NOI18N
         jMenuItem4.setText("Nuevo");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,6 +210,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu8.add(jMenuItem4);
 
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nota.png"))); // NOI18N
         jMenuItem6.setText("Listar");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,7 +224,8 @@ public class Principal extends javax.swing.JFrame {
         jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tuerca.png"))); // NOI18N
         jMenu9.setText("Repuestos");
 
-        jMenuItem7.setText("Nuevo");
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gestion_32.png"))); // NOI18N
+        jMenuItem7.setText("Gestionar");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
@@ -228,6 +233,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu9.add(jMenuItem7);
 
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nota.png"))); // NOI18N
         jMenuItem8.setText("Listar");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,6 +243,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu9.add(jMenuItem8);
 
         jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tipo_repuesto.png"))); // NOI18N
         jMenuItem10.setText("Tipo de repuesto");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -250,7 +257,8 @@ public class Principal extends javax.swing.JFrame {
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tecnico.png"))); // NOI18N
         jMenu4.setText("Tecnicos");
 
-        jMenuItem15.setText("Nuevo");
+        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gestion_32.png"))); // NOI18N
+        jMenuItem15.setText("Gestionar");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem15ActionPerformed(evt);
@@ -258,6 +266,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem15);
 
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nota.png"))); // NOI18N
         jMenuItem16.setText("Listar");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,7 +292,8 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clients.png"))); // NOI18N
         jMenu2.setText("Clientes");
 
-        JitemNuevoCliente.setText("Nuevo Cliente");
+        JitemNuevoCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gestion_32.png"))); // NOI18N
+        JitemNuevoCliente.setText("Gestion Cliente");
         JitemNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JitemNuevoClienteActionPerformed(evt);
@@ -291,6 +301,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu2.add(JitemNuevoCliente);
 
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nota.png"))); // NOI18N
         jMenuItem11.setText("Listar Clientes");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -304,6 +315,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/mantenimiento.png"))); // NOI18N
         jMenu3.setText("Mantenimientos");
 
+        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
         jMenuItem12.setText("Nuevo");
         jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -312,6 +324,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem12);
 
+        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/calendar.png"))); // NOI18N
         jMenuItem13.setText("Agendados");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -320,6 +333,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem13);
 
+        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nota.png"))); // NOI18N
         jMenuItem14.setText("Historial");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

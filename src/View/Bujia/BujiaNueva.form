@@ -71,7 +71,7 @@
                               <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="textVida" max="32767" attributes="0"/>
                               <Component id="textNombre" max="32767" attributes="0"/>
@@ -136,7 +136,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection component="jLabel1" name="font" type="property"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Vida util:"/>
+            <Property name="text" type="java.lang.String" value="Vida util (dias):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="textVida">
