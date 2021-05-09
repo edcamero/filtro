@@ -154,6 +154,7 @@ CONSTRAINT main_tecn_fk FOREIGN KEY (tecn_id) REFERENCES TECNICO(tecn_id)
 
 CREATE TABLE DETAIL_MAINTENANCE(
 dema_id serial,
+main_id integer NOT NULL,
 dicu_id INTEGER,
 spar_id INTEGER, 
 dema_spar_cant integer,
@@ -161,7 +162,10 @@ spar_cost INTEGER NOT NULL DEFAULT 0,
 spar_price_without_iva_unit INTEGER NOT NULL,
 spar_price_without_iva_total INTEGER NOT NULL,
 iva INTEGER NOT NULL,
-spar_price_total INTEGER NOT NULL
+spar_price_total INTEGER NOT NULL,
+createAt timestamp DEFAULT now(),
+updateAt timestamp DEFAULT now(),
+CONSTRAINT dema_main_fk FOREIGN KEY (main_id) REFERENCES MAINTENANCE(main_id)
 );
 
 insert into TIPO_USUARIO  (tius_name,    tius_descripcion) values ('admin','administrados del sistema');
@@ -192,4 +196,8 @@ COPY DIVICE_CUSTOMER(cust_id,cust_id) from
 
 COPY MAINTENANCE(main_id,cust_id, main_datail,tecn_id,main_date) from 
 'C:\mantenimientos.csv' WITH  DELIMITER ';';
+
+ALTER TABLE maintenance add COLUMN main_cost_workforce integer default 0;
+ALTER TABLE maintenance add COLUMN main_cost_spare integer default 0;
+ALTER TABLE maintenance add COLUMN main_cost_total integer default 0;
 

@@ -131,7 +131,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jTextField2 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textObservaciones = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -424,10 +424,10 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Observaciones:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
+        textObservaciones.setColumns(20);
+        textObservaciones.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        textObservaciones.setRows(5);
+        jScrollPane4.setViewportView(textObservaciones);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -641,8 +641,9 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (validar()) {
-            mantenimiento.setTecnico(tecnicos.get(comboTecnico.getSelectedIndex()-1));
+            mantenimiento.setTecnico(tecnicos.get(comboTecnico.getSelectedIndex() - 1));
             mantenimiento.setFechaMan(fecha.getDate());
+            mantenimiento.setNota(textObservaciones.getText().equals("") ? "sin observación" : textObservaciones.getText());
             mantController.agregarMantenimiento();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -824,13 +825,13 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tabla;
     private javax.swing.JTable tablaRepuesto;
     private javax.swing.JTextField textDireccion;
     private javax.swing.JTextField textDocCli;
     private javax.swing.JTextField textNombreCli;
+    private javax.swing.JTextArea textObservaciones;
     private javax.swing.JTextField textTelefeno;
     private javax.swing.JTextField total;
     private javax.swing.JTextField totalManoObra;

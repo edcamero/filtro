@@ -11,7 +11,7 @@ import DAO.ClienteDao;
 import DAO.EquipoClienteDao;
 import DAO.EquipoDao;
 import DAO.MantenimientoDao;
-import DAO.MantenimientoEquipoDao;
+import DAO.DetailMaintenanceDao;
 import DAO.RepuestoDao;
 import DAO.RepuestoManteDao;
 import DAO.TecnicoDao;
@@ -50,7 +50,7 @@ public class Mediador implements InterfaceMediador {
     TecnicoDao tecnicoDao = new TecnicoDao(conexion);
     UsuarioDao usuarioDao = new UsuarioDao(conexion);
     MantenimientoDao mantenimientoDao = new MantenimientoDao(conexion);
-    MantenimientoEquipoDao mantEquiDao = new MantenimientoEquipoDao(conexion);
+    DetailMaintenanceDao detailMaintenanceDao = new DetailMaintenanceDao(conexion);
     TipoRepuestoDao tipoRepuestoDao = new TipoRepuestoDao(conexion);
 
     @Override
@@ -649,9 +649,8 @@ public class Mediador implements InterfaceMediador {
             respuesta = mantenimientoDao.save(manteniemiento);
 
             for (MantenimientoEquipo mantEquipo : manteniemiento.getMantenimientoEquipo()) {
-                respuesta = respuesta && mantEquiDao.save(mantEquipo);
                 for (MantenimientoRepuesto respuestoMant : mantEquipo.getRepuestos()) {
-                    respuesta = respuesta && repuestoManteDao.save(respuestoMant);
+                    respuesta = respuesta && detailMaintenanceDao.save(respuestoMant);
                 }
             }
 

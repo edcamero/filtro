@@ -23,6 +23,7 @@ public class MantenimientoEquipo implements java.io.Serializable {
     public MantenimientoEquipo(Mantenimiento mantenimiento, EquipoCliente equipoCliente) {
         this.mantenimiento = mantenimiento;
         this.idMante = mantenimiento.getId();
+        this.idEquiCliente=equipoCliente.getId();
         this.equipoCliente = equipoCliente;
         this.costosRepuestos = 0;
         this.ingresosRespuestos = 0;

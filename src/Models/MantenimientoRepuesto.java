@@ -78,12 +78,24 @@ public class MantenimientoRepuesto  implements java.io.Serializable {
         this.costosRepuestos = costosRepuestos;
     }
 
+    public MantenimientoEquipo getMantenimientoEquipo() {
+        return mantenimientoEquipo;
+    }
+
     public Integer getIngresosRespuestos() {
         return ingresosRespuestos;
     }
 
     public void setIngresosRespuestos(Integer ingresosRespuestos) {
         this.ingresosRespuestos = ingresosRespuestos;
+    }
+
+    public int getIva() {
+        return iva;
+    }
+
+    public void setIva(int iva) {
+        this.iva = iva;
     }
 
  

@@ -32,9 +32,9 @@ public class MantenimientoDao {
         boolean respuesta = false;
         try {
             
-            String consulta = "INSERT INTO mantenimiento( id_tec,id_cli, nota_man, costo_servicio_tecnico, \n"
-                    + "            valor_mantenimiento, fecha_man)\n"
-                    + "    VALUES (?, ?, ?, ?,?, ?) returning id_man;\n"
+            String consulta = "INSERT INTO maintenance( tecn_id,cust_id, main_datail, main_cost_workforce, \n"
+                    + "           main_cost_spare, main_cost_total, main_date)\n"
+                    + "    VALUES (?, ?, ?, ?, ?, ?, ?) returning main_id;\n"
                     + "";
 
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -44,10 +44,11 @@ public class MantenimientoDao {
             pst.setString(3, mantenimiento.getNota());
             pst.setInt(4, mantenimiento.getCostoServicioTecnico());
             pst.setInt(5, mantenimiento.getValorMantenimiento());
-            pst.setDate(6, new java.sql.Date(mantenimiento.getFechaMan().getTime()));
+            pst.setInt(6, mantenimiento.getValorTotal());
+            pst.setDate(7, new java.sql.Date(mantenimiento.getFechaMan().getTime()));
             rs = pst.executeQuery();
              while (rs.next()) {
-                mantenimiento.setId(rs.getInt("id_man"));
+                mantenimiento.setId(rs.getInt("main_id"));
 
             }
             respuesta=true;

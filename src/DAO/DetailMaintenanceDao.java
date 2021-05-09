@@ -7,6 +7,7 @@ package DAO;
 
 import Conexion.Conexion;
 import Models.MantenimientoEquipo;
+import Models.MantenimientoRepuesto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,62 +19,60 @@ import java.util.logging.Logger;
  *
  * @author blade
  */
-public class MantenimientoEquipoDao implements InterfaceDao<MantenimientoEquipo> {
+public class DetailMaintenanceDao {
 
     private Conexion con;
     private PreparedStatement pst = null;
     private ResultSet rs = null;
 
-    public MantenimientoEquipoDao(Conexion con) {
+    public DetailMaintenanceDao(Conexion con) {
         this.con = con;
     }
 
-    @Override
-    public boolean save(MantenimientoEquipo mantEquipo) {
-         boolean respuesta = false;
+    public boolean save(MantenimientoRepuesto detailMaintanance) {
+        boolean respuesta = false;
         try {
-           
-            
-            String consulta = "INSERT INTO mantenimiento_equipo(\n"
-                    + "             id_man, id_buj, id_eqcl, costos_repuestos, ingresos_respuestos \n"
+
+            String consulta = "INSERT INTO detail_maintenance(\n"
+                    + "             main_id, spar_id, dicu_id,dema_spar_cant, spar_cost,spar_price_without_iva_unit,spar_price_without_iva_total,iva,spar_price_total \n"
                     + "            )\n"
-                    + "    VALUES (?, ?, ?, ?, ?) returning id_maeq";
+                    + "    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) returning dema_id";
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            pst.setInt(1, mantEquipo.getIdMante());
-            pst.setInt(2, mantEquipo.getIdBujia());
-            pst.setInt(3, mantEquipo.getIdEquiCliente());
-            pst.setInt(4, mantEquipo.getCostosRepuestos());
-            pst.setInt(5, mantEquipo.getIngresosRespuestos());
+            pst.setInt(1, detailMaintanance.getMantenimientoEquipo().getIdMante());
+            pst.setInt(2, detailMaintanance.getIdRepuesto());
+            pst.setInt(3, detailMaintanance.getMantenimientoEquipo().getIdEquiCliente());
+            pst.setInt(4, detailMaintanance.getCantidadRep());
+            pst.setInt(5, detailMaintanance.getRepuesto().getValorCosto());
+            pst.setInt(6, detailMaintanance.getRepuesto().getValorVenta());
+            pst.setInt(7, detailMaintanance.getIngresosRespuestos());
+            pst.setInt(8, detailMaintanance.getIva());
+            pst.setInt(9, detailMaintanance.getIngresosRespuestos());
             rs = pst.executeQuery();
-             while (rs.next()) {
-                 mantEquipo.setId(rs.getInt("id_maeq"));
-                
+            while (rs.next()) {
+                detailMaintanance.setId(rs.getInt("dema_id"));
+
             }
-            respuesta=true;
-          
+            respuesta = true;
+
         } catch (SQLException ex) {
-            Logger.getLogger(MantenimientoEquipoDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailMaintenanceDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-          return respuesta;
+        return respuesta;
     }
 
-    @Override
     public ArrayList<MantenimientoEquipo> getAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public boolean update(MantenimientoEquipo objeto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public boolean delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public MantenimientoEquipo get(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
