@@ -84,8 +84,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
 
             while (rs.next()) {
                 Cliente cliente = new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
-                //System.out.println(c.toString());
-                clientes.add(cliente);
+                               clientes.add(cliente);
             }
 
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
@@ -97,19 +96,17 @@ public class ClienteDao implements InterfaceDao<Cliente> {
     public ArrayList<Cliente> buscarClientes(String palabra, String column) {
         palabra = "%" + palabra + "%";
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-        String consulta = "select * FROM CUSTOMER where ? ilike ?";
+        String consulta = "select * FROM CUSTOMER where " + column + " ilike ?";
 
         try {
             con.ConexionPostgres();
             pst = con.getCon().prepareStatement(consulta, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            pst.setString(1, column);
-            pst.setString(2, palabra);
+            pst.setString(1, palabra);
             rs = pst.executeQuery();
-
             while (rs.next()) {
                 Cliente cliente = new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
-                //System.out.println(c.toString());
+                
                 clientes.add(cliente);
             }
 
@@ -191,9 +188,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
 
             while (rs.next()) {
                 return new Cliente(rs.getInt("cust_id"), rs.getString("cust_document"), rs.getString("cust_name"), rs.getString("cust_telephone_one"), rs.getString("cust_telephone_two"), rs.getString("cust_address"), rs.getString("cust_email"));
-                //System.out.println(c.toString());
-
-            }
+               }
 
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,9 +209,7 @@ public class ClienteDao implements InterfaceDao<Cliente> {
 
             while (rs.next()) {
                 return new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
-                //System.out.println(c.toString());
-
-            }
+               }
 
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);

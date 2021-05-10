@@ -214,8 +214,7 @@ public class Mediador implements InterfaceMediador {
             conexion.ConexionPostgres();
             respuesta = clienteDao.update(cliente);
             for (EquipoCliente equipo : cliente.getEquiposCliente()) {
-                if (equipo.getId() == 0) {
-                    System.out.println(equipo.getId() + " " + equipo.getEquipo().getNombre());
+                if (equipo.getId() == 0) {                
                     equipoClienteDao.save(equipo);
                 }
             }
@@ -660,7 +659,7 @@ public class Mediador implements InterfaceMediador {
             try {
                 conexion.getCon().rollback();
             } catch (SQLException ex2) {
-                System.out.println(ex2.toString());
+                
             }
         }
         return respuesta;

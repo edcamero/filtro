@@ -174,20 +174,16 @@ public class ClienteEquipos extends javax.swing.JInternalFrame {
                     null, // null para icono por defecto.
                     new Object[]{"Agregar", "Cancelar"}, // null para YES, NO y CANCEL
                     "opcion 1");
-            //int column = source.columnAtPoint( evt.getPoint() );
             String id_s = "" + source.getModel().getValueAt(row, 0);
 
-            int id = Integer.parseInt(id_s);
-            // System.out.println(source.getModel().getValueAt(row, 0));
+            int id = Integer.parseInt(id_s);            
             opcionesEquipo(id, seleccion);
-            //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:
-        }
-        // TODO add your handling code here:// TODO add your handling code here:
-    }//GEN-LAST:event_tablaMouseClicked
+           }       
+    }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        this.cerrar();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ClienteController.getInstancia().guardarEquipos();

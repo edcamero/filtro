@@ -81,8 +81,7 @@ public class Repuesto  implements java.io.Serializable {
     public void setValorVenta(int valorVenta) {
         this.valorVenta = valorVenta;
         this.setIva((int) (valorVenta * Config.getIva()));
-        this.setValorVentaIva(this.iva+this.valorVenta);
-        System.out.println(this.iva);
+        this.setValorVentaIva(this.iva+this.valorVenta);        
     }
 
     public int getIva() {

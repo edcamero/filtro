@@ -209,7 +209,6 @@ public class RepuestoListar extends javax.swing.JInternalFrame {
             String id_s = "" + source.getModel().getValueAt(row, 0);
 
             int id = Integer.parseInt(id_s);
-            // System.out.println(source.getModel().getValueAt(row, 0));
 //            opcionesEquipo(id, seleccion);
             //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:
         }

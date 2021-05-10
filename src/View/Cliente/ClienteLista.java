@@ -22,6 +22,7 @@ public class ClienteLista extends javax.swing.JInternalFrame {
 
     private static ClienteLista clienteLista;
     private static ClienteController clienteControlador;
+
     /**
      * Creates new form ClienteLista
      */
@@ -32,7 +33,7 @@ public class ClienteLista extends javax.swing.JInternalFrame {
     public static ClienteLista getInstancia() {
         if (clienteLista == null) {
             clienteLista = new ClienteLista();
-            clienteControlador=ClienteController.getInstancia();
+            clienteControlador = ClienteController.getInstancia();
         }
 
         return clienteLista;
@@ -236,19 +237,16 @@ public class ClienteLista extends javax.swing.JInternalFrame {
             String id_s = "" + source.getModel().getValueAt(row, 0);
 
             int id = Integer.parseInt(id_s);
-            // System.out.println(source.getModel().getValueAt(row, 0));
-            opcionesCliente(id, seleccion);
-            //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:  
+            opcionesCliente(id, seleccion);           
         }
     }//GEN-LAST:event_tablaMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      clienteControlador.Buscar(textBuscar.getText(),Integer.parseInt(selectColumn.getSelectedItem().toString()));
+        clienteControlador.Buscar(textBuscar.getText(), selectColumn.getSelectedItem().toString());
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void selectColumnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectColumnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectColumnActionPerformed
+    private void selectColumnActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
     private void opcionesCliente(int id, int opc) {
         switch (opc) {

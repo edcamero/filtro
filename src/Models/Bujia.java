@@ -85,7 +85,7 @@ public class Bujia  implements java.io.Serializable {
          this.valorVenta = valorVenta;
         this.setIva((int) (valorVenta * Config.getIva()));
         this.setValorVentaIva(this.iva+this.valorVenta);
-        System.out.println(this.iva);
+        
     }
 
     public int getIva() {

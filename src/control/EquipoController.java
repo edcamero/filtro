@@ -84,7 +84,6 @@ public class EquipoController {
 
     public void editarGui(int id) {
         Equipo equipo = Fachada.getInstancia().getEquipo(id);
-        System.out.println(equipo.toString());
 //        editarGui = EquipoEditar.getInstancia(equipo);
 //        principal.mostrarInternal(editarGui);
 
@@ -100,7 +99,6 @@ public class EquipoController {
     }
 
     public Equipo Buscar(int id) {
-        //System.out.println(id);
         for (Equipo e : equipos) {
             if (e.getId() == id) {
                 return e;

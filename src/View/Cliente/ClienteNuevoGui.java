@@ -7,6 +7,7 @@ package View.Cliente;
 
 import Models.Cliente;
 import View.Validaciones;
+import control.ClienteController;
 import logica.Fachada;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
     private boolean editable = false;
     private ArrayList<Cliente> clientes;
     private DefaultTableModel model;
+    private static ClienteController clienteControlador;
 
     /**
      * Creates new form ClienteNuevo
@@ -46,6 +48,7 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
     public static ClienteNuevoGui getInstancia() {
         if (clienteNuevoGui == null) {
             clienteNuevoGui = new ClienteNuevoGui();
+            clienteControlador = ClienteController.getInstancia();
         }
         clienteNuevoGui.cargarTabla();
         clienteNuevoGui.cargarElementos();
@@ -84,11 +87,12 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         btnEdit = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        textBuscar = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        selectColumn = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         jLabel6.setText("Direccion");
 
@@ -272,7 +276,7 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Por:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Documento", "Telefono" }));
+        selectColumn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Documento", "Telefono" }));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -292,6 +296,13 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(tabla);
 
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -300,11 +311,13 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(selectColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,12 +337,13 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(selectColumn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -384,7 +398,6 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
         String id_s = "" + source.getModel().getValueAt(row, 0);
 
         int id = Integer.parseInt(id_s);
-        // System.out.println(source.getModel().getValueAt(row, 0));
         opcionesCliente(id, seleccion);        // TODO add your handling code here:
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -411,6 +424,10 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         eliminarCliente(cliente.getId());
     }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        clienteControlador.Buscar(textBuscar.getText(), selectColumn.getSelectedItem().toString(), tabla);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cargarElementos() {
         btnCreate.setEnabled(true);
@@ -541,8 +558,8 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -558,8 +575,9 @@ public class ClienteNuevoGui extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> selectColumn;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField textBuscar;
     private javax.swing.JTextField textDir;
     private javax.swing.JTextField textDoc;
     private javax.swing.JTextField textEmail;

@@ -448,8 +448,7 @@ public class Principal extends javax.swing.JFrame {
             DesktopPanel.remove(ventana);
             DesktopPanel.add(ventana);
         } catch (Exception e) {
-
-            System.out.println("la ventana ya esta agregada");
+            
         }
 
         // this.add(jipNuevoCliente);

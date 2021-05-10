@@ -580,7 +580,6 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             // String id_s = "" + source.getModel().getValueAt(row, 0);
             int id = row;
             indexEquipoMantenimiento = row;
-            // System.out.println(source.getModel().getValueAt(row, 0));
             opcionesEquipo(id, seleccion);
         } else {
             mostrarDetalle(row);
@@ -623,10 +622,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
                     null, // null para icono por defecto.
                     new Object[]{"Eliminar", "Cancelar"}, // null para YES, NO y CANCEL
                     "opcion 1");
-
-            // String id_s = "" + source.getModel().getValueAt(row, 0);
             int id = row;
-            // System.out.println(source.getModel().getValueAt(row, 0));
             opcionesEquipo(id, seleccion);
         } else {
             // mostrarDetalle(row);
@@ -650,12 +646,17 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         String documento = textDocCli.getText();
-        cliente = Fachada.getInstancia().getCliente(documento, "cust_document");
-        mantenimiento = new Mantenimiento(cliente);
-        mantController.setMantenimientoGui(this);
-        mantController.setMantenimiento(mantenimiento);
-        JOptionPane.showMessageDialog(null, cliente.getNombre());
-        mostrarDatos();
+        if (!documento.equals("")) {
+            cliente = Fachada.getInstancia().getCliente(documento, "cust_document");
+            mantenimiento = new Mantenimiento(cliente);
+            mantController.setMantenimientoGui(this);
+            mantController.setMantenimiento(mantenimiento);
+            JOptionPane.showMessageDialog(null, cliente.getNombre());
+            mostrarDatos();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un documento de cliente para buscar");
+        }
+
 
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -664,16 +665,25 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_textNombreCliActionPerformed
 
     private boolean validar() {
+         if (cliente == null) {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un cliente");
+            return false;
+        }
         if (mantenimiento.getMantenimientoEquipo().size() == 0) {
             JOptionPane.showMessageDialog(rootPane, "ingrese algun Equipo al mantenimiento");
             return false;
-        } else {
-            for (MantenimientoEquipo mant : mantenimiento.getMantenimientoEquipo()) {
-                if (mant.getBujia() == null && mant.getRepuestos().size() == 0) {
-                    JOptionPane.showMessageDialog(rootPane, "ingrese Repuestos o bujia al equipo");
-                    return false;
-                }
+        }
+        if (comboTecnico.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un tecnico");
+            return false;
+        }
+
+        for (MantenimientoEquipo mant : mantenimiento.getMantenimientoEquipo()) {
+            if (mant.getBujia() == null && mant.getRepuestos().size() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "ingrese Repuestos o bujia al equipo");
+                return false;
             }
+
         }
 
         return true;
@@ -718,6 +728,9 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             for (EquipoCliente equipoCliente : cliente.getEquiposCliente()) {
                 Equipo equipo = equipoCliente.getEquipo();
                 comboEquipo.addItem(equipo.getModelo() + "-" + equipo.getNombre());
+            }
+            for (MantenimientoEquipo equipoMantenimiento : mantenimiento.getMantenimientoEquipo()) {
+                agregarEquipotabla(equipoMantenimiento);
             }
             totalMant.setText(String.valueOf(mantenimiento.getValorMantenimiento()));
         }

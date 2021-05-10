@@ -62,11 +62,9 @@ public class Validaciones {
                         if ((EVT.getKeyChar() >= '0' && EVT.getKeyChar() <= '9') 
                                 ||EVT.getKeyCode()==KeyEvent.VK_DELETE||EVT.getKeyCode()==8 
                                 ||EVT.getKeyCode()==KeyEvent.VK_CONTROL ||  EVT.getKeyCode() == KeyEvent.VK_C || EVT.getKeyCode() == KeyEvent.VK_V) {
-                            //System.out.println(EVT.getKeyCode());
                             texto.setEditable(true);
                             
                         } else {
-                            //System.out.println(EVT.getKeyCode());
                             texto.setEditable(false);
                             JOptionPane.showMessageDialog(null,"Digite solo numeros");
                         }

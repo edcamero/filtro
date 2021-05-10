@@ -212,13 +212,9 @@ public class EquipoLista extends javax.swing.JInternalFrame {
             //int column = source.columnAtPoint( evt.getPoint() );
             String id_s = "" + source.getModel().getValueAt(row, 0);
 
-            int id = Integer.parseInt(id_s);
-            // System.out.println(source.getModel().getValueAt(row, 0));
-            opcionesEquipo(id, seleccion);
-            //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:  
+            int id = Integer.parseInt(id_s);           
+            opcionesEquipo(id, seleccion);         
         }
-        // TODO add your handling code here:// TODO add your handling code here:
-    }//GEN-LAST:event_tablaMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Principal.getInstance().equipoNuevo();
@@ -229,7 +225,6 @@ public class EquipoLista extends javax.swing.JInternalFrame {
             case 0:
                 //Principal.getInstance().EquipoEditar(id);
                 EquipoController.getInstancia().editarGui(id);
-                System.out.println(id);
 
                 break;
             case 1:

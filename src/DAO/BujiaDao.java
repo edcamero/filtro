@@ -67,8 +67,6 @@ public class BujiaDao implements InterfaceDao<Bujia> {
 
             while (rs.next()) {
                 Bujia bujia = new Bujia(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getInt("life"), rs.getInt("spar_cost"), rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_without_iva"),2);
-                //Equipo c=new Equipo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6));
-                //System.out.println(c.toString());
                 lista.add(bujia);
             }
 
@@ -135,8 +133,7 @@ public class BujiaDao implements InterfaceDao<Bujia> {
             while (rs.next()) {
 
               Bujia bujia = new Bujia(rs.getInt("spar_id"), rs.getString("spar_name"), rs.getInt("life"), rs.getInt("spar_cost"), rs.getInt("spar_price_without_iva"), rs.getInt("iva"), rs.getInt("spar_price_without_iva"),2);
-                //Equipo c=new Equipo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6));
-                //System.out.println(c.toString());
+              
                 return bujia;
             }
         } catch (SQLException ex) {

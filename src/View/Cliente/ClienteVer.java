@@ -368,7 +368,6 @@ public class ClienteVer extends javax.swing.JInternalFrame {
             String id_s = "" + source.getModel().getValueAt(row, 0);
 
             int id = Integer.parseInt(id_s);
-            // System.out.println(source.getModel().getValueAt(row, 0));
             opcionesCliente(row, seleccion);
             //JOptionPane.showMessageDialog(null, s); // TODO add your handling code here:  
         }

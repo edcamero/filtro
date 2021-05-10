@@ -15,6 +15,7 @@ import View.Cliente.ClienteNuevoGui;
 import View.Cliente.ClienteVer;
 import View.Principal;
 import java.util.ArrayList;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -63,7 +64,6 @@ public class ClienteController {
         String email = nuevoGui.getTextEmail().getText();
         Cliente nuevo = new Cliente(documento, nombre, tel_uno, tel_dos, direccion, email);
 
-        //System.out.println(nuevo.toString());
         return fachada.saveCliente(nuevo);
 
     }
@@ -84,22 +84,38 @@ public class ClienteController {
 
     }
 
-    private String nameColumn(int column)
-    {
-        return "";
+    private String nameColumn(String column) {
+        String columnName = "cust_name";
+        switch (column) {
+            case "Nombre":
+                columnName = "cust_name";
+                break;
+            case "Documento":
+                columnName = "cust_document";
+                break;
+            case "Telefono":
+                columnName = "cust_telephone_one";
+                break;
+        }
+        return columnName;
+
     }
-    public void Buscar(String palabra, int column) {
+
+    public void Buscar(String palabra, String column, JTable tabla) {
         listaGui = ClienteLista.getInstancia();
         this.clientes.clear();
-        
-        this.clientes = Fachada.getInstancia().buscarClientes(palabra,nameColumn(column));
 
-        DefaultTableModel model = (DefaultTableModel) listaGui.getTabla().getModel();
+        this.clientes = Fachada.getInstancia().buscarClientes(palabra, nameColumn(column));
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         model.setRowCount(0);
-
         clientes.forEach((a) -> {
             model.addRow(new Object[]{a.getId(), a.getDocumento(), a.getNombre(), a.getTelefonoUno() + "-" + a.getTelefonoDos(), a.getDireccion(), a.getEmail()});
         });
+    }
+
+    public void Buscar(String palabra, String column) {
+
+        Buscar(palabra, column, listaGui.getTabla());
 
         principal.mostrarInternal(listaGui);
 
