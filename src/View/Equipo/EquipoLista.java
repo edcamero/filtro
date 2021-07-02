@@ -196,7 +196,7 @@ public class EquipoLista extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {                                   
         if (evt.getButton() == 3) {
             JTable source = (JTable) evt.getSource();
             int row = source.rowAtPoint(evt.getPoint());
@@ -215,7 +215,7 @@ public class EquipoLista extends javax.swing.JInternalFrame {
             int id = Integer.parseInt(id_s);           
             opcionesEquipo(id, seleccion);         
         }
-
+    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Principal.getInstance().equipoNuevo();
     }//GEN-LAST:event_jButton2ActionPerformed

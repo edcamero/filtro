@@ -5,6 +5,7 @@
  */
 package reportes;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
@@ -35,8 +37,10 @@ public class Recibo {
     }
 
     public static void generarReporte() throws JRException {
-
-        //Recibo.reporte = (JasperReport) JRLoader.loadObjectFromFile("C:/Users/blade/OneDrive/Documentos/NetBeansProjects/parcial_1/src/reportes/recibo.jasper");
+        File directory = new File("./");
+        String path = directory.getAbsolutePath().replace(".", "");
+        System.out.println(path + "recibo.jasper");
+        Recibo.reporte = (JasperReport) JRLoader.loadObjectFromFile(path + "src\\reportes\\recibo.jasper");
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("id_man", new String("100000000"));
         parameters.put("cliente", new String("pepito perez"));
