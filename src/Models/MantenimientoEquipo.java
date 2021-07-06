@@ -155,8 +155,15 @@ public class MantenimientoEquipo implements java.io.Serializable {
     public String misRepuestos() {
         String respuesta = "";
         for (MantenimientoRepuesto repuesto : repuestos) {
-            respuesta = respuesta + repuesto.getCantidadRep() + " " + repuesto.getRepuesto().getNombre() + "-";
+            if(respuesta.equals("")){
+                respuesta = repuesto.getRepuesto().getNombre() + "(Cant: "+repuesto.getCantidadRep()+")";
+            }else{
+                  respuesta = respuesta + " - " +repuesto.getRepuesto().getNombre() + "(Cant: "+repuesto.getCantidadRep()+")";
+            }
         }
+        
         return respuesta;
     }
+    
+   
 }

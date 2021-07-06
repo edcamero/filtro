@@ -33,6 +33,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRException;
+import reportes.Recibo;
 
 /**
  *
@@ -214,7 +216,7 @@ public class Mediador implements InterfaceMediador {
             conexion.ConexionPostgres();
             respuesta = clienteDao.update(cliente);
             for (EquipoCliente equipo : cliente.getEquiposCliente()) {
-                if (equipo.getId() == 0) {                
+                if (equipo.getId() == 0) {
                     equipoClienteDao.save(equipo);
                 }
             }
@@ -639,15 +641,15 @@ public class Mediador implements InterfaceMediador {
     }
 
     @Override
-    public boolean saveMantenimiento(Mantenimiento manteniemiento) {
+    public boolean saveMantenimiento(Mantenimiento mantenimiento) {
         boolean respuesta = false;
         try {
             conexion.ConexionPostgres();
             conexion.getCon().setAutoCommit(false);
 
-            respuesta = mantenimientoDao.save(manteniemiento);
+            respuesta = mantenimientoDao.save(mantenimiento);
 
-            for (MantenimientoEquipo mantEquipo : manteniemiento.getMantenimientoEquipo()) {
+            for (MantenimientoEquipo mantEquipo : mantenimiento.getMantenimientoEquipo()) {
                 for (MantenimientoRepuesto respuestoMant : mantEquipo.getRepuestos()) {
                     respuesta = respuesta && detailMaintenanceDao.save(respuestoMant);
                 }
@@ -659,15 +661,23 @@ public class Mediador implements InterfaceMediador {
             try {
                 conexion.getCon().rollback();
             } catch (SQLException ex2) {
-                
+
             }
+        }
+        if (respuesta) {
+            System.out.println(mantenimiento.getId());
+            generarRecibo(mantenimiento);
         }
         return respuesta;
 
     }
 
     public void generarRecibo(Mantenimiento mantenimiento) {
-
+        try {
+            Recibo.generarReporte(mantenimiento);
+        } catch (JRException ex) {
+            Logger.getLogger(Mediador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

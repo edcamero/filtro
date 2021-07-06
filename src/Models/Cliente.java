@@ -20,9 +20,9 @@ public class Cliente implements java.io.Serializable {
 
     public Cliente() {
     }
-    
-    public String[] getArray(){
-        return new String[] {String.valueOf(id),nombre,documento,telefonoUno +" "+telefonoDos,direccion, email};
+
+    public String[] getArray() {
+        return new String[]{String.valueOf(id), nombre, documento, telefonoUno + " " + telefonoDos, direccion, email};
     }
 
     public Cliente(String documento, String nombre, String telefonoUno, String telefonoDos, String direccion, String email) {
@@ -106,6 +106,17 @@ public class Cliente implements java.io.Serializable {
 
     public void setEquiposCliente(ArrayList<EquipoCliente> equipos) {
         this.equipos = equipos;
+    }
+
+    public String getTelefonos() {
+        if (this.telefonoUno == null && this.telefonoDos == null) {
+            return "";
+        }
+        if (this.telefonoDos == null) {
+            return this.telefonoUno;
+        }
+
+        return this.telefonoUno + "-" + this.telefonoDos;
     }
 
 }

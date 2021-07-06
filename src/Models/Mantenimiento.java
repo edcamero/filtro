@@ -123,7 +123,6 @@ public class Mantenimiento implements java.io.Serializable {
         return valorTotal;
     }
 
-    
     public void agregarMantenimientoEquipo(MantenimientoEquipo mantEquipo) {
         this.mantenimientoEquipo.add(mantEquipo);
         this.costoServicioTecnico = Config.getCostoMante() * mantenimientoEquipo.size();
@@ -135,4 +134,30 @@ public class Mantenimiento implements java.io.Serializable {
         this.mantenimientoEquipo = mantenimientoEquipo;
     }
 
+    public String getNombresEquipos() {
+        String respuesta = "";
+        for (MantenimientoEquipo manteEquipo : this.mantenimientoEquipo) {
+            if (respuesta.equals("")){
+                  respuesta = manteEquipo.getEquipoCliente().getEquipo().getModelo() + " " + manteEquipo.getEquipoCliente().getEquipo().getNombre();
+            }else{
+                  respuesta = respuesta + "-" + manteEquipo.getEquipoCliente().getEquipo().getModelo() + " " + manteEquipo.getEquipoCliente().getEquipo().getNombre();
+            }
+            
+          
+        }
+        return respuesta;
+    }
+    
+       public String getMisRepuestos() {
+        String respuesta = "";
+        for (MantenimientoEquipo manteEquipo : this.mantenimientoEquipo) {
+            if (respuesta.equals("")){
+                respuesta = manteEquipo.misRepuestos();  
+            }else{
+              respuesta = respuesta + "-" + manteEquipo.misRepuestos();  
+            }            
+        }
+        
+        return respuesta;
+    }
 }

@@ -5,11 +5,13 @@
  */
 package reportes;
 
+import Models.Mantenimiento;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -55,6 +57,36 @@ public class Recibo {
                 + "took a galley of type and scrambled it to make a type specimen book"));
         parameters.put("total", new String("550000"));
         parameters.put("observaciones", new String("s simply dummy text of the printings simply dummy text of the printing"));
+        JasperPrint jasperPrint = null;
+        jasperPrint = JasperFillManager.fillReport(
+                Config.getRuta() + "\\src\\reportes\\recibo.jasper", (Map<String, Object>) parameters, new JREmptyDataSource());
+//            JRPdfExporter exp = new JRPdfExporter();
+//            exp.setExporterInput(new SimpleExporterInput(jasperPrint));
+//            exp.setExporterOutput(new SimpleOutputStreamExporterOutput("recibo.pdf"));
+//            SimplePdfExporterConfiguration conf = new SimplePdfExporterConfiguration();
+//            exp.setConfiguration(conf);
+//            exp.exportReport();
+
+        JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+        jasperViewer.setVisible(true);
+
+    }
+    public static void generarReporte(Mantenimiento mantenimiento) throws JRException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        File directory = new File("./");
+        String path = directory.getAbsolutePath().replace(".", "");
+        Recibo.reporte = (JasperReport) JRLoader.loadObjectFromFile(path + "src\\reportes\\recibo.jasper");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("id_man", String.valueOf(mantenimiento.getId()));
+        parameters.put("cliente", String.valueOf(mantenimiento.getCliente().getNombre()));
+        parameters.put("fecha", sdf.format(mantenimiento.getFechaMan()));
+        parameters.put("telefono", String.valueOf(mantenimiento.getCliente().getTelefonos()));
+        parameters.put("direccion", String.valueOf(mantenimiento.getCliente().getDireccion()));
+        parameters.put("tecnico", String.valueOf(mantenimiento.getTecnico().getNombre()));
+        parameters.put("equipo", String.valueOf(mantenimiento.getNombresEquipos()));
+        parameters.put("detalle", String.valueOf(mantenimiento.getMisRepuestos()));
+        parameters.put("total", String.valueOf(mantenimiento.getValorTotal()));
+        parameters.put("observaciones", String.valueOf(mantenimiento.getNota()));
         JasperPrint jasperPrint = null;
         jasperPrint = JasperFillManager.fillReport(
                 Config.getRuta() + "\\src\\reportes\\recibo.jasper", (Map<String, Object>) parameters, new JREmptyDataSource());
