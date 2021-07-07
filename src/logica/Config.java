@@ -47,6 +47,7 @@ public class Config {
             ruta=miDir.getCanonicalPath();
             } catch(IOException | NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Error cargando configuración\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ruta, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
