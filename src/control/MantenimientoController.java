@@ -133,10 +133,12 @@ public class MantenimientoController {
         mantenimiento.setTecnico(tecnico);
     }
 
-    public void agregarMantenimiento() {
+    public boolean agregarMantenimiento() {
         if (fachada.saveMantenimiento(mantenimiento)) {
             JOptionPane.showMessageDialog(repuestoGui, "se agrego el mantenimieto con exito");
+            return true;
         }
+        return false;
     }
 
 }

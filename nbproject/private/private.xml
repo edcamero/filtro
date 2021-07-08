@@ -12,8 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/logica/Config.java</file>
-            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/config.properties</file>
+            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/Models/MantenimientoEquipo.java</file>
+            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/View/Mantenimiento/MantenimientoGui.java</file>
+            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/control/MantenimientoController.java</file>
+            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/DAO/TecnicoDao.java</file>
+            <file>file:/C:/Users/Enyerson/Documents/otros/filtro/src/View/Cliente/ClienteVer.java</file>
         </group>
     </open-files>
 </project-private>

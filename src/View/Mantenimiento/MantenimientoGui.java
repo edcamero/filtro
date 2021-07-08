@@ -12,7 +12,6 @@ import Models.Mantenimiento;
 import Models.MantenimientoEquipo;
 import Models.MantenimientoRepuesto;
 import Models.Tecnico;
-import View.Principal;
 import control.MantenimientoController;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +38,8 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
     private MantenimientoGui() {
         initComponents();
+        disabledBotonesEquipoMantenimiento();
+        disabledBotonesRepuestos();
         mantController = MantenimientoController.getInstancia();
     }
 
@@ -79,6 +80,47 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         mostrarDatos();
     }
 
+    public void limpiarMantenimiento() {
+        this.mantenimiento = null;
+        this.cliente = null;
+        limpiarComboEquipos();
+        disabledBotonesEquipoMantenimiento();
+        disabledBotonesRepuestos();
+        textNombreCli.setText("");
+        textDocCli.setText("");
+        textTelefeno.setText("");
+        textDireccion.setText("");
+        totalManoObra.setText("");
+        totalMant.setText("");
+        total.setText("");
+        textObservaciones.setText("");
+        limpiarTablaRepuestos();
+        limpiarTablaEquipos();
+
+    }
+
+    private void limpiarTablaRepuestos() {
+        DefaultTableModel model = (DefaultTableModel) this.tablaRepuesto.getModel();
+        model.setRowCount(0);
+    }
+
+    private void limpiarTablaEquipos() {
+        DefaultTableModel model = (DefaultTableModel) this.tabla.getModel();
+        model.setRowCount(0);
+    }
+
+    public void disabledBotonesEquipoMantenimiento() {
+        comboEquipo.setEnabled(false);
+        btnAddMantenimiento.setEnabled(false);
+        btnNuevoEquipo.setEnabled(false);
+    }
+
+    public void disabledBotonesRepuestos() {
+        btnAgregarRepuesto.setEnabled(false);
+        btnEditarRepuesto.setEnabled(false);
+        btnEliminarRepuesto.setEnabled(false);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,8 +149,8 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         comboEquipo = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnAddMantenimiento = new javax.swing.JButton();
+        btnNuevoEquipo = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -116,9 +158,9 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnAgregarRepuesto = new javax.swing.JButton();
+        btnEditarRepuesto = new javax.swing.JButton();
+        btnEliminarRepuesto = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         totalManoObra = new javax.swing.JTextField();
@@ -132,6 +174,7 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jLabel12 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         textObservaciones = new javax.swing.JTextArea();
+        jButton8 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -267,17 +310,22 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "EQUIPOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         comboEquipo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setText("Agregar a Mantenimiento");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        comboEquipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboEquipoItemStateChanged(evt);
             }
         });
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton6.setText("Nuevo Equipo");
+        btnAddMantenimiento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddMantenimiento.setText("Agregar a Mantenimiento");
+        btnAddMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMantenimientoActionPerformed(evt);
+            }
+        });
+
+        btnNuevoEquipo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnNuevoEquipo.setText("Nuevo Equipo");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -290,8 +338,8 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnAddMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnNuevoEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -299,9 +347,9 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(comboEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnAddMantenimiento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNuevoEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -352,16 +400,16 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "OPCIONES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jButton3.setText("AGREGAR");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarRepuesto.setText("AGREGAR");
+        btnAgregarRepuesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnAgregarRepuestoActionPerformed(evt);
             }
         });
 
-        jButton4.setText("EDITAR");
+        btnEditarRepuesto.setText("EDITAR");
 
-        jButton5.setText("ELIMINAR");
+        btnEliminarRepuesto.setText("ELIMINAR");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -369,23 +417,23 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton3)
+                .addComponent(btnAgregarRepuesto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEditarRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(76, 76, 76)
-                .addComponent(jButton5)
+                .addComponent(btnEliminarRepuesto)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnAgregarRepuesto)
+                    .addComponent(btnEditarRepuesto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
+                .addComponent(btnEliminarRepuesto)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -429,6 +477,13 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         textObservaciones.setRows(5);
         jScrollPane4.setViewportView(textObservaciones);
 
+        jButton8.setText("Limpiar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -456,12 +511,13 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(115, 115, 115))))
+                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,16 +534,17 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel12)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(51, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addContainerGap(32, Short.MAX_VALUE))))
         );
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 51));
@@ -555,11 +612,12 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAddMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMantenimientoActionPerformed
 
         mantController.nuevoMantenimientoEquipo(comboEquipo.getSelectedIndex());
+        btnAgregarRepuesto.setEnabled(true);
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAddMantenimientoActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         JTable source = (JTable) evt.getSource();
@@ -629,18 +687,19 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaRepuestoMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnAgregarRepuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarRepuestoActionPerformed
         // ABRIR LA INTERFAZ PARA SELECCIONAR LOS REPUESTOS
-        almacenRepuestos = RepuestoMant.getInstancia();
-        Principal.getInstance().mostrarInternal(almacenRepuestos);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        MantenimientoController.getInstancia().agregarRepuestoGui(indexEquipoMantenimiento);
+    }//GEN-LAST:event_btnAgregarRepuestoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (validar()) {
             mantenimiento.setTecnico(tecnicos.get(comboTecnico.getSelectedIndex() - 1));
             mantenimiento.setFechaMan(fecha.getDate());
             mantenimiento.setNota(textObservaciones.getText().equals("") ? "sin observación" : textObservaciones.getText());
-            mantController.agregarMantenimiento();
+            if (mantController.agregarMantenimiento()) {
+                limpiarMantenimiento();
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -664,8 +723,18 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textNombreCliActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        limpiarMantenimiento();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void comboEquipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboEquipoItemStateChanged
+        if (comboEquipo.getSelectedIndex() != 0) {
+            btnAddMantenimiento.setEnabled(true);
+        }
+    }//GEN-LAST:event_comboEquipoItemStateChanged
+
     private boolean validar() {
-         if (cliente == null) {
+        if (cliente == null) {
             JOptionPane.showMessageDialog(rootPane, "Seleccione un cliente");
             return false;
         }
@@ -723,8 +792,10 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
             textDireccion.setText(cliente.getDireccion());
             DefaultTableModel model = (DefaultTableModel) this.tabla.getModel();
             model.setRowCount(0);
-            comboEquipo.removeAllItems();
-            comboEquipo.addItem("seleccionar");
+            limpiarComboEquipos();
+            comboEquipo.setEnabled(true);
+            btnAddMantenimiento.setEnabled(false);
+            btnNuevoEquipo.setEnabled(true);
             for (EquipoCliente equipoCliente : cliente.getEquiposCliente()) {
                 Equipo equipo = equipoCliente.getEquipo();
                 comboEquipo.addItem(equipo.getModelo() + "-" + equipo.getNombre());
@@ -738,6 +809,11 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
         fecha.setDate(new Date());
         mostrarTecnicosDisponibles();
 
+    }
+
+    private void limpiarComboEquipos() {
+        comboEquipo.removeAllItems();
+        comboEquipo.addItem("seleccionar");
     }
 
     public void mostrarTecnicosDisponibles() {
@@ -804,16 +880,17 @@ public class MantenimientoGui extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddMantenimiento;
+    private javax.swing.JButton btnAgregarRepuesto;
+    private javax.swing.JButton btnEditarRepuesto;
+    private javax.swing.JButton btnEliminarRepuesto;
+    private javax.swing.JButton btnNuevoEquipo;
     private javax.swing.JComboBox<String> comboEquipo;
     private javax.swing.JComboBox<String> comboTecnico;
     private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
